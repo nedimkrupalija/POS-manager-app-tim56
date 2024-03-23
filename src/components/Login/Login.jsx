@@ -12,7 +12,6 @@ const Login = () => {
         let requestBody;
         if (isNaN(usernameOrPhone)) { 
             requestBody = { username: usernameOrPhone, password: password, role:"admin" };
-            console.log(requestBody)
         } else {
             requestBody = { phoneNumber: usernameOrPhone, password: password, role:"admin" };
         }
@@ -28,7 +27,9 @@ const Login = () => {
             if (response.ok) {
                 return response.json();
             } else {
-                throw new Error('Network response was not ok');
+                return response.json().then(data => {
+                    throw new Error(data.message);
+                });
             }
         })
         .then(data => {
@@ -36,7 +37,7 @@ const Login = () => {
         })
         .catch(error => {
             console.error('Error:', error); 
-            alert('Error occurred while logging in. Please try again later.');
+            alert(error.message);
         });
     };
 
