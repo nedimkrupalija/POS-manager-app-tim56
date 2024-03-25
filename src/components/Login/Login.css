@@ -1,0 +1,139 @@
+
+.container{
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    width:600px;
+    background: #fff;
+    padding-bottom: 30px;
+}
+
+.header{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    gap:9px;
+    width:100%;
+    margin-top: 30px;
+}
+
+.text{
+    color:#3c009d;
+    font-size: 48px;
+    font-weight: 700;
+}
+
+.underline{
+    width:61px;
+    height:6px;
+    background: #3c009d;
+    border-radius: 9px;
+}
+.inputs{
+    margin-top: 55px;
+    display: flex;
+    flex-direction: column;
+    gap:25px;
+}
+
+.input{
+    display:flex;
+    align-items:center;
+    margin:auto;
+    width:480px;
+    height:80px;
+    background: #eaeaea;
+    border-radius:6px;
+}
+
+.input img{
+    margin: 0px 30px;
+}
+
+.input input{
+    height:50px;
+    width:400px;
+    background:transparent;
+    border:none;
+    outline:none;
+    color:#797979;
+    font-size:19px;
+}
+
+.pin-input-field {
+    height:50px;
+    width:100px;
+    border:none;
+    outline:none;
+    color:#797979;
+    font-size:19px;
+    background: #eaeaea;
+    border-radius:6px;
+    margin-left: 50px;
+    margin-right: 20px;
+    padding: 0 10px 0 10px;
+}
+.submit-container{
+    display:flex;
+    gap:30px;
+    margin:60px auto;
+}
+.submit-pin {
+    width:100px;
+    height:40px;
+    color:#fff;
+    background:#4c00b4;
+    border-radius:50px;
+    font-size:15px;
+    font-weight:700;
+}
+.message {
+    margin-left: 50px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.resend-pin-button {
+    margin-left: 50px;
+    width:130px;
+    height:40px;
+    color:#fff;
+    background:#4c00b4;
+    border-radius:50px;
+    font-size:15px;
+    font-weight:700;
+}
+.submit{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    width:220px;
+    height:59px;
+    color:#fff;
+    background:#4c00b4;
+    border-radius:50px;
+    font-size:19px;
+    font-weight:700;
+    cursor:pointer;
+}
+.error-message {
+    margin-top: 5%;
+    display: flex;
+    align-items: center;
+    border: 1px solid #f5c6cb;
+    color: #721c24;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.error-icon {
+    margin-right: 10px;
+    width: 5%;
+    height: 5%;
+}
+.message {
+    color:black
+}
