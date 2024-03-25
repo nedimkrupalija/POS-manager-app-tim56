@@ -4,21 +4,22 @@ import './Login.css';
 import person_icon from '../../assets/person.png';
 import pass_icon from '../../assets/password.png';
 import error_icon from '../../assets/error.png';
+import info_icon from '../../assets/info.png'
 
 const Login = () => {
     const [usernameOrPhone, setUsernameOrPhone] = useState('');
     const [password, setPassword] = useState('');
-    const [pinInputVisible, setPinInputVisible] = useState(localStorage.getItem('pinInputVisible') === 'true' || false);
-    const [pinId, setPinId] = useState(localStorage.getItem('pinId') || '');
+    const [pinInputVisible, setPinInputVisible] = useState(sessionStorage.getItem('pinInputVisible') === 'true' || false);
+    const [pinId, setPinId] = useState(sessionStorage.getItem('pinId') || '');
     const [message, setMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const [pin, setPin] = useState('');
-    const [token, setToken] = useState(localStorage.getItem('token') || '');
+    const [token, setToken] = useState(sessionStorage.getItem('token') || '');
 
     useEffect(() => {
-        localStorage.setItem('pinInputVisible', pinInputVisible);
-        localStorage.setItem('pinId', pinId);
-        localStorage.setItem('token', token);
+        sessionStorage.setItem('pinInputVisible', pinInputVisible);
+        sessionStorage.setItem('pinId', pinId);
+        sessionStorage.setItem('token', token);
     }, [pinInputVisible, pinId, token]);
 
     const URL_LOGIN = 'http://localhost:3000/auth/login';
@@ -63,7 +64,7 @@ const Login = () => {
         const pinRequestBody = {
             applicationId: APPLICATION_ID,
             messageId: MESSAGE_ID,
-            to: '38761203769' 
+            to: '38761203769'
         };
 
         fetch(URL_SEND_PIN, {
@@ -115,7 +116,9 @@ const Login = () => {
                 if (data.verified === false) {
                     setMessage('Invalid PIN. Please try again.');
                 } else {
-                    console.log('Successful login.'); 
+                    setPinInputVisible(false)
+                    setMessage('')
+                    console.log('Successful login.');
                 }
             })
             .catch(error => {
@@ -126,7 +129,7 @@ const Login = () => {
     return (
         <div className="container">
             <div className="header">
-                <div className="text">Log in</div>
+                <div className="text">Login</div>
                 <div className="underline"></div>
             </div>
             {errorMessage && <div className="error-message">
@@ -163,18 +166,35 @@ const Login = () => {
                     <input
                         className="pin-input-field"
                         type="text"
-                        placeholder="Enter PIN"
+                        placeholder="PIN"
                         value={pin}
                         onChange={(e) => setPin(e.target.value)}
                     />
                     <button className="submit-pin" onClick={verifyPin}>Submit</button>
                 </div>
             )}
-            {message && <div className="message">{message}</div>}
-            {message && message.includes('Message not sent') && (
-                <div className="resend-pin-container">
-                    <button className="resend-pin-button" onClick={handleResendPin}>Resend PIN</button>
+            {message && message.includes('PIN sent successfully. Please check your SMS for the PIN') && (
+                <div className="info-message">
+                    <img src={info_icon} alt='info' className='info-icon' />
+                    <span>{message}</span>
                 </div>
+            )}
+            {message && message.includes('Message not sent') && (
+                <>
+                    <div className="error-message">
+                        <img src={error_icon} alt='error' className='error-icon' />
+                        <span>{message}</span>
+                        <button className="resend-pin-button" onClick={handleResendPin}>Resend PIN</button>
+                    </div>
+                </>
+            )}
+            {message && message.includes('Invalid PIN. Please try again') && (
+                <>
+                    <div className="error-message">
+                        <img src={error_icon} alt='error' className='error-icon' />
+                        <span>{message}</span>
+                    </div>
+                </>
             )}
         </div>
     );
