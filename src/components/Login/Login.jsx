@@ -22,7 +22,7 @@ const Login = () => {
         sessionStorage.setItem('token', token);
     }, [pinInputVisible, pinId, token]);
 
-    const URL_LOGIN = 'http://localhost:3000/auth/login';
+    const URL_LOGIN = 'https://pos-app-backend-tim56.onrender.com/auth/login';
     const URL_SEND_PIN = 'https://j3m2qv.api.infobip.com/2fa/2/pin';
     const URL_VERIFY_PIN = `https://j3m2qv.api.infobip.com/2fa/2/pin/${pinId}/verify`;
     const ROLE = 'admin';
