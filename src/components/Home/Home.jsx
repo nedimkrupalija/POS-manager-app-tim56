@@ -1,16 +1,23 @@
 import React from 'react';
-import './Home.css'; // Uvezite CSS datoteku
+import { useNavigate } from 'react-router-dom';
+import './Home.css';
 
-const Home = ({ onLogout, onClientApp }) => {
+const Home = ({ onClientApp }) => {
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        // Izvršava se redirekcija na Login stranicu
+        navigate('/');
+    };
+
     return (
         <div className="button-container">
-          <button onClick={() => window.location.href = "https://pos-employees-app-tim56.vercel.app"}>
-    Client app
-    </button>
-   <button onClick={onLogout}>Odjava</button>
+            <button onClick={() => window.location.href = "https://pos-employees-app-tim56.vercel.app"}>
+                Client app
+            </button>
+            <button onClick={handleLogout}>Odjava</button>
         </div>
-     
     );
-  };
-  
-  export default Home;
+};
+
+export default Home;
