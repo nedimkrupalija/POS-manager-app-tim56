@@ -132,7 +132,8 @@ const Login = () => {
                     setMessage('Invalid PIN. Please try again.');
                 } else {
 
-                    console.log('Successful login.');
+                    setPinInputVisible(false);
+                    setMessage('');
                     handleSuccessfulLogin();
 
                 }
