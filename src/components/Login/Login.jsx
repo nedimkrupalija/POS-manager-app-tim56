@@ -1,33 +1,36 @@
 import React, { useState, useEffect } from 'react';
 import './Login.css';
+
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+
 
 import person_icon from '../../assets/person.png';
 import pass_icon from '../../assets/password.png';
 import error_icon from '../../assets/error.png';
 
+import info_icon from '../../assets/info.png'
+
 const Login = () => {
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const navigate = useNavigate();
     const [usernameOrPhone, setUsernameOrPhone] = useState('');
     const [password, setPassword] = useState('');
-    const [pinInputVisible, setPinInputVisible] = useState(localStorage.getItem('pinInputVisible') === 'true' || false);
-    const [pinId, setPinId] = useState(localStorage.getItem('pinId') || '');
+    const [pinInputVisible, setPinInputVisible] = useState(sessionStorage.getItem('pinInputVisible') === 'true' || false);
+    const [pinId, setPinId] = useState(sessionStorage.getItem('pinId') || '');
     const [message, setMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const [pin, setPin] = useState('');
-    const [token, setToken] = useState(localStorage.getItem('token') || '');
+    const [token, setToken] = useState(sessionStorage.getItem('token') || '');
 
     useEffect(() => {
-        localStorage.setItem('pinInputVisible', pinInputVisible);
-        localStorage.setItem('pinId', pinId);
-        localStorage.setItem('token', token);
+        sessionStorage.setItem('pinInputVisible', pinInputVisible);
+        sessionStorage.setItem('pinId', pinId);
+        sessionStorage.setItem('token', token);
     }, [pinInputVisible, pinId, token]);
 
-    const URL_LOGIN = 'http://localhost:3000/auth/login';
+    const URL_LOGIN = 'https://pos-app-backend-tim56.onrender.com/auth/login';
     const URL_SEND_PIN = 'https://j3m2qv.api.infobip.com/2fa/2/pin';
-    const URL_VERIFY_PIN = 'https://j3m2qv.api.infobip.com/2fa/2/pin/${pinId}/verify';
+    const URL_VERIFY_PIN = `https://j3m2qv.api.infobip.com/2fa/2/pin/${pinId}/verify`;
+
     const ROLE = 'admin';
     const APPLICATION_ID = '546038714E147223CEAFE8ABCBCAC509';
     const MESSAGE_ID = 'BA5DB6F8166D0FCEE29442F0D955EAD9';
@@ -63,10 +66,12 @@ const Login = () => {
                 setErrorMessage(error.message)
             });
     };
+
     const handleSuccessfulLogin = () => {
         setIsLoggedIn(true);
         navigate('/home')// Preusmjeravanje na rutu /home
     };
+
 
     const sendPinRequest = () => {
         const pinRequestBody = {
@@ -124,8 +129,10 @@ const Login = () => {
                 if (data.verified === false) {
                     setMessage('Invalid PIN. Please try again.');
                 } else {
+
                     console.log('Successful login.');
                     handleSuccessfulLogin();
+
                 }
             })
             .catch(error => {
@@ -136,7 +143,9 @@ const Login = () => {
     return (
         <div className="container">
             <div className="header">
-                <div className="text">Log in</div>
+
+                <div className="text">Login</div>
+
                 <div className="underline"></div>
             </div>
             {errorMessage && <div className="error-message">
@@ -173,21 +182,44 @@ const Login = () => {
                     <input
                         className="pin-input-field"
                         type="text"
+
                         placeholder="Enter PIN"
+
                         value={pin}
                         onChange={(e) => setPin(e.target.value)}
                     />
                     <button className="submit-pin" onClick={verifyPin}>Submit</button>
                 </div>
             )}
-            {message && <div className="message">{message}</div>}
-            {message && message.includes('Message not sent') && (
-                <div className="resend-pin-container">
-                    <button className="resend-pin-button" onClick={handleResendPin}>Resend PIN</button>
+
+            {message && message.includes('PIN sent successfully. Please check your SMS for the PIN') && (
+                <div className="info-message">
+                    <img src={info_icon} alt='info' className='info-icon' />
+                    <span>{message}</span>
                 </div>
             )}
+            {message && message.includes('Message not sent') && (
+                <>
+                    <div className="error-message">
+                        <img src={error_icon} alt='error' className='error-icon' />
+                        <span>{message}</span>
+                        <button className="resend-pin-button" onClick={handleResendPin}>Resend PIN</button>
+                    </div>
+                </>
+            )}
+            {message && message.includes('Invalid PIN. Please try again') && (
+                <>
+                    <div className="error-message">
+                        <img src={error_icon} alt='error' className='error-icon' />
+                        <span>{message}</span>
+                    </div>
+                </>
+            )}
+
         </div>
     );
 };
 
+
 export default Login;
+
