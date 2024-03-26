@@ -15,6 +15,7 @@ const Login = () => {
     const [usernameOrPhone, setUsernameOrPhone] = useState('');
     const [password, setPassword] = useState('');
     const [pinInputVisible, setPinInputVisible] = useState(sessionStorage.getItem('pinInputVisible') === 'true' || false);
+    const [isLoggedIn, setIsLoggedIn] = useState(sessionStorage.getItem('isLoggedIn') === 'true' || false);
     const [pinId, setPinId] = useState(sessionStorage.getItem('pinId') || '');
     const [message, setMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
@@ -25,7 +26,8 @@ const Login = () => {
         sessionStorage.setItem('pinInputVisible', pinInputVisible);
         sessionStorage.setItem('pinId', pinId);
         sessionStorage.setItem('token', token);
-    }, [pinInputVisible, pinId, token]);
+        sessionStorage.setItem('isLoggedIn', isLoggedIn);
+    }, [pinInputVisible, pinId, token, isLoggedIn]);
 
     const URL_LOGIN = 'https://pos-app-backend-tim56.onrender.com/auth/login';
     const URL_SEND_PIN = 'https://j3m2qv.api.infobip.com/2fa/2/pin';
@@ -77,7 +79,7 @@ const Login = () => {
         const pinRequestBody = {
             applicationId: APPLICATION_ID,
             messageId: MESSAGE_ID,
-            to: '38761203769'
+            to: '38761056103'
         };
 
         fetch(URL_SEND_PIN, {
