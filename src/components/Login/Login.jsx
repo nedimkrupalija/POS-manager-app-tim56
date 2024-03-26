@@ -21,6 +21,7 @@ const Login = () => {
     const [errorMessage, setErrorMessage] = useState('');
     const [pin, setPin] = useState('');
     const [token, setToken] = useState(sessionStorage.getItem('token') || '');
+    const navigate = useNavigate();
 
     useEffect(() => {
         sessionStorage.setItem('pinInputVisible', pinInputVisible);
