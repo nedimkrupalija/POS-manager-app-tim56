@@ -1,7 +1,9 @@
+
 .container{
     display: flex;
     flex-direction: column;
     margin: 20px 20px 20px 20px;
+
     position:absolute;
     top:50%;
     left:50%;
@@ -9,7 +11,9 @@
     width:600px;
     background: #fff;
     padding-bottom: 30px;
+
     border: 2px solid whitesmoke;
+
 }
 
 .header{
@@ -18,11 +22,13 @@
     align-items: center;
     gap:9px;
     width:100%;
+
     margin-top: 30px;;
 }
 
 .text{
     color:#62b5dc;
+
     font-size: 48px;
     font-weight: 700;
 }
@@ -30,7 +36,9 @@
 .underline{
     width:61px;
     height:6px;
+
     background: #62b5dc;
+
     border-radius: 9px;
 }
 .inputs{
@@ -46,7 +54,9 @@
     margin:auto;
     width:480px;
     height:80px;
+
     background: whitesmoke;
+
     border-radius:6px;
 }
 
@@ -54,11 +64,15 @@
     margin: 0px 30px;
 }
 
+
+
 .submit-container{
     display:flex;
     gap:30px;
     margin:60px auto;
 }
+
+
 
 .submit{
     display:flex;
@@ -67,7 +81,9 @@
     width:220px;
     height:59px;
     color:#fff;
+
     background:#72b5dc;
+
     border-radius:50px;
     font-size:19px;
     font-weight:700;
@@ -88,6 +104,7 @@
     width: 5%;
     height: 5%;
 }
+
 .info-message {
     margin-top: 5%;
     display: flex;
@@ -143,4 +160,5 @@
     font-size:15px;
     font-weight:700;
     margin-left: 10px;
+
 }

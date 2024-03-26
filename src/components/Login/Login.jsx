@@ -1,9 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import './Login.css';
 
+import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+
+
 import person_icon from '../../assets/person.png';
 import pass_icon from '../../assets/password.png';
 import error_icon from '../../assets/error.png';
+
 import info_icon from '../../assets/info.png'
 
 const Login = () => {
@@ -25,11 +30,13 @@ const Login = () => {
     const URL_LOGIN = 'https://pos-app-backend-tim56.onrender.com/auth/login';
     const URL_SEND_PIN = 'https://j3m2qv.api.infobip.com/2fa/2/pin';
     const URL_VERIFY_PIN = `https://j3m2qv.api.infobip.com/2fa/2/pin/${pinId}/verify`;
+
     const ROLE = 'admin';
     const APPLICATION_ID = '546038714E147223CEAFE8ABCBCAC509';
     const MESSAGE_ID = 'BA5DB6F8166D0FCEE29442F0D955EAD9';
 
     const handleLogin = () => {
+
         const requestBody = isNaN(usernameOrPhone)
             ? { username: usernameOrPhone, password: password, role: ROLE }
             : { phoneNumber: usernameOrPhone, password: password, role: ROLE };
@@ -59,6 +66,12 @@ const Login = () => {
                 setErrorMessage(error.message)
             });
     };
+
+    const handleSuccessfulLogin = () => {
+        setIsLoggedIn(true);
+        navigate('/home')// Preusmjeravanje na rutu /home
+    };
+
 
     const sendPinRequest = () => {
         const pinRequestBody = {
@@ -116,9 +129,10 @@ const Login = () => {
                 if (data.verified === false) {
                     setMessage('Invalid PIN. Please try again.');
                 } else {
-                    setPinInputVisible(false)
-                    setMessage('')
+
                     console.log('Successful login.');
+                    handleSuccessfulLogin();
+
                 }
             })
             .catch(error => {
@@ -129,7 +143,9 @@ const Login = () => {
     return (
         <div className="container">
             <div className="header">
+
                 <div className="text">Login</div>
+
                 <div className="underline"></div>
             </div>
             {errorMessage && <div className="error-message">
@@ -166,13 +182,16 @@ const Login = () => {
                     <input
                         className="pin-input-field"
                         type="text"
-                        placeholder="PIN"
+
+                        placeholder="Enter PIN"
+
                         value={pin}
                         onChange={(e) => setPin(e.target.value)}
                     />
                     <button className="submit-pin" onClick={verifyPin}>Submit</button>
                 </div>
             )}
+
             {message && message.includes('PIN sent successfully. Please check your SMS for the PIN') && (
                 <div className="info-message">
                     <img src={info_icon} alt='info' className='info-icon' />
@@ -196,8 +215,11 @@ const Login = () => {
                     </div>
                 </>
             )}
+
         </div>
     );
 };
 
+
 export default Login;
+
