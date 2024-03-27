@@ -19,12 +19,11 @@
     "eslint-plugin-react-refresh": "^0.4.5",
     "vite": "^5.1.6"
   },
-
   "proxy": "http://localhost:3000",
   "dependencies": {
+    "js-cookie": "^3.0.5",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-router-dom": "^6.22.3"
   }
-
 }

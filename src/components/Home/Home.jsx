@@ -1,11 +1,14 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Home.css';
+import Cookies from 'js-cookie';
+
 
 const Home = ({ onClientApp }) => {
     const navigate = useNavigate();
 
     const handleLogout = () => {
+        Cookies.remove('jwt');
         // Izvršava se redirekcija na Login stranicu
         navigate('/');
     };

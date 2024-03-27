@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './Login.css';
+import Cookies from 'js-cookie';
 
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
@@ -62,6 +63,8 @@ const Login = () => {
             })
             .then(data => {
                 setToken(data.token)
+                const expiresIn = 30 * 60; 
+                Cookies.set('jwt', token,{ expires: expiresIn,path: '/' });
                 sendPinRequest()
                 setErrorMessage('')
             })
