@@ -2,6 +2,7 @@ import Login from './components/Login/Login.jsx'
 import Home from './components/Home/Home.jsx'
 import React, { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
+import {Route, BrowserRouter as Router, Routes} from "react-router-dom";
 
 function App() {
 
@@ -13,9 +14,11 @@ function App() {
   }, []);
 
   return (
-    <div>
-      {isLoggedIn ? <Home /> : <Login />}
-    </div>
+      <Router>
+        <Routes>
+          <Route path="/" element={ isLoggedIn ? <Home /> : <Login /> }></Route>
+        </Routes>
+      </Router>
   )
 }
 export default App
