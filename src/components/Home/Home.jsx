@@ -1,18 +1,26 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
 import './Home.css';
+import Cookies from 'js-cookie';
+import Login from '../Login/Login';
 
-const Home = ({ onClientApp }) => {
-    const navigate = useNavigate();
+const Home = () => {
+    const [loggedIn, setLoggedIn] = useState(true);
 
     const handleLogout = () => {
-        // Izvršava se redirekcija na Login stranicu
-        navigate('/');
+        Cookies.remove('jwt');
+        setLoggedIn(false);
     };
+    if (!loggedIn) {
+        return <Login />;
+    }
+    const handleClientApp = () => {
+        Cookies.remove('jwt');
+        window.location.href = "https://pos-employees-app-tim56.vercel.app";
+    }
 
     return (
         <div className="button-container">
-            <button onClick={() => window.location.href = "https://pos-employees-app-tim56.vercel.app"}>
+            <button onClick={handleClientApp}>
                 Client app
             </button>
             <button onClick={handleLogout}>Odjava</button>

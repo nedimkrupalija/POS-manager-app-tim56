@@ -1,21 +1,21 @@
+import Login from './components/Login/Login.jsx'
+import Home from './components/Home/Home.jsx'
+import React, { useState, useEffect } from 'react';
+import Cookies from 'js-cookie';
 
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Login from './components/Login/Login';
-import Home from './components/Home/Home';
+function App() {
 
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-const App = () => {
+  useEffect(() => {
+    const jwtToken = Cookies.get('jwt');
+    setIsLoggedIn(!!jwtToken);
+  }, []);
+
   return (
-
-    <Router>
-      <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/home" element={<Home />} />
-      </Routes>
-    </Router>
-  );
-};
-
-
-export default App;
+    <div>
+      {isLoggedIn ? <Home /> : <Login />}
+    </div>
+  )
+}
+export default App
