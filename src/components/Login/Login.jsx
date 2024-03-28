@@ -61,6 +61,7 @@ const Login = () => {
 
     const sendPinRequest = (phoneNumber) => {
         if (phoneNumber.charAt(0) != '3') {
+            phoneNumber = phoneNumber.substring(1);
             phoneNumber = "387" + phoneNumber
         }
         const pinRequestBody = {
