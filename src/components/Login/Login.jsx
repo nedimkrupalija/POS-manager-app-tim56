@@ -1,35 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import './Login.css';
 import Cookies from 'js-cookie';
-
-import { useNavigate } from 'react-router-dom';
-import { Link } from 'react-router-dom';
-
-
 import person_icon from '../../assets/person.png';
 import pass_icon from '../../assets/password.png';
 import error_icon from '../../assets/error.png';
+import Home from '../Home/Home';
 
 import info_icon from '../../assets/info.png'
 
 const Login = () => {
     const [usernameOrPhone, setUsernameOrPhone] = useState('');
     const [password, setPassword] = useState('');
-    const [pinInputVisible, setPinInputVisible] = useState(sessionStorage.getItem('pinInputVisible') === 'true' || false);
-    const [isLoggedIn, setIsLoggedIn] = useState(sessionStorage.getItem('isLoggedIn') === 'true' || false);
-    const [pinId, setPinId] = useState(sessionStorage.getItem('pinId') || '');
+    const [pinInputVisible, setPinInputVisible] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [pinId, setPinId] = useState('');
     const [message, setMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const [pin, setPin] = useState('');
-    const [token, setToken] = useState(sessionStorage.getItem('token') || '');
-    const navigate = useNavigate();
-
-    useEffect(() => {
-        sessionStorage.setItem('pinInputVisible', pinInputVisible);
-        sessionStorage.setItem('pinId', pinId);
-        sessionStorage.setItem('token', token);
-        sessionStorage.setItem('isLoggedIn', isLoggedIn);
-    }, [pinInputVisible, pinId, token, isLoggedIn]);
 
     const URL_LOGIN = 'https://pos-app-backend-tim56.onrender.com/auth/login';
     const URL_SEND_PIN = 'https://j3m2qv.api.infobip.com/2fa/2/pin';
@@ -40,7 +27,6 @@ const Login = () => {
     const MESSAGE_ID = 'BA5DB6F8166D0FCEE29442F0D955EAD9';
 
     const handleLogin = () => {
-
         const requestBody = isNaN(usernameOrPhone)
             ? { username: usernameOrPhone, password: password, role: ROLE }
             : { phoneNumber: usernameOrPhone, password: password, role: ROLE };
@@ -62,9 +48,8 @@ const Login = () => {
                 }
             })
             .then(data => {
-                setToken(data.token)
-                const expiresIn = 30 * 60; 
-                Cookies.set('jwt', token,{ expires: expiresIn,path: '/' });
+                const expiresIn = 30 * 60;
+                Cookies.set('jwt', data.token, { expires: expiresIn, path: '/' });
                 sendPinRequest()
                 setErrorMessage('')
             })
@@ -73,17 +58,12 @@ const Login = () => {
             });
     };
 
-    const handleSuccessfulLogin = () => {
-        setIsLoggedIn(true);
-        navigate('/home')// Preusmjeravanje na rutu /home
-    };
-
 
     const sendPinRequest = () => {
         const pinRequestBody = {
             applicationId: APPLICATION_ID,
             messageId: MESSAGE_ID,
-            to: '38761056103'
+            to: '38762012374'
         };
 
         fetch(URL_SEND_PIN, {
@@ -135,18 +115,18 @@ const Login = () => {
                 if (data.verified === false) {
                     setMessage('Invalid PIN. Please try again.');
                 } else {
-
                     setPinInputVisible(false);
                     setMessage('');
-                    handleSuccessfulLogin();
-
+                    setIsLoggedIn(true);
                 }
             })
             .catch(error => {
                 setErrorMessage(error.message)
             });
     };
-
+    if (isLoggedIn) {
+        return <Home />;
+    }
     return (
         <div className="container">
             <div className="header">
