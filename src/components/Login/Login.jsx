@@ -50,7 +50,7 @@ const Login = () => {
             .then(data => {
                 const expiresIn = 30 * 60;
                 Cookies.set('jwt', data.token, { expires: expiresIn, path: '/' });
-                sendPinRequest()
+                sendPinRequest(data.phoneNumber)
                 setErrorMessage('')
             })
             .catch(error => {
@@ -59,11 +59,14 @@ const Login = () => {
     };
 
 
-    const sendPinRequest = () => {
+    const sendPinRequest = (phoneNumber) => {
+        if (phoneNumber.charAt(0) != '3') {
+            phoneNumber = "387" + phoneNumber
+        }
         const pinRequestBody = {
             applicationId: APPLICATION_ID,
             messageId: MESSAGE_ID,
-            to: '38762012374'
+            to: phoneNumber
         };
 
         fetch(URL_SEND_PIN, {
