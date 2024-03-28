@@ -1,8 +1,8 @@
 import React from 'react';
-import { render, fireEvent, waitFor } from '@testing-library/react';
+import { render, fireEvent, waitFor, screen } from '@testing-library/react';
 import Login from '../components/Login/Login.jsx';
 import '@testing-library/jest-dom'
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter as Router } from "react-router-dom";
 
 describe('Login Component', () => {
     function setFetch(state, body = {}) {
@@ -21,17 +21,19 @@ describe('Login Component', () => {
     // UAT 1
     test('Admin user enters correct username and password', async () => {
         const { getByPlaceholderText, getAllByText } = render(
-            <BrowserRouter>
+            <Router>
                 <Login />
-            </BrowserRouter>
+            </Router>
         );
 
-        setFetch(true)
+        setFetch(true, {
+            phoneNumber: "123456"
+        })
 
         fireEvent.change(getByPlaceholderText(/username/i), { target: { value: 'admin' } });
         fireEvent.change(getByPlaceholderText(/password/i), { target: { value: 'adminpass' } });
 
-        fireEvent.click(getAllByText(/login/i)[1]);
+        fireEvent.click(getAllByText(/log in/i)[0]);
 
         await waitFor(() => expect(getByPlaceholderText(/pin/i)).toBeInTheDocument());
     });
@@ -39,17 +41,19 @@ describe('Login Component', () => {
     // UAT 2
     test('Admin user enters correct username, password and verification code', async () => {
         const { getByPlaceholderText, getAllByText } = render(
-            <BrowserRouter>
+            <Router>
                 <Login />
-            </BrowserRouter>
+            </Router>
         );
 
-        setFetch(true)
+        setFetch(true, {
+            phoneNumber: "123456"
+        })
 
         fireEvent.change(getByPlaceholderText(/username/i), { target: { value: 'admin' } });
         fireEvent.change(getByPlaceholderText(/password/i), { target: { value: 'adminpass' } });
 
-        fireEvent.click(getAllByText(/login/i)[1]);
+        fireEvent.click(getAllByText(/log in/i)[0]);
 
         await waitFor(() => expect(getByPlaceholderText(/pin/i)).toBeInTheDocument());
 
@@ -62,15 +66,15 @@ describe('Login Component', () => {
         fireEvent.change(getByPlaceholderText(/pin/i), { target: { value: '123456' } });
         fireEvent.click(getAllByText(/submit/i)[0]);
 
-        await waitFor(() => expect(window.location.href).toContain('/home'));
+        await waitFor(() => expect(screen.getByText(/client app/i)).toBeInTheDocument());
     });
 
     // UAT 3
     test('Admin user enters incorrect username or password', async () => {
         const { getByPlaceholderText, getAllByText } = render(
-            <BrowserRouter>
+            <Router>
                 <Login />
-            </BrowserRouter>
+            </Router>
         );
 
         setFetch(false, { message: 'User not found.'})
@@ -78,7 +82,7 @@ describe('Login Component', () => {
         fireEvent.change(getByPlaceholderText(/username/i), { target: { value: 'wrongadmin' } });
         fireEvent.change(getByPlaceholderText(/password/i), { target: { value: 'wrongpass' } });
 
-        fireEvent.click(getAllByText(/login/i)[1]);
+        fireEvent.click(getAllByText(/log in/i)[0]);
 
         // Check for the error message
         await waitFor(() => expect(getAllByText(/user not found/i)[0]).toBeInTheDocument());
@@ -87,17 +91,19 @@ describe('Login Component', () => {
     // UAT 4
     test('Admin user enters correct username, password but incorrect verification code', async () => {
         const { getByPlaceholderText, getAllByText } = render(
-            <BrowserRouter>
+            <Router>
                 <Login />
-            </BrowserRouter>
+            </Router>
         );
 
-        setFetch(true)
+        setFetch(true, {
+            phoneNumber: "123456"
+        })
 
         fireEvent.change(getByPlaceholderText(/username/i), { target: { value: 'admin' } });
         fireEvent.change(getByPlaceholderText(/password/i), { target: { value: 'adminpass' } });
 
-        fireEvent.click(getAllByText(/login/i)[1]);
+        fireEvent.click(getAllByText(/log in/i)[0]);
 
         // Simulate receiving and entering the incorrect SMS verification code
         setFetch(true, {
