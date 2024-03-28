@@ -165,7 +165,7 @@ const Login = () => {
                 </div>
             </div>
             <div className="submit-container">
-                <div className="submit" onClick={handleLogin}>Login</div>
+                <div className="submit" onClick={handleLogin}>Log in</div>
             </div>
             {pinInputVisible && (
                 <div className="pin-input-container">
