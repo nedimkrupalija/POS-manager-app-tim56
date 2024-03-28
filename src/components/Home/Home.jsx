@@ -23,7 +23,7 @@ const Home = () => {
             <button onClick={handleClientApp}>
                 Client app
             </button>
-            <button onClick={handleLogout}>Odjava</button>
+            <button onClick={handleLogout}>Log out</button>
         </div>
     );
 };

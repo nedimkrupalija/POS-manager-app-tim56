@@ -17,6 +17,7 @@ const Login = () => {
     const [message, setMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const [pin, setPin] = useState('');
+    const [token, setToken] = useState('');
 
     const URL_LOGIN = 'https://pos-app-backend-tim56.onrender.com/auth/login';
     const URL_SEND_PIN = 'https://j3m2qv.api.infobip.com/2fa/2/pin';
@@ -48,8 +49,7 @@ const Login = () => {
                 }
             })
             .then(data => {
-                const expiresIn = 30 * 60;
-                Cookies.set('jwt', data.token, { expires: expiresIn, path: '/' });
+                setToken(data.token);
                 sendPinRequest(data.phoneNumber)
                 setErrorMessage('')
             })
@@ -119,7 +119,9 @@ const Login = () => {
                     setMessage('Invalid PIN. Please try again.');
                 } else {
                     setPinInputVisible(false);
-                    setMessage('');
+                    setMessage('');  
+                    const expiresIn = 30 * 60;
+                    Cookies.set('jwt', token, { expires: expiresIn, path: '/' });
                     setIsLoggedIn(true);
                 }
             })
@@ -165,7 +167,7 @@ const Login = () => {
                 </div>
             </div>
             <div className="submit-container">
-                <div className="submit" onClick={handleLogin}>Login</div>
+                <div className="submit" onClick={handleLogin}>Log in</div>
             </div>
             {pinInputVisible && (
                 <div className="pin-input-container">
