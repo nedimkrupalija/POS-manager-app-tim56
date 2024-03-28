@@ -15,7 +15,7 @@ const Home = () => {
     }
     const handleClientApp = () => {
         Cookies.remove('jwt');
-        window.location.href = "https://pos-employees-app-tim56.vercel.app";
+        window.location.href = "https://pos-client-app-tim56.vercel.app";
     }
 
     return (
