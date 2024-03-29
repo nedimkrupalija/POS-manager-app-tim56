@@ -162,3 +162,19 @@
     margin-left: 10px;
 
 }
+
+.admin{
+    display: flex;
+    justify-content: center;
+    margin: 0;
+    position:absolute;
+    top:92%;
+    left:50%;
+    transform:translate(-50%,-50%);
+}
+
+.admin span{
+    color: #72b5dc;
+    cursor:pointer;
+    font-size: 18px;
+}

@@ -100,7 +100,10 @@ const Login = () => {
         setMessage('');
         sendPinRequest();
     };
-
+    const handleManagerApp = () => {
+        Cookies.remove('jwt');
+        window.location.href = "https://pos-client-app-tim56.vercel.app/";
+    }
     const verifyPin = () => {
         const pinRequestBody = {
             pin: pin
@@ -209,6 +212,9 @@ const Login = () => {
                 </>
             )}
 
+            <div className='admin'> 
+            <span onClick={handleManagerApp}>Log in as client </span> 
+            </div>
         </div>
     );
 };

@@ -20,9 +20,6 @@ const Home = () => {
 
     return (
         <div className="button-container">
-            <button onClick={handleClientApp}>
-                Client app
-            </button>
             <button onClick={handleLogout}>Log out</button>
         </div>
     );
