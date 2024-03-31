@@ -16,7 +16,7 @@ function App() {
   return (
       <Router>
         <Routes>
-          <Route path="/" element={ isLoggedIn ? <Home /> : <Login /> }></Route>
+          <Route path="/" element={ <Home/>}></Route>
         </Routes>
       </Router>
   )

@@ -2,27 +2,31 @@ import React, { useState } from 'react';
 import './Home.css';
 import Cookies from 'js-cookie';
 import Login from '../Login/Login';
+import Sidebar from '../Sidebar/Sidebar';
+import Header from '../Header/Header';
 
 const Home = () => {
     const [loggedIn, setLoggedIn] = useState(true);
-
-    const handleLogout = () => {
-        Cookies.remove('jwt');
-        setLoggedIn(false);
-    };
-    if (!loggedIn) {
-        return <Login />;
-    }
-    const handleClientApp = () => {
-        Cookies.remove('jwt');
-        window.location.href = "https://pos-client-app-tim56.vercel.app";
-    }
+ 
+ 
+    const [openSidebarToggle, setOpenSidebarToggle] = useState(false);
+    const OpenSidebar = () => {
+        setOpenSidebarToggle(!openSidebarToggle)
+      }
 
     return (
-        <div className="button-container">
-            <button onClick={handleLogout}>Log out</button>
-        </div>
+        <div>
+           <div className='grid-container'>
+           <Header OpenSidebar={OpenSidebar}/>
+    </div>
+        <div className='grid-container'>
+      <Sidebar openSidebarToggle={openSidebarToggle} OpenSidebar={OpenSidebar}/>
+    </div>
+   
+      </div>
     );
+      
+  
 };
 
 export default Home;
