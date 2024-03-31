@@ -17,7 +17,7 @@ const CRUDUsers = () => {
             const response = await fetch('http://localhost:3000/admin/users', {
                 headers: {
                     // This token is used for testing purposes
-                    'Authorization': `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJ1c2VybmFtZSI6ImFtaW5hIiwiaWF0IjoxNzExOTI1Mjc5LCJleHAiOjE3MTE5MjcwNzl9.Pd6la-fXxv8fIhrWZPfLsXV0aj-tGLay-Xe6YJZbg38`
+                    'Authorization': `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJ1c2VybmFtZSI6ImFtaW5hIiwiaWF0IjoxNzExOTI3NDYwLCJleHAiOjE3MTE5MjkyNjB9.McYXhEor-Q2IrLru46EM0VigyVyHzowDjRdQy1Oq6ic`
                 }
             });
             if (!response.ok) {
@@ -41,7 +41,7 @@ const CRUDUsers = () => {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJ1c2VybmFtZSI6ImFtaW5hIiwiaWF0IjoxNzExOTI1Mjc5LCJleHAiOjE3MTE5MjcwNzl9.Pd6la-fXxv8fIhrWZPfLsXV0aj-tGLay-Xe6YJZbg38`
+                    'Authorization': `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJ1c2VybmFtZSI6ImFtaW5hIiwiaWF0IjoxNzExOTI3NDYwLCJleHAiOjE3MTE5MjkyNjB9.McYXhEor-Q2IrLru46EM0VigyVyHzowDjRdQy1Oq6ic`
                 },
                 body: JSON.stringify({ username, password, phoneNumber, role })
             });
@@ -50,12 +50,34 @@ const CRUDUsers = () => {
             }
             const responseData = await response.json();
             console.log(responseData);
-            fetchUsers(); 
+            fetchUsers();
         } catch (error) {
             console.error(error);
         }
     };
+    const confirmDelete = async (id) => {
+        if (window.confirm("Are you sure you want to delete this user?")) {
+            deleteUser(id);
+        }
+    };
 
+    const deleteUser = async (id) => {
+        try {
+            const response = await fetch(`http://localhost:3000/admin/users/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJ1c2VybmFtZSI6ImFtaW5hIiwiaWF0IjoxNzExOTI3NDYwLCJleHAiOjE3MTE5MjkyNjB9.McYXhEor-Q2IrLru46EM0VigyVyHzowDjRdQy1Oq6ic`
+                }
+            });
+            if (!response.ok) {
+                throw new Error('Error deleting user');
+            }
+            console.log('User deleted successfully');
+            fetchUsers();
+        } catch (error) {
+            console.error(error);
+        }
+    };
     return (
         <>
             <div className='list'>
@@ -88,7 +110,7 @@ const CRUDUsers = () => {
                                         <td>
                                             <div className='actions-containter'>
                                                 <img src={edit_icon} alt="Edit" className='edit-icon' />
-                                                <img src={delete_icon} alt="Delete" className='delete-icon' />
+                                                <img onClick={() => confirmDelete(user.id)} src={delete_icon} alt="Delete" className='delete-icon' />
                                             </div>
                                         </td>
                                     </tr>
