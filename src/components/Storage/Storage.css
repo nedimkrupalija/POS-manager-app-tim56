@@ -1,27 +1,25 @@
-.container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-  }
-  
-  .product-list {
-    list-style: none;
-    padding: 0;
-  }
-  
-  .product-item {
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 10px;
-  }
-  
-  .product-name {
-    font-size: 20px;
-    margin-bottom: 5px;
-  }
-  
-  .product-quantity {
-    font-size: 16px;
-  }
-  
+
+table {
+  margin-top: 0; /* Set margin to auto to horizontally center the table */
+  padding: 0;
+  width: 100%;
+  justify-content: center; /* Center content horizontally */
+  align-items: center; /* Center content vertically */
+}
+
+thead {
+  background-color: hsla(0, 6%, 93%, 1.8); /* Adjust background color to be slightly darker */
+  padding: auto;
+}
+
+/* Style every even row */
+table tr:nth-child(even) {
+  background-color: #f2f2f2; /* Adjust background color for even rows */
+}
+h2{
+  padding: 5px;
+  background-color: #62b5dc; /* Change background color of h2 */
+  color: rgb(247, 236, 236); /* Change text color to white */
+}
+
+
