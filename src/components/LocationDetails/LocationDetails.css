@@ -1,0 +1,67 @@
+/* LocationDetails.css */
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .search-bar {
+    margin-bottom: 20px;
+  }
+  
+  .input-container {
+    display: flex;
+  }
+  
+  .input-container input {
+    flex: 1;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px 0 0 5px;
+  }
+  
+  .input-container button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 0 5px 5px 0;
+    cursor: pointer;
+  }
+  
+  .location-details {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 20px;
+  }
+  
+  .location-name {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  .address {
+    font-size: 18px;
+    margin-bottom: 20px;
+  }
+  
+  .storage {
+    margin-bottom: 20px;
+  }
+  
+  .storage-name {
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+  
+  .product-list {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .product-item {
+    margin-bottom: 5px;
+  }
+  
