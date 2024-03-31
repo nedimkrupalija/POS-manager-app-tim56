@@ -121,3 +121,9 @@ body {
 .button2:hover {
     background: #72b5dcd3;
 }
+
+.username-input,
+.password-input,
+.phone-input {
+    color: #000000;
+}
