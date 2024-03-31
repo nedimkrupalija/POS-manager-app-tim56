@@ -10,6 +10,8 @@ const CRUDAdmins = () => {
     setView(view);
   };
 
+  const [admins, setAdmins] = useState([]);
+
   const fetchAdmins = async () => {
     try {
       const response = await fetch('http://localhost:3000/admin/administators', {
@@ -18,14 +20,40 @@ const CRUDAdmins = () => {
         },
       });
       if (!response.ok) {
-        throw new Error('Error fetching administators');
+        throw new Error('Error fetching admins');
       }
       const data = await response.json();
-      console.log(data);
+      setAdmins(data)
     } catch (error) {
       console.error(error);
     }
   };
+
+  const createAdmin = async () => {
+    const username = document.getElementById('usernameCreate').value;
+    const password = document.getElementById('passwordCreate').value;
+    const phoneNumber = document.getElementById('phoneCreate').value;
+    const role = 'admin';
+
+    try {
+        const response = await fetch('http://localhost:3000/admin/administators', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJ1c2VybmFtZSI6ImFtaW5hIiwiaWF0IjoxNzExOTI1Mjc5LCJleHAiOjE3MTE5MjcwNzl9.Pd6la-fXxv8fIhrWZPfLsXV0aj-tGLay-Xe6YJZbg38`
+            },
+            body: JSON.stringify({ username, password, phoneNumber, role })
+        });
+        if (!response.ok) {
+            throw new Error('Error creating admin');
+        }
+        const responseData = await response.json();
+        console.log(responseData);
+        fetchAdmins(); 
+    } catch (error) {
+        console.error(error);
+    }
+};
 
   return (
     <>
@@ -71,18 +99,26 @@ const CRUDAdmins = () => {
                 </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>
-                            <div className='actions-containter'>
-                                <img src={edit_icon} alt="Edit" className='edit-icon' />
-                                <img src={delete_icon} alt="Delete" className='delete-icon' />
-                            </div>
-                        </td>
-                    </tr>
+                {admins.map(user => (
+                             <tr key={user.id}>
+                                <td>{user.id}</td>
+                                <td>{user.username}</td>
+                                <td>{user.phoneNumber}</td>
+                                <td>{user.password}</td>
+                                <td>{user.role}</td>
+                                <td>
+                                    <div className='actions-containter'>
+                                        <img src={edit_icon} alt="Edit" className='edit-icon' />
+                                        <img src={delete_icon} alt="Delete" className='delete-icon' />
+                                    </div>
+                                </td>
+                            </tr>
+                        ))}
                 </tbody>
             </table>
           </div>
         )}
+
 
         {view === 'create' && (
           <div className='create'>
@@ -103,7 +139,7 @@ const CRUDAdmins = () => {
             </label>
             <input type='text' id='phoneCreate' className='phone-input' placeholder='Phone Number' />
           </div>
-          <button className='button2'>Create</button>
+          <button className='button2' onClick={createAdmin}>Create</button>
           </div>
         )}
 
