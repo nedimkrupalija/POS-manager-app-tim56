@@ -1,0 +1,75 @@
+body {
+    width: 100%;
+}
+
+.buttons1 {
+    margin-left: 5%;
+    margin-top: 2%;
+    color: #fff;
+    background: #72b5dc;
+    border-radius: 50px;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.buttons {
+    margin: 10px;
+    color: #000000;
+    background: #c7cfd3;
+    border-radius: 50px;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.table {
+  margin-top: 20px;
+  margin: 5%;
+  margin-right: 10%;
+}
+
+.table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th, .table td {
+  border-bottom: 1px solid #ccc;
+  padding: 4px 8px;
+  text-align: center;
+}
+
+.username-input,
+.password-input,
+.phone-input {
+    padding: 1%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 20%;
+    margin-left: 5%;
+}
+
+.username-input:focus,
+.password-input:focus,
+.phone-input:focus {
+    border-color: #007bff;
+}
+
+.fields {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    margin-top: 3%;
+    margin-left: 2%;
+    margin-bottom: 0.7%;
+}
+
+.button2 {
+    margin: 10px;
+    color: #000000;
+    background: #e4e8e9;
+    border-radius: 50px;
+    font-size: 15px;
+    font-weight: 700;
+    margin-left: 13%;
+    margin-top: 2%;
+}
