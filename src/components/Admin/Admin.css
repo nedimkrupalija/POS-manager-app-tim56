@@ -1,0 +1,66 @@
+
+table{
+margin:0;
+padding:0;
+width:100%;
+}
+
+table th, table td{
+  border-bottom: 1px solid #ccc;
+  padding:4px 8px;
+  text-align: left;
+}
+button{
+  margin: 10px;
+  color: #72b5dc;
+  background: #72b5dc;
+  border-radius: 50px;
+  font-size: 15px;
+  font-weight: 700;
+ /*
+  padding:2px 4px;
+  font-size: 12px;
+  margin:auto;
+*/
+}
+
+.data-form form{  /*♥*/ 
+display:flex;
+flex-wrap:wrap;
+background: #e5e9ec;
+padding: 10px;
+margin-top: 20px;
+}
+
+.data-form form >div{
+  width: 100%;
+  padding: 4px 1px;
+}
+
+.data-form label{
+  font-size: 20px;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.data-form input, .data-form label{
+  display: block;
+  width: 50%;
+  height:50%;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  margin: 0;
+  position:absolute;
+  top:72%;
+  left:25%;
+  transform:translate(-50%,-50%);
+}
+
+.button-container button {
+  color: #72b5dc;
+    cursor:pointer;
+    font-size: 18px;
+}
