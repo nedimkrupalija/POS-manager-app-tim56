@@ -5,13 +5,60 @@ import delete_icon from '../../assets/delete.png'
 
 const CRUDUsers = () => {
     const [tableVisible, settableVisible] = useState(true);
+    const [token, setToken] = useState(''); ///////////////////// OBRISAT
+
+    const fetchUsers = async () => {
+        try {
+            const response = await fetch('http://localhost:3000/admin/users', {
+                headers: {
+                    'Authorization': `${token}`
+                }
+            });
+            if (!response.ok) {
+                throw new Error('Error fetching users');
+            }
+            const data = await response.json();
+            console.log(data)
+        } catch (error) {
+            console.error(error);
+        }
+    };
+    const handleLogin = () => { ////////////////// OBRISAT
+        const requestBody = { username: "amina", password: "test", role: "admin" }
+        fetch('http://localhost:3000/auth/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(requestBody)
+        })
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    return response.json().then(data => {
+                        throw new Error(data.message);
+                    });
+                }
+            })
+            .then(data => {
+                console.log(data.token)
+                setToken(data.token);
+               // console.log("Token ", tokenn)
+               /* const expiresIn = 30 * 60;
+                Cookies.set('jwt', data.token, { expires: expiresIn, path: '/' });*/
+            })
+            .catch(error => {
+            });
+    };
     return (
         <>
+        <button onClick={handleLogin}>Proba login</button> {/* OBRISAT */}
             <div className='list'>
                 <h2 className='users-title'>{tableVisible ? "USERS" : "CREATE NEW USER"}</h2>
                 <div className="buttons-container">
-                    <button disabled = {tableVisible} className={tableVisible ? 'buttons' : 'buttons1'} onClick={() => { settableVisible(true) }}>LIST USERS</button>
-                    <button disabled = {!tableVisible} className={tableVisible ? 'buttons1' : 'buttons'} onClick={() => { settableVisible(false) }}>CREATE NEW</button>
+                    <button disabled={tableVisible} className={tableVisible ? 'buttons' : 'buttons1'} onClick={() => { settableVisible(true); fetchUsers(); }}>LIST USERS</button>
+                    <button disabled={!tableVisible} className={tableVisible ? 'buttons1' : 'buttons'} onClick={() => { settableVisible(false) }}>CREATE NEW</button>
                 </div>
                 {tableVisible && <div className='table'>
                     <table border="1">

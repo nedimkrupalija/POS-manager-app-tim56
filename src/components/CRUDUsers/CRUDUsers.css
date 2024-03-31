@@ -82,7 +82,6 @@ body {
 .actions-container {
     display: flex;
     gap: 5px;
-    /* Dodajte malo prostora između ikonica */
 }
 
 .edit-icon,
@@ -116,7 +115,6 @@ body {
 .button2:focus,
 .button2:active {
     outline: none;
-    /* Dodajte ovu liniju da biste uklonili plavi okvir na hoveru */
 }
 
 .buttons1:hover,
