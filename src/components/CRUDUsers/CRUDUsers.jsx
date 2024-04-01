@@ -2,10 +2,13 @@ import React, { useState, useEffect } from 'react';
 import './CRUDUsers.css';
 import edit_icon from '../../assets/edit.png'
 import delete_icon from '../../assets/delete.png'
+import confirm_icon from '../../assets/confirm.png'
+import close_icon from '../../assets/close.png'
 
 const CRUDUsers = () => {
     const [tableVisible, settableVisible] = useState(true);
     const [users, setUsers] = useState([]);
+    const [editingUser, setEditingUser] = useState(null);
 
     useEffect(() => {
         console.log("Effecttt")
@@ -15,7 +18,7 @@ const CRUDUsers = () => {
     const fetchUsers = async () => {
         try {
             const headers = {
-                'Authorization': `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJ1c2VybmFtZSI6ImFtaW5hIiwiaWF0IjoxNzExOTI5MDQ4LCJleHAiOjE3MTE5MzA4NDh9.AG6q-SVM0Eb3UpqDEPf4lbyRErpZNTdcOzw0ZJ-9HkI`
+                'Authorization': `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJ1c2VybmFtZSI6ImFtaW5hIiwiaWF0IjoxNzExOTMyNDE4LCJleHAiOjE3MTE5MzQyMTh9.ZnwMu2WBEkl1dCI4uUQPRFU26iRuAWbajFvvkGemDLk`
             };
             const data = await fetchData('GET', 'http://localhost:3000/admin/users', null, headers);
             setUsers(data);
@@ -33,7 +36,7 @@ const CRUDUsers = () => {
         try {
             const requestData = { username, password, phoneNumber, role };
             const headers = {
-                'Authorization': `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJ1c2VybmFtZSI6ImFtaW5hIiwiaWF0IjoxNzExOTI5MDQ4LCJleHAiOjE3MTE5MzA4NDh9.AG6q-SVM0Eb3UpqDEPf4lbyRErpZNTdcOzw0ZJ-9HkI`
+                'Authorization': `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJ1c2VybmFtZSI6ImFtaW5hIiwiaWF0IjoxNzExOTMyNDE4LCJleHAiOjE3MTE5MzQyMTh9.ZnwMu2WBEkl1dCI4uUQPRFU26iRuAWbajFvvkGemDLk`
             };
             await fetchData('POST', 'http://localhost:3000/admin/users', requestData, headers);
             fetchUsers();
@@ -51,7 +54,7 @@ const CRUDUsers = () => {
     const deleteUser = async (id) => {
         try {
             const headers = {
-                'Authorization': `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJ1c2VybmFtZSI6ImFtaW5hIiwiaWF0IjoxNzExOTI5MDQ4LCJleHAiOjE3MTE5MzA4NDh9.AG6q-SVM0Eb3UpqDEPf4lbyRErpZNTdcOzw0ZJ-9HkI`
+                'Authorization': `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJ1c2VybmFtZSI6ImFtaW5hIiwiaWF0IjoxNzExOTMyNDE4LCJleHAiOjE3MTE5MzQyMTh9.ZnwMu2WBEkl1dCI4uUQPRFU26iRuAWbajFvvkGemDLk`
             };
             await fetchData('DELETE', `http://localhost:3000/admin/users/${id}`, null, headers);
             fetchUsers();
@@ -86,6 +89,34 @@ const CRUDUsers = () => {
             throw new Error(error.message || 'Error fetching data');
         }
     };
+
+    const handleEditClick = (user) => {
+        setEditingUser(user);
+    };
+
+    const handleSaveClick = async () => {
+        try {
+            if (editingUser) {
+                const id = editingUser.id;
+                const username = document.getElementById('usernameEdit').value;
+                const password = document.getElementById('passwordEdit').value;
+                const phoneNumber = document.getElementById('phoneEdit').value;
+                const role = document.getElementById('roleEdit').value;
+
+                const requestData = { username, password, phoneNumber, role };
+                const headers = {
+                    'Authorization': `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJ1c2VybmFtZSI6ImFtaW5hIiwiaWF0IjoxNzExOTMyNDE4LCJleHAiOjE3MTE5MzQyMTh9.ZnwMu2WBEkl1dCI4uUQPRFU26iRuAWbajFvvkGemDLk`,
+                };
+
+                await fetchData('PUT', `http://localhost:3000/admin/users/${id}`, requestData, headers);
+                fetchUsers();
+                setEditingUser(null);
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
     return (
         <>
             <div className='list'>
@@ -111,14 +142,49 @@ const CRUDUsers = () => {
                                 {users.map(user => (
                                     <tr key={user.id}>
                                         <td>{user.id}</td>
-                                        <td>{user.username}</td>
-                                        <td>{user.phoneNumber}</td>
-                                        <td>{user.password}</td>
-                                        <td>{user.role}</td>
+                                        <td className="editable-cell">
+                                            {editingUser === user ? (
+                                                <input id="usernameEdit" type="text" defaultValue={user.username} className="editable-input" />
+                                            ) : (
+                                                user.username
+                                            )}
+                                        </td>
+                                        <td className="editable-cell">
+                                            {editingUser === user ? (
+                                                <input id="phoneEdit" type="text" defaultValue={user.phoneNumber} className="editable-input" />
+                                            ) : (
+                                                user.phoneNumber
+                                            )}
+                                        </td>
+                                        <td className="editable-cell">
+                                            {editingUser === user ? (
+                                                <input id="passwordEdit" type="text" defaultValue={user.password} className="editable-input" />
+                                            ) : (
+                                                user.password
+                                            )}
+                                        </td>
+                                        <td className="editable-cell">
+                                            {editingUser === user ? (
+                                                <select id="roleEdit" defaultValue={user.role} className="editable-input">
+                                                    <option value="admin">admin</option>
+                                                    <option value="user">user</option>
+                                                </select>
+                                            ) : (
+                                                user.role
+                                            )}
+                                        </td>
                                         <td>
                                             <div className='actions-containter'>
-                                                <img src={edit_icon} alt="Edit" className='edit-icon' />
-                                                <img onClick={() => confirmDelete(user.id)} src={delete_icon} alt="Delete" className='delete-icon' />
+                                                {
+                                                    editingUser === user
+                                                        ? <img onClick={() => handleSaveClick()} src={confirm_icon} alt="Confirm" className='confirm-icon' />
+                                                        : <img onClick={() => handleEditClick(user)} src={edit_icon} alt="Edit" className='edit-icon' />
+                                                }
+                                                {
+                                                    editingUser === user
+                                                        ? <img onClick={() => setEditingUser(null)} src={close_icon} alt="Close" className='close-icon' />
+                                                        : <img onClick={() => confirmDelete(user.id)} src={delete_icon} alt="Delete" className='delete-icon' />
+                                                }
                                             </div>
                                         </td>
                                     </tr>

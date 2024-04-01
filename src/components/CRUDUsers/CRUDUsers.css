@@ -85,7 +85,9 @@ body {
 }
 
 .edit-icon,
-.delete-icon {
+.delete-icon,
+.confirm-icon,
+.close-icon {
     width: 20px;
     height: 20px;
     margin: 0 10px 0 10px;
@@ -126,4 +128,24 @@ body {
 .password-input,
 .phone-input {
     color: #000000;
+}
+.editable-cell {
+    position: relative;
+}
+
+.editable-input {
+    width: 100%;
+    padding: 0;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    background-color: transparent;
+    color: #000000;
+    font-family: inherit; /* Nasljeđuje font roditeljskog elementa */
+    font-size: inherit;
+    text-align: center;
+}
+
+.editable-input:focus {
+    outline: none;
+    border: 1px solid #ccc; /* Dodajte željene stilove za fokusiranje */
 }
