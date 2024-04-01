@@ -41,13 +41,27 @@ const CRUDAdmins = () => {
     const role = 'admin';
 
     try {
+        if (username == '' || password == '' || phoneNumber == '') {
+            setErrorMessage('All fields must be filled!')
+            setInfoMessage('')
+        }
+        else if (isNaN(phoneNumber)) {
+            setErrorMessage('Phone number must be a number!');
+            setInfoMessage('');
+        }
+        else{
         const requestData = { username, password, phoneNumber, role };
         const headers = {
             'Authorization': `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJ1c2VybmFtZSI6ImFtaW5hIiwiaWF0IjoxNzExOTI5MDQ4LCJleHAiOjE3MTE5MzA4NDh9.AG6q-SVM0Eb3UpqDEPf4lbyRErpZNTdcOzw0ZJ-9HkI`
         };
         await fetchData('POST', 'http://localhost:3000/admin/administators', requestData, headers);
+        setInfoMessage('User created')
+                document.getElementById('usernameCreate').value = ''
+                document.getElementById('passwordCreate').value = ''
+                document.getElementById('phoneCreate').value = ''
+                setErrorMessage('')   
         fetchAdmins(); 
-    } catch (error) {
+    }} catch (error) {
         console.error(error);
     }
 };
@@ -230,7 +244,7 @@ return (
               <label htmlFor="phone" className='fields'>Phone Number:</label>
               <input type="text" id="phoneCreate" className="phone-input" placeholder="Phone Number" onChange={() => {setInfoMessage('')}}/>
           </div>
-          <button className='button2' onClick={createUser}>Create</button>
+          <button className='button2' onClick={createAdmin}>Create</button>
       </div>
       }
   </>
