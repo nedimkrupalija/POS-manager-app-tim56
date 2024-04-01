@@ -55,6 +55,30 @@ const CRUDAdmins = () => {
     }
 };
 
+const confirmDelete = async (id) => {
+    if (window.confirm("Are you sure you want to delete this admin?")) {
+        deleteAdmin(id);
+    }
+};
+
+const deleteAdmin = async (id) => {
+    try {
+        const response = await fetch(`http://localhost:3000/admin/administators/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJ1c2VybmFtZSI6ImFtaW5hIiwiaWF0IjoxNzExOTI3NDYwLCJleHAiOjE3MTE5MjkyNjB9.McYXhEor-Q2IrLru46EM0VigyVyHzowDjRdQy1Oq6ic`
+            }
+        });
+        if (!response.ok) {
+            throw new Error('Error deleting admin');
+        }
+        console.log('Admin deleted successfully');
+        fetchAdmins();
+    } catch (error) {
+        console.error(error);
+    }
+};
+
   return (
     <>
       <div className='list'>
@@ -99,17 +123,17 @@ const CRUDAdmins = () => {
                 </tr>
                 </thead>
                 <tbody>
-                {admins.map(user => (
-                             <tr key={user.id}>
-                                <td>{user.id}</td>
-                                <td>{user.username}</td>
-                                <td>{user.phoneNumber}</td>
-                                <td>{user.password}</td>
-                                <td>{user.role}</td>
+                {admins.map(admin => (
+                             <tr key={admin.id}>
+                                <td>{admin.id}</td>
+                                <td>{admin.username}</td>
+                                <td>{admin.phoneNumber}</td>
+                                <td>{admin.password}</td>
+                                <td>{admin.role}</td>
                                 <td>
                                     <div className='actions-containter'>
                                         <img src={edit_icon} alt="Edit" className='edit-icon' />
-                                        <img src={delete_icon} alt="Delete" className='delete-icon' />
+                                        <img onClick={() => confirmDelete(user.id)} src={delete_icon} alt="Delete" className='delete-icon' />
                                     </div>
                                 </td>
                             </tr>
