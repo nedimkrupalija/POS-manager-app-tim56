@@ -41,6 +41,10 @@ const CRUDUsers = () => {
                 setErrorMessage('All fields must be filled!')
                 setInfoMessage('')
             }
+            else if (isNaN(phoneNumber)) {
+                setErrorMessage('Phone number must be a number!');
+                setInfoMessage('');
+            }
             else {
                 const requestData = { username, password, phoneNumber, role };
                 const headers = {
