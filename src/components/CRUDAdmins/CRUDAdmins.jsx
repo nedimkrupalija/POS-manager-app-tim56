@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import './CRUDAdmins.css';
 import edit_icon from '../../assets/edit.png';
 import delete_icon from '../../assets/delete.png';
+import confirm_icon from '../../assets/confirm.png'
+import close_icon from '../../assets/close.png'
 
 const CRUDAdmins = () => {
   const [view, setView] = useState('table'); 
@@ -11,6 +13,9 @@ const CRUDAdmins = () => {
   };
 
   const [admins, setAdmins] = useState([]);
+  const [editingAdmin, setEditingAdmin] = useState(null);
+  const [tableVisible, settableVisible] = useState(true);
+  const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
     fetchAdmins();
@@ -28,6 +33,7 @@ const CRUDAdmins = () => {
     }
   };
 
+//                                      CREATE
   const createAdmin = async () => {
     const username = document.getElementById('usernameCreate').value;
     const password = document.getElementById('passwordCreate').value;
@@ -46,6 +52,7 @@ const CRUDAdmins = () => {
     }
 };
 
+//                                      DELETE
 const confirmDelete = async (id) => {
     if (window.confirm("Are you sure you want to delete this admin?")) {
         await deleteAdmin(id);
@@ -90,118 +97,144 @@ const fetchData = async (method, url, requestData = null, headers = {}) => {
     }
 };
 
-  return (
-    <>
+//                                  UPDATE
+
+const handleSaveClick = async () => {
+  try {
+      if (editingAdmin) {
+          const id = editingAdmin.id;
+          const username = document.getElementById('usernameEdit').value;
+          const password = document.getElementById('passwordEdit').value;
+          const phoneNumber = document.getElementById('phoneEdit').value;
+          const role = document.getElementById('roleEdit').value;
+
+          const requestData = { username, password, phoneNumber, role };
+          const headers = {
+              'Authorization': `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJ1c2VybmFtZSI6ImFtaW5hIiwiaWF0IjoxNzExOTMyNDE4LCJleHAiOjE3MTE5MzQyMTh9.ZnwMu2WBEkl1dCI4uUQPRFU26iRuAWbajFvvkGemDLk`,
+          };
+
+          await fetchData('PUT', `http://localhost:3000/admin/administators/${id}`, requestData, headers);
+          fetchAdmins();
+          setEditingAdmin(null);
+      }
+  } catch (error) {
+      console.error(error);
+  }
+};
+
+return (
+  <>
       <div className='list'>
-        <h2 className='users-title'>
-          {view === 'table'
-            ? 'Admins'
-            : view === 'create'
-            ? 'Create new admin'
-            : 'Edit admin'}
-        </h2>
-        <div className='buttons-container'>
-          <button
-            className={view === 'table' ? 'buttons' : 'buttons1'}
-            onClick={() => {handleSwitchView('table') ; fetchAdmins();}}
-          >
-            List admins
-          </button>
-          <button
-            className={view === 'create' ? 'buttons1' : 'buttons'}
-            onClick={() => handleSwitchView('create')}
-          >
-            Create new
-          </button>
-          <button
-            className={view === 'edit' ? 'buttons2' : 'buttons'}
-            onClick={() => handleSwitchView('edit')}
-          >
-            Edit
-          </button>
-        </div>
-        {view === 'table' && (
-          <div className='table'>
-            <table border='1'>
-                <thead>
-                <tr>
-                <th>ID</th>
-                <th>Username</th>
-                <th>Phone Number</th>
-                <th>Password</th>
-                <th>Role</th>
-                <th>Actions</th>
-                </tr>
-                </thead>
-                <tbody>
-                {admins.map(admin => (
-                             <tr key={admin.id}>
-                                <td>{admin.id}</td>
-                                <td>{admin.username}</td>
-                                <td>{admin.phoneNumber}</td>
-                                <td>{admin.password}</td>
-                                <td>{admin.role}</td>
-                                <td>
-                                    <div className='actions-containter'>
-                                        <img src={edit_icon} alt="Edit" className='edit-icon' />
-                                        <img onClick={() => confirmDelete(admin.id)} src={delete_icon} alt="Delete" className='delete-icon' />
-                                    </div>
-                                </td>
-                            </tr>
-                        ))}
-                </tbody>
-            </table>
+          <h2 className='users-title'>{tableVisible ? "Admins" : "Create new admin"}</h2>
+          <div className="buttons-container">
+              <button disabled={tableVisible} className={tableVisible ? 'buttons' : 'buttons1'} onClick={() => { settableVisible(true); fetchAdmins(); setInfoMessage(''); setErrorMessage('') }}>List admins</button>
+              <button disabled={!tableVisible} className={tableVisible ? 'buttons1' : 'buttons'} onClick={() => { settableVisible(false); setErrorMessage('') }}>Create new</button>
           </div>
-        )}
-
-
-        {view === 'create' && (
-          <div className='create'>
-  
-            <div className='createFields'>
-            <label htmlFor='username' className='fields'>
-              Username:
-            </label>
-            <input type='text' id='usernameCreate' className='username-input' placeholder='Username' />
-            <br />
-            <label htmlFor='password' className='fields'>
-              Password:
-            </label>
-            <input type='password' id='passwordCreate' className='password-input' placeholder='Password' />
-            <br />
-            <label htmlFor='phone' className='fields'>
-              Phone Number:
-            </label>
-            <input type='text' id='phoneCreate' className='phone-input' placeholder='Phone Number' />
-          </div>
-          <button className='button2' onClick={createAdmin}>Create</button>
-          </div>
-        )}
-
-        {view === 'edit' && (
-          <div className='edit'>
-          <div className='createFields'>
-            <label htmlFor='username' className='fields'>
-              Username:
-            </label>
-            <input type='text' id='usernameEdit' className='username-input' placeholder='Username' />
-            <br />
-            <label htmlFor='password' className='fields'>
-              Password:
-            </label>
-            <input type='password' id='passwordEdit' className='password-input' placeholder='Password' />
-            <br />
-            <label htmlFor='phone' className='fields'>
-              Phone Number:
-            </label>
-            <input type='text' id='phoneEdit' className='phone-input' placeholder='Phone Number' />
-          </div>
-          <button className='button2'>Edit</button>
-          </div>
-        )}
+          {tableVisible && (
+              <>
+                  {errorMessage && (
+                      <div className="error-message">
+                          <img src={error_icon} alt='error' className='error-icon' />
+                          <span>{errorMessage}</span>
+                      </div>
+                  )}
+                  <div className='table'>
+                      <table border="1">
+                          <thead>
+                              <tr>
+                                  <th>ID</th>
+                                  <th>Username</th>
+                                  <th>Phone Number</th>
+                                  <th>Password</th>
+                                  <th>Role</th>
+                                  <th>Actions</th>
+                              </tr>
+                          </thead>
+                          <tbody>
+                              {admins.map(admin => (
+                                  <tr key={admin.id}>
+                                      <td>{admin.id}</td>
+                                      <td className="editable-cell">
+                                          {editingAdmin === admin ? (
+                                              <input id="usernameEdit" type="text" defaultValue={admin.username} className="editable-input" />
+                                          ) : (
+                                              admin.username
+                                          )}
+                                      </td>
+                                      <td className="editable-cell">
+                                          {editingAdmin === admin ? (
+                                              <input id="phoneEdit" type="text" defaultValue={admin.phoneNumber} className="editable-input" />
+                                          ) : (
+                                              admin.phoneNumber
+                                          )}
+                                      </td>
+                                      <td className="editable-cell">
+                                          {editingAdmin === admin ? (
+                                              <input id="passwordEdit" type="text" defaultValue={admin.password} className="editable-input" />
+                                          ) : (
+                                              admin.password
+                                          )}
+                                      </td>
+                                      <td className="editable-cell">
+                                          {editingAdmin === admin ? (
+                                              <select id="roleEdit" defaultValue={admin.role} className="editable-input">
+                                                  <option value="admin">admin</option>
+                                                  <option value="user">user</option>
+                                              </select>
+                                          ) : (
+                                              admin.role
+                                          )}
+                                      </td>
+                                      <td>
+                                          <div className='actions-containter'>
+                                              {
+                                                  editingAdmin === admin
+                                                      ? <img onClick={() => handleSaveClick()} src={confirm_icon} alt="Confirm" className='confirm-icon' />
+                                                      : <img onClick={() => setEditingAdmin(admin)} src={edit_icon} alt="Edit" className='edit-icon' />
+                                              }
+                                              {
+                                                  editingAdmin === admin
+                                                      ? <img onClick={() => setEditingAdmin(null)} src={close_icon} alt="Close" className='close-icon' />
+                                                      : <img onClick={() => confirmDelete(admin.id)} src={delete_icon} alt="Delete" className='delete-icon' />
+                                              }
+                                          </div>
+                                      </td>
+                                  </tr>
+                              ))}
+                          </tbody>
+                      </table>
+                  </div> </>
+          )}
       </div>
-    </>
-  );
+
+      {!tableVisible && <div className='create'>
+          {infoMessage && (
+              <div className="info-message">
+                  <img src={info_icon} alt='info' className='info-icon' />
+                  <span>{infoMessage}</span>
+              </div>
+          )}
+          {errorMessage && (
+              <div className="error-message">
+                  <img src={error_icon} alt='error' className='error-icon' />
+                  <span>{errorMessage}</span>
+              </div>
+          )}
+          <div className='createFields'>
+              <label htmlFor="username" className='fields'>Username:</label>
+              <input type="text" id="usernameCreate" className="username-input" placeholder="Username" onChange={() => {setInfoMessage('')}}/>
+              <br />
+              <label htmlFor="password" className='fields'>Password:</label>
+              <input type="text" id="passwordCreate" className="password-input" placeholder="Password" onChange={() => {setInfoMessage('')}}/>
+              <br />
+              <label htmlFor="phone" className='fields'>Phone Number:</label>
+              <input type="text" id="phoneCreate" className="phone-input" placeholder="Phone Number" onChange={() => {setInfoMessage('')}}/>
+          </div>
+          <button className='button2' onClick={createUser}>Create</button>
+      </div>
+      }
+  </>
+);
 };
 
 export default CRUDAdmins;
