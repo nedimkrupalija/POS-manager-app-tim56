@@ -14,17 +14,11 @@ const CRUDUsers = () => {
 
     const fetchUsers = async () => {
         try {
-            const response = await fetch('http://localhost:3000/admin/users', {
-                headers: {
-                    // This token is used for testing purposes
-                    'Authorization': `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJ1c2VybmFtZSI6ImFtaW5hIiwiaWF0IjoxNzExOTI3NDYwLCJleHAiOjE3MTE5MjkyNjB9.McYXhEor-Q2IrLru46EM0VigyVyHzowDjRdQy1Oq6ic`
-                }
-            });
-            if (!response.ok) {
-                throw new Error('Error fetching users');
-            }
-            const data = await response.json();
-            setUsers(data)
+            const headers = {
+                'Authorization': `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJ1c2VybmFtZSI6ImFtaW5hIiwiaWF0IjoxNzExOTI5MDQ4LCJleHAiOjE3MTE5MzA4NDh9.AG6q-SVM0Eb3UpqDEPf4lbyRErpZNTdcOzw0ZJ-9HkI`
+            };
+            const data = await fetchData('GET', 'http://localhost:3000/admin/users', null, headers);
+            setUsers(data);
         } catch (error) {
             console.error(error);
         }
@@ -37,45 +31,59 @@ const CRUDUsers = () => {
         const role = 'user';
 
         try {
-            const response = await fetch('http://localhost:3000/admin/users', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJ1c2VybmFtZSI6ImFtaW5hIiwiaWF0IjoxNzExOTI3NDYwLCJleHAiOjE3MTE5MjkyNjB9.McYXhEor-Q2IrLru46EM0VigyVyHzowDjRdQy1Oq6ic`
-                },
-                body: JSON.stringify({ username, password, phoneNumber, role })
-            });
-            if (!response.ok) {
-                throw new Error('Error creating user');
-            }
-            const responseData = await response.json();
-            console.log(responseData);
+            const requestData = { username, password, phoneNumber, role };
+            const headers = {
+                'Authorization': `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJ1c2VybmFtZSI6ImFtaW5hIiwiaWF0IjoxNzExOTI5MDQ4LCJleHAiOjE3MTE5MzA4NDh9.AG6q-SVM0Eb3UpqDEPf4lbyRErpZNTdcOzw0ZJ-9HkI`
+            };
+            await fetchData('POST', 'http://localhost:3000/admin/users', requestData, headers);
             fetchUsers();
         } catch (error) {
             console.error(error);
         }
     };
+
     const confirmDelete = async (id) => {
         if (window.confirm("Are you sure you want to delete this user?")) {
-            deleteUser(id);
+            await deleteUser(id);
         }
     };
 
     const deleteUser = async (id) => {
         try {
-            const response = await fetch(`http://localhost:3000/admin/users/${id}`, {
-                method: 'DELETE',
-                headers: {
-                    'Authorization': `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJ1c2VybmFtZSI6ImFtaW5hIiwiaWF0IjoxNzExOTI3NDYwLCJleHAiOjE3MTE5MjkyNjB9.McYXhEor-Q2IrLru46EM0VigyVyHzowDjRdQy1Oq6ic`
-                }
-            });
-            if (!response.ok) {
-                throw new Error('Error deleting user');
-            }
-            console.log('User deleted successfully');
+            const headers = {
+                'Authorization': `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJ1c2VybmFtZSI6ImFtaW5hIiwiaWF0IjoxNzExOTI5MDQ4LCJleHAiOjE3MTE5MzA4NDh9.AG6q-SVM0Eb3UpqDEPf4lbyRErpZNTdcOzw0ZJ-9HkI`
+            };
+            await fetchData('DELETE', `http://localhost:3000/admin/users/${id}`, null, headers);
             fetchUsers();
         } catch (error) {
             console.error(error);
+        }
+    };
+
+    const fetchData = async (method, url, requestData = null, headers = {}) => {
+        try {
+            const options = {
+                method: method,
+                headers: {
+                    ...headers,
+                    'Content-Type': 'application/json'
+                }
+            };
+
+            if (requestData) {
+                options.body = JSON.stringify(requestData);
+            }
+
+            const response = await fetch(url, options);
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.message || 'Error fetching data');
+            }
+
+            return data;
+        } catch (error) {
+            throw new Error(error.message || 'Error fetching data');
         }
     };
     return (
