@@ -22,7 +22,7 @@ const CRUDUsers = () => {
     const fetchUsers = async () => {
         try {
             const headers = {
-                'Authorization': `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJ1c2VybmFtZSI6ImFtaW5hIiwiaWF0IjoxNzExOTM0NDcwLCJleHAiOjE3MTE5MzYyNzB9.xx2wj0WaeTGd4Su7XtfR2bUBIrOzWHyMCJp433Ea1xw`
+                'Authorization': `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJ1c2VybmFtZSI6ImFtaW5hIiwiaWF0IjoxNzEyMDAwMDgwLCJleHAiOjE3MTIwMDE4ODB9.OFuUtQUs-Mqtf_qNorkw-0_Ct6fD6h9HJdyBM7PXCUU`
             };
             const data = await fetchData('GET', 'http://localhost:3000/admin/users', null, headers);
             setUsers(data);
@@ -37,17 +37,23 @@ const CRUDUsers = () => {
         const phoneNumber = document.getElementById('phoneCreate').value;
         const role = 'user';
         try {
-            const requestData = { username, password, phoneNumber, role };
-            const headers = {
-                'Authorization': `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJ1c2VybmFtZSI6ImFtaW5hIiwiaWF0IjoxNzExOTM0NDcwLCJleHAiOjE3MTE5MzYyNzB9.xx2wj0WaeTGd4Su7XtfR2bUBIrOzWHyMCJp433Ea1xw`
-            };
-            await fetchData('POST', 'http://localhost:3000/admin/users', requestData, headers);
-            setInfoMessage('User created')
-            document.getElementById('usernameCreate').value = ''
-            document.getElementById('passwordCreate').value = ''
-            document.getElementById('phoneCreate').value = ''
-            setErrorMessage('')
-            fetchUsers();
+            if (username == '' || password == '' || phoneNumber == '') {
+                setErrorMessage('All fields must be filled!')
+                setInfoMessage('')
+            }
+            else {
+                const requestData = { username, password, phoneNumber, role };
+                const headers = {
+                    'Authorization': `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJ1c2VybmFtZSI6ImFtaW5hIiwiaWF0IjoxNzEyMDAwMDgwLCJleHAiOjE3MTIwMDE4ODB9.OFuUtQUs-Mqtf_qNorkw-0_Ct6fD6h9HJdyBM7PXCUU`
+                };
+                await fetchData('POST', 'http://localhost:3000/admin/users', requestData, headers);
+                setInfoMessage('User created')
+                document.getElementById('usernameCreate').value = ''
+                document.getElementById('passwordCreate').value = ''
+                document.getElementById('phoneCreate').value = ''
+                setErrorMessage('')
+                fetchUsers();
+            }
         } catch (error) {
             setErrorMessage(error.message)
         }
@@ -62,7 +68,7 @@ const CRUDUsers = () => {
     const deleteUser = async (id) => {
         try {
             const headers = {
-                'Authorization': `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJ1c2VybmFtZSI6ImFtaW5hIiwiaWF0IjoxNzExOTM0NDcwLCJleHAiOjE3MTE5MzYyNzB9.xx2wj0WaeTGd4Su7XtfR2bUBIrOzWHyMCJp433Ea1xw`
+                'Authorization': `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJ1c2VybmFtZSI6ImFtaW5hIiwiaWF0IjoxNzEyMDAwMDgwLCJleHAiOjE3MTIwMDE4ODB9.OFuUtQUs-Mqtf_qNorkw-0_Ct6fD6h9HJdyBM7PXCUU`
             };
             await fetchData('DELETE', `http://localhost:3000/admin/users/${id}`, null, headers);
             setErrorMessage('')
@@ -106,7 +112,7 @@ const CRUDUsers = () => {
 
                 const requestData = { username, password, phoneNumber, role };
                 const headers = {
-                    'Authorization': `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJ1c2VybmFtZSI6ImFtaW5hIiwiaWF0IjoxNzExOTM0NDcwLCJleHAiOjE3MTE5MzYyNzB9.xx2wj0WaeTGd4Su7XtfR2bUBIrOzWHyMCJp433Ea1xw`,
+                    'Authorization': `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJ1c2VybmFtZSI6ImFtaW5hIiwiaWF0IjoxNzEyMDAwMDgwLCJleHAiOjE3MTIwMDE4ODB9.OFuUtQUs-Mqtf_qNorkw-0_Ct6fD6h9HJdyBM7PXCUU`,
                 };
 
                 await fetchData('PUT', `http://localhost:3000/admin/users/${id}`, requestData, headers);
