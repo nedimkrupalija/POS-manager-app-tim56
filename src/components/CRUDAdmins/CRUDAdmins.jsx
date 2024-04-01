@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './CRUDAdmins.css';
 import edit_icon from '../../assets/edit.png';
 import delete_icon from '../../assets/delete.png';
@@ -12,20 +12,19 @@ const CRUDAdmins = () => {
 
   const [admins, setAdmins] = useState([]);
 
+  useEffect(() => {
+    fetchAdmins();
+}, []);
+
   const fetchAdmins = async () => {
     try {
-      const response = await fetch('http://localhost:3000/admin/administators', {
-        headers: {
-          Authorization: `${token}`,
-        },
-      });
-      if (!response.ok) {
-        throw new Error('Error fetching admins');
-      }
-      const data = await response.json();
-      setAdmins(data)
+        const headers = {
+            'Authorization': `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJ1c2VybmFtZSI6ImFtaW5hIiwiaWF0IjoxNzExOTI5MDQ4LCJleHAiOjE3MTE5MzA4NDh9.AG6q-SVM0Eb3UpqDEPf4lbyRErpZNTdcOzw0ZJ-9HkI`
+        };
+        const data = await fetchData('GET', 'http://localhost:3000/admin/administators', null, headers);
+        setAdmins(data);
     } catch (error) {
-      console.error(error);
+        console.error(error);
     }
   };
 
@@ -36,19 +35,11 @@ const CRUDAdmins = () => {
     const role = 'admin';
 
     try {
-        const response = await fetch('http://localhost:3000/admin/administators', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJ1c2VybmFtZSI6ImFtaW5hIiwiaWF0IjoxNzExOTI1Mjc5LCJleHAiOjE3MTE5MjcwNzl9.Pd6la-fXxv8fIhrWZPfLsXV0aj-tGLay-Xe6YJZbg38`
-            },
-            body: JSON.stringify({ username, password, phoneNumber, role })
-        });
-        if (!response.ok) {
-            throw new Error('Error creating admin');
-        }
-        const responseData = await response.json();
-        console.log(responseData);
+        const requestData = { username, password, phoneNumber, role };
+        const headers = {
+            'Authorization': `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJ1c2VybmFtZSI6ImFtaW5hIiwiaWF0IjoxNzExOTI5MDQ4LCJleHAiOjE3MTE5MzA4NDh9.AG6q-SVM0Eb3UpqDEPf4lbyRErpZNTdcOzw0ZJ-9HkI`
+        };
+        await fetchData('POST', 'http://localhost:3000/admin/administators', requestData, headers);
         fetchAdmins(); 
     } catch (error) {
         console.error(error);
@@ -57,25 +48,45 @@ const CRUDAdmins = () => {
 
 const confirmDelete = async (id) => {
     if (window.confirm("Are you sure you want to delete this admin?")) {
-        deleteAdmin(id);
+        await deleteAdmin(id);
     }
 };
-
 const deleteAdmin = async (id) => {
     try {
-        const response = await fetch(`http://localhost:3000/admin/administators/${id}`, {
-            method: 'DELETE',
-            headers: {
-                'Authorization': `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJ1c2VybmFtZSI6ImFtaW5hIiwiaWF0IjoxNzExOTI3NDYwLCJleHAiOjE3MTE5MjkyNjB9.McYXhEor-Q2IrLru46EM0VigyVyHzowDjRdQy1Oq6ic`
-            }
-        });
-        if (!response.ok) {
-            throw new Error('Error deleting admin');
-        }
-        console.log('Admin deleted successfully');
+        const headers = {
+            'Authorization': `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJ1c2VybmFtZSI6ImFtaW5hIiwiaWF0IjoxNzExOTI5MDQ4LCJleHAiOjE3MTE5MzA4NDh9.AG6q-SVM0Eb3UpqDEPf4lbyRErpZNTdcOzw0ZJ-9HkI`
+        };
+        await fetchData('DELETE', `http://localhost:3000/admin/administators/${id}`, null, headers);
         fetchAdmins();
     } catch (error) {
         console.error(error);
+    }
+};
+
+const fetchData = async (method, url, requestData = null, headers = {}) => {
+    try {
+        const options = {
+            method: method,
+            headers: {
+                ...headers,
+                'Content-Type': 'application/json'
+            }
+        };
+
+        if (requestData) {
+            options.body = JSON.stringify(requestData);
+        }
+
+        const response = await fetch(url, options);
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.message || 'Error fetching data');
+        }
+
+        return data;
+    } catch (error) {
+        throw new Error(error.message || 'Error fetching data');
     }
 };
 
@@ -133,7 +144,7 @@ const deleteAdmin = async (id) => {
                                 <td>
                                     <div className='actions-containter'>
                                         <img src={edit_icon} alt="Edit" className='edit-icon' />
-                                        <img onClick={() => confirmDelete(user.id)} src={delete_icon} alt="Delete" className='delete-icon' />
+                                        <img onClick={() => confirmDelete(admin.id)} src={delete_icon} alt="Delete" className='delete-icon' />
                                     </div>
                                 </td>
                             </tr>
