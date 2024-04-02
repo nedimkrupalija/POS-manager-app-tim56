@@ -22,7 +22,7 @@ const CRUDUsers = () => {
     const fetchUsers = async () => {
         try {
             const headers = {
-                'Authorization': `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJ1c2VybmFtZSI6ImFtaW5hIiwiaWF0IjoxNzEyMDAwMDgwLCJleHAiOjE3MTIwMDE4ODB9.OFuUtQUs-Mqtf_qNorkw-0_Ct6fD6h9HJdyBM7PXCUU`
+                'Authorization': `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJ1c2VybmFtZSI6ImFtaW5hIiwiaWF0IjoxNzEyMDkzNzQ5LCJleHAiOjE3MTIwOTU1NDl9.1aMHFKy0YCKiMK3JF-pGLmND5Qp9BhbpmXLf4iOOD1E`
             };
             const data = await fetchData('GET', 'http://localhost:3000/admin/users', null, headers);
             setUsers(data);
@@ -30,25 +30,30 @@ const CRUDUsers = () => {
             setErrorMessage(error.message)
         }
     };
+    const isDataValid = (username, password, phoneNumber) => {
+        if (username == '' || password == '' || phoneNumber == '') {
+            setErrorMessage('All fields must be filled!')
+            setInfoMessage('')
+            return false;
+        }
+        if (isNaN(phoneNumber)) {
+            setErrorMessage('Phone number must be a number!');
+            setInfoMessage('');
+            return false;
+        }
+        return true;
 
+    }
     const createUser = async () => {
         const username = document.getElementById('usernameCreate').value;
         const password = document.getElementById('passwordCreate').value;
         const phoneNumber = document.getElementById('phoneCreate').value;
         const role = 'user';
         try {
-            if (username == '' || password == '' || phoneNumber == '') {
-                setErrorMessage('All fields must be filled!')
-                setInfoMessage('')
-            }
-            else if (isNaN(phoneNumber)) {
-                setErrorMessage('Phone number must be a number!');
-                setInfoMessage('');
-            }
-            else {
+            if (isDataValid(username, password, phoneNumber)) {
                 const requestData = { username, password, phoneNumber, role };
                 const headers = {
-                    'Authorization': `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJ1c2VybmFtZSI6ImFtaW5hIiwiaWF0IjoxNzEyMDAwMDgwLCJleHAiOjE3MTIwMDE4ODB9.OFuUtQUs-Mqtf_qNorkw-0_Ct6fD6h9HJdyBM7PXCUU`
+                    'Authorization': `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJ1c2VybmFtZSI6ImFtaW5hIiwiaWF0IjoxNzEyMDkzNzQ5LCJleHAiOjE3MTIwOTU1NDl9.1aMHFKy0YCKiMK3JF-pGLmND5Qp9BhbpmXLf4iOOD1E`
                 };
                 await fetchData('POST', 'http://localhost:3000/admin/users', requestData, headers);
                 setInfoMessage('User created')
@@ -72,7 +77,7 @@ const CRUDUsers = () => {
     const deleteUser = async (id) => {
         try {
             const headers = {
-                'Authorization': `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJ1c2VybmFtZSI6ImFtaW5hIiwiaWF0IjoxNzEyMDAwMDgwLCJleHAiOjE3MTIwMDE4ODB9.OFuUtQUs-Mqtf_qNorkw-0_Ct6fD6h9HJdyBM7PXCUU`
+                'Authorization': `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJ1c2VybmFtZSI6ImFtaW5hIiwiaWF0IjoxNzEyMDkzNzQ5LCJleHAiOjE3MTIwOTU1NDl9.1aMHFKy0YCKiMK3JF-pGLmND5Qp9BhbpmXLf4iOOD1E`
             };
             await fetchData('DELETE', `http://localhost:3000/admin/users/${id}`, null, headers);
             setErrorMessage('')
@@ -113,16 +118,17 @@ const CRUDUsers = () => {
                 const password = document.getElementById('passwordEdit').value;
                 const phoneNumber = document.getElementById('phoneEdit').value;
                 const role = document.getElementById('roleEdit').value;
+                if (isDataValid(username, password, phoneNumber)) {
+                    const requestData = { username, password, phoneNumber, role };
+                    const headers = {
+                        'Authorization': `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJ1c2VybmFtZSI6ImFtaW5hIiwiaWF0IjoxNzEyMDkzNzQ5LCJleHAiOjE3MTIwOTU1NDl9.1aMHFKy0YCKiMK3JF-pGLmND5Qp9BhbpmXLf4iOOD1E`,
+                    };
 
-                const requestData = { username, password, phoneNumber, role };
-                const headers = {
-                    'Authorization': `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJ1c2VybmFtZSI6ImFtaW5hIiwiaWF0IjoxNzEyMDAwMDgwLCJleHAiOjE3MTIwMDE4ODB9.OFuUtQUs-Mqtf_qNorkw-0_Ct6fD6h9HJdyBM7PXCUU`,
-                };
-
-                await fetchData('PUT', `http://localhost:3000/admin/users/${id}`, requestData, headers);
-                setErrorMessage('')
-                fetchUsers();
-                setEditingUser(null);
+                    await fetchData('PUT', `http://localhost:3000/admin/users/${id}`, requestData, headers);
+                    setErrorMessage('')
+                    fetchUsers();
+                    setEditingUser(null);
+                }
             }
         } catch (error) {
             setErrorMessage(error.message)
@@ -170,7 +176,7 @@ const CRUDUsers = () => {
                                             </td>
                                             <td className="editable-cell">
                                                 {editingUser === user ? (
-                                                    <input id="phoneEdit" type="text" defaultValue={user.phoneNumber} className="editable-input" />
+                                                    <input id="phoneEdit" type="number" defaultValue={user.phoneNumber} className="editable-input" />
                                                 ) : (
                                                     user.phoneNumber
                                                 )}
@@ -201,7 +207,7 @@ const CRUDUsers = () => {
                                                     }
                                                     {
                                                         editingUser === user
-                                                            ? <img onClick={() => setEditingUser(null)} src={close_icon} alt="Close" className='close-icon' />
+                                                            ? <img onClick={() => { setEditingUser(null); setErrorMessage(''); }} src={close_icon} alt="Close" className='close-icon' />
                                                             : <img onClick={() => confirmDelete(user.id)} src={delete_icon} alt="Delete" className='delete-icon' />
                                                     }
                                                 </div>
@@ -229,13 +235,13 @@ const CRUDUsers = () => {
                 )}
                 <div className='createFields'>
                     <label htmlFor="username" className='fields'>Username:</label>
-                    <input type="text" id="usernameCreate" className="username-input" placeholder="Username" onChange={() => {setInfoMessage('')}}/>
+                    <input type="text" id="usernameCreate" className="username-input" placeholder="Username" onChange={() => { setInfoMessage('') }} />
                     <br />
                     <label htmlFor="password" className='fields'>Password:</label>
-                    <input type="password" id="passwordCreate" className="password-input" placeholder="Password" onChange={() => {setInfoMessage('')}}/>
+                    <input type="password" id="passwordCreate" className="password-input" placeholder="Password" onChange={() => { setInfoMessage('') }} />
                     <br />
                     <label htmlFor="phone" className='fields'>Phone Number:</label>
-                    <input type="number" id="phoneCreate" className="phone-input" placeholder="Phone Number" onChange={() => {setInfoMessage('')}}/>
+                    <input type="number" id="phoneCreate" className="phone-input" placeholder="Phone Number" onChange={() => { setInfoMessage('') }} />
                 </div>
                 <button className='button2' onClick={createUser}>CREATE</button>
             </div>
