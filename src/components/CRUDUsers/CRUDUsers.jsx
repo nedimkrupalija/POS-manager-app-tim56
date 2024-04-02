@@ -22,7 +22,7 @@ const CRUDUsers = () => {
     const fetchUsers = async () => {
         try {
             const headers = {
-                'Authorization': `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJ1c2VybmFtZSI6ImFtaW5hIiwiaWF0IjoxNzEyMDAwMDgwLCJleHAiOjE3MTIwMDE4ODB9.OFuUtQUs-Mqtf_qNorkw-0_Ct6fD6h9HJdyBM7PXCUU`
+                'Authorization': `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJ1c2VybmFtZSI6InRhanJhIiwiaWF0IjoxNzEyMDkwMjAzLCJleHAiOjE3MTIwOTIwMDN9.kaenvAGw_ky6oybWRInMQ-7odLfqYSv81lv0fXxBX8c`
             };
             const data = await fetchData('GET', 'http://localhost:3000/admin/users', null, headers);
             setUsers(data);
@@ -48,7 +48,7 @@ const CRUDUsers = () => {
             else {
                 const requestData = { username, password, phoneNumber, role };
                 const headers = {
-                    'Authorization': `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJ1c2VybmFtZSI6ImFtaW5hIiwiaWF0IjoxNzEyMDAwMDgwLCJleHAiOjE3MTIwMDE4ODB9.OFuUtQUs-Mqtf_qNorkw-0_Ct6fD6h9HJdyBM7PXCUU`
+                    'Authorization': `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJ1c2VybmFtZSI6InRhanJhIiwiaWF0IjoxNzEyMDkwMjAzLCJleHAiOjE3MTIwOTIwMDN9.kaenvAGw_ky6oybWRInMQ-7odLfqYSv81lv0fXxBX8c`
                 };
                 await fetchData('POST', 'http://localhost:3000/admin/users', requestData, headers);
                 setInfoMessage('User created')
@@ -72,7 +72,7 @@ const CRUDUsers = () => {
     const deleteUser = async (id) => {
         try {
             const headers = {
-                'Authorization': `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJ1c2VybmFtZSI6ImFtaW5hIiwiaWF0IjoxNzEyMDAwMDgwLCJleHAiOjE3MTIwMDE4ODB9.OFuUtQUs-Mqtf_qNorkw-0_Ct6fD6h9HJdyBM7PXCUU`
+                'Authorization': `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJ1c2VybmFtZSI6InRhanJhIiwiaWF0IjoxNzEyMDkwMjAzLCJleHAiOjE3MTIwOTIwMDN9.kaenvAGw_ky6oybWRInMQ-7odLfqYSv81lv0fXxBX8c`
             };
             await fetchData('DELETE', `http://localhost:3000/admin/users/${id}`, null, headers);
             setErrorMessage('')
@@ -116,7 +116,7 @@ const CRUDUsers = () => {
 
                 const requestData = { username, password, phoneNumber, role };
                 const headers = {
-                    'Authorization': `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJ1c2VybmFtZSI6ImFtaW5hIiwiaWF0IjoxNzEyMDAwMDgwLCJleHAiOjE3MTIwMDE4ODB9.OFuUtQUs-Mqtf_qNorkw-0_Ct6fD6h9HJdyBM7PXCUU`,
+                    'Authorization': `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJ1c2VybmFtZSI6InRhanJhIiwiaWF0IjoxNzEyMDkwMjAzLCJleHAiOjE3MTIwOTIwMDN9.kaenvAGw_ky6oybWRInMQ-7odLfqYSv81lv0fXxBX8c`,
                 };
 
                 await fetchData('PUT', `http://localhost:3000/admin/users/${id}`, requestData, headers);
@@ -232,10 +232,10 @@ const CRUDUsers = () => {
                     <input type="text" id="usernameCreate" className="username-input" placeholder="Username" onChange={() => {setInfoMessage('')}}/>
                     <br />
                     <label htmlFor="password" className='fields'>Password:</label>
-                    <input type="text" id="passwordCreate" className="password-input" placeholder="Password" onChange={() => {setInfoMessage('')}}/>
+                    <input type="password" id="passwordCreate" className="password-input" placeholder="Password" onChange={() => {setInfoMessage('')}}/>
                     <br />
                     <label htmlFor="phone" className='fields'>Phone Number:</label>
-                    <input type="text" id="phoneCreate" className="phone-input" placeholder="Phone Number" onChange={() => {setInfoMessage('')}}/>
+                    <input type="number" id="phoneCreate" className="phone-input" placeholder="Phone Number" onChange={() => {setInfoMessage('')}}/>
                 </div>
                 <button className='button2' onClick={createUser}>CREATE</button>
             </div>
