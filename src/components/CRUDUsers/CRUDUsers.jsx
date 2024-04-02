@@ -22,7 +22,7 @@ const CRUDUsers = () => {
     const fetchUsers = async () => {
         try {
             const headers = {
-                'Authorization': `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJ1c2VybmFtZSI6ImFtaW5hIiwiaWF0IjoxNzEyMDYwMzY4LCJleHAiOjE3MTIwNjIxNjh9.ptdw4-09lA2efw7ngZEeQZKpD1bkJDzvV9zb3EzSyMM`
+                'Authorization': `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJ1c2VybmFtZSI6ImFtaW5hIiwiaWF0IjoxNzEyMDYyOTQwLCJleHAiOjE3MTIwNjQ3NDB9.oJwnctYtGZQr4l1FEqlV1e5Gmi6vR0kz33vZPVIGKXM`
             };
             const data = await fetchData('GET', 'http://localhost:3000/admin/users', null, headers);
             setUsers(data);
@@ -53,7 +53,7 @@ const CRUDUsers = () => {
             if (isDataValid(username, password, phoneNumber)) {
                 const requestData = { username, password, phoneNumber, role };
                 const headers = {
-                    'Authorization': `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJ1c2VybmFtZSI6ImFtaW5hIiwiaWF0IjoxNzEyMDYwMzY4LCJleHAiOjE3MTIwNjIxNjh9.ptdw4-09lA2efw7ngZEeQZKpD1bkJDzvV9zb3EzSyMM`
+                    'Authorization': `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJ1c2VybmFtZSI6ImFtaW5hIiwiaWF0IjoxNzEyMDYyOTQwLCJleHAiOjE3MTIwNjQ3NDB9.oJwnctYtGZQr4l1FEqlV1e5Gmi6vR0kz33vZPVIGKXM`
                 };
                 await fetchData('POST', 'http://localhost:3000/admin/users', requestData, headers);
                 setInfoMessage('User created')
@@ -77,7 +77,7 @@ const CRUDUsers = () => {
     const deleteUser = async (id) => {
         try {
             const headers = {
-                'Authorization': `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJ1c2VybmFtZSI6ImFtaW5hIiwiaWF0IjoxNzEyMDYwMzY4LCJleHAiOjE3MTIwNjIxNjh9.ptdw4-09lA2efw7ngZEeQZKpD1bkJDzvV9zb3EzSyMM`
+                'Authorization': `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJ1c2VybmFtZSI6ImFtaW5hIiwiaWF0IjoxNzEyMDYyOTQwLCJleHAiOjE3MTIwNjQ3NDB9.oJwnctYtGZQr4l1FEqlV1e5Gmi6vR0kz33vZPVIGKXM`
             };
             await fetchData('DELETE', `http://localhost:3000/admin/users/${id}`, null, headers);
             setErrorMessage('')
@@ -121,7 +121,7 @@ const CRUDUsers = () => {
                 if (isDataValid(username, password, phoneNumber)) {
                     const requestData = { username, password, phoneNumber, role };
                     const headers = {
-                        'Authorization': `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJ1c2VybmFtZSI6ImFtaW5hIiwiaWF0IjoxNzEyMDYwMzY4LCJleHAiOjE3MTIwNjIxNjh9.ptdw4-09lA2efw7ngZEeQZKpD1bkJDzvV9zb3EzSyMM`,
+                        'Authorization': `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJ1c2VybmFtZSI6ImFtaW5hIiwiaWF0IjoxNzEyMDYyOTQwLCJleHAiOjE3MTIwNjQ3NDB9.oJwnctYtGZQr4l1FEqlV1e5Gmi6vR0kz33vZPVIGKXM`,
                     };
 
                     await fetchData('PUT', `http://localhost:3000/admin/users/${id}`, requestData, headers);
