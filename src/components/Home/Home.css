@@ -1,7 +1,11 @@
 body {
   background-color: white;
-  overflow-y: hidden;
-
+  display: flex;
+    justify-content: center; 
+    align-items: center; 
+    height: 100vh; 
+    margin: 0; 
+    width: 100%;
 }
 
 .icon {
@@ -33,4 +37,10 @@ body {
     'sidebar main main main'
     'sidebar main main main';
   height: 105vh;
+}
+
+.content{
+  width: max-content;
+  margin-bottom: 70px;
+  margin-left: 35%;
 }

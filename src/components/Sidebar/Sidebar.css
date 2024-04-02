@@ -43,6 +43,7 @@
 
 .sidebar-list-item:hover {
   cursor: pointer;
+  background-color: #62b5dc;
   
 }
 
@@ -52,7 +53,7 @@
   color: #62b5dc;
 }
 .sidebar-list-item:hover > a {
-  color: #1b4f6f; 
+  color: #458cb2; 
 }
 .sidebar-responsive {
   display: inline !important;

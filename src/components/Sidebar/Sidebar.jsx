@@ -51,7 +51,7 @@ return false;
                 )
             }
             <li className='sidebar-list-item'>
-                <a href="">
+                <a href="./orders">
                     <BsListCheck className='icon'/> Orders
                 </a>
             </li>
