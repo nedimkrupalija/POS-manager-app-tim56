@@ -177,7 +177,7 @@ const CRUDUsers = () => {
                                             </td>
                                             <td className="editable-cell">
                                                 {editingUser === user ? (
-                                                    <input id="passwordEdit" type="text" defaultValue={user.password} className="editable-input" />
+                                                    <input id="passwordEdit" type="password" defaultValue={user.password} className="editable-input" />
                                                 ) : (
                                                     user.password
                                                 )}
@@ -232,10 +232,10 @@ const CRUDUsers = () => {
                     <input type="text" id="usernameCreate" className="username-input" placeholder="Username" onChange={() => {setInfoMessage('')}}/>
                     <br />
                     <label htmlFor="password" className='fields'>Password:</label>
-                    <input type="text" id="passwordCreate" className="password-input" placeholder="Password" onChange={() => {setInfoMessage('')}}/>
+                    <input type="password" id="passwordCreate" className="password-input" placeholder="Password" onChange={() => {setInfoMessage('')}}/>
                     <br />
                     <label htmlFor="phone" className='fields'>Phone Number:</label>
-                    <input type="text" id="phoneCreate" className="phone-input" placeholder="Phone Number" onChange={() => {setInfoMessage('')}}/>
+                    <input type="number" id="phoneCreate" className="phone-input" placeholder="Phone Number" onChange={() => {setInfoMessage('')}}/>
                 </div>
                 <button className='button2' onClick={createUser}>CREATE</button>
             </div>
