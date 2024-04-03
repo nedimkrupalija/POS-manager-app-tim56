@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './CRUDItems.css';
+import Cookies from 'js-cookie';
 import edit_icon from '../../assets/edit.png'
 import delete_icon from '../../assets/delete.png'
 import confirm_icon from '../../assets/confirm.png'
@@ -20,14 +21,13 @@ const CRUDItems = () => {
     const [modalVisible, setModalVisible] = useState(false);
 
     useEffect(() => {
-        console.log("Effecttt")
         fetchItems();
     }, []);
 
     const fetchItems = async () => {
         try {
             const headers = {
-                'Authorization': `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJ1c2VybmFtZSI6ImFtaW5hIiwiaWF0IjoxNzEyMDAwMDgwLCJleHAiOjE3MTIwMDE4ODB9.OFuUtQUs-Mqtf_qNorkw-0_Ct6fD6h9HJdyBM7PXCUU`
+                'Authorization': `${Cookies.get('jwt')}`
             };
             const data = await fetchData('GET', 'http://localhost:3000/item', null, headers);
             setItems(data);
@@ -38,7 +38,7 @@ const CRUDItems = () => {
     const fetchLocations = async () => {
         try {
             const headers = {
-                'Authorization': `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJ1c2VybmFtZSI6ImFtaW5hIiwiaWF0IjoxNzEyMDAwMDgwLCJleHAiOjE3MTIwMDE4ODB9.OFuUtQUs-Mqtf_qNorkw-0_Ct6fD6h9HJdyBM7PXCUU`
+                'Authorization': `${Cookies.get('jwt')}`
             };
             const data = await fetchData('GET', 'http://localhost:3000/location', null, headers);
             setLocations(data);
@@ -68,7 +68,7 @@ const CRUDItems = () => {
             if (isDataValid(name, barCode, measurmentUnit, purchasePrice, sellingPrice)) {
                 const requestData = { name, barCode, measurmentUnit, purchasePrice, sellingPrice, LocationId };
                 const headers = {
-                    'Authorization': `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJ1c2VybmFtZSI6ImFtaW5hIiwiaWF0IjoxNzEyMDAwMDgwLCJleHAiOjE3MTIwMDE4ODB9.OFuUtQUs-Mqtf_qNorkw-0_Ct6fD6h9HJdyBM7PXCUU`
+                    'Authorization': `${Cookies.get('jwt')}`
                 };
                 await fetchData('POST', 'http://localhost:3000/item', requestData, headers);
                 setInfoMessage('Item created')
@@ -95,7 +95,7 @@ const CRUDItems = () => {
     const deleteItem = async (id) => {
         try {
             const headers = {
-                'Authorization': `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJ1c2VybmFtZSI6ImFtaW5hIiwiaWF0IjoxNzEyMDAwMDgwLCJleHAiOjE3MTIwMDE4ODB9.OFuUtQUs-Mqtf_qNorkw-0_Ct6fD6h9HJdyBM7PXCUU`
+                'Authorization': `${Cookies.get('jwt')}`
             };
             await fetchData('DELETE', `http://localhost:3000/item/${id}`, null, headers);
             setErrorMessage('')
@@ -142,7 +142,7 @@ const CRUDItems = () => {
                 if (isDataValid(name, barCode, measurmentUnit, purchasePrice, sellingPrice)) {
                     const requestData = { name, barCode, measurmentUnit, purchasePrice, sellingPrice, LocationId };
                     const headers = {
-                        'Authorization': `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJ1c2VybmFtZSI6ImFtaW5hIiwiaWF0IjoxNzEyMDAwMDgwLCJleHAiOjE3MTIwMDE4ODB9.OFuUtQUs-Mqtf_qNorkw-0_Ct6fD6h9HJdyBM7PXCUU`,
+                        'Authorization': `${Cookies.get('jwt')}`,
                     };
 
                     await fetchData('PUT', `http://localhost:3000/item/${id}`, requestData, headers);
@@ -167,7 +167,7 @@ const CRUDItems = () => {
                 {tableVisible && (
                     <>
                         {errorMessage && (
-                            <div className="error-message">
+                            <div className="error-message-items">
                                 <img src={error_icon} alt='error' className='error-icon' />
                                 <span>{errorMessage}</span>
                             </div>
@@ -269,13 +269,13 @@ const CRUDItems = () => {
 
             {!tableVisible && <div className='create'>
                 {infoMessage && (
-                    <div className="info-message">
+                    <div className="info-message-items">
                         <img src={info_icon} alt='info' className='info-icon' />
                         <span>{infoMessage}</span>
                     </div>
                 )}
                 {errorMessage && (
-                    <div className="error-message">
+                    <div className="error-message-items">
                         <img src={error_icon} alt='error' className='error-icon' />
                         <span>{errorMessage}</span>
                     </div>
