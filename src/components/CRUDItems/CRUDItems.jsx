@@ -180,8 +180,8 @@ const CRUDItems = () => {
                                         <th>Name</th>
                                         <th>BAR-code</th>
                                         <th>Measurement</th>
-                                        <th>Purchase Price</th>
-                                        <th>Selling Price</th>
+                                        <th>Purchase Price ($)</th>
+                                        <th>Selling Price ($)</th>
                                         <th>Location ID</th>
                                         <th>Actions</th>
                                     </tr>
@@ -290,11 +290,11 @@ const CRUDItems = () => {
                     <label htmlFor="measurmentUnit" className='fields'>Measurement:</label>
                     <input type="text" id="measurmentUnitCreate" className="measurment-unit-input" placeholder="Measurement" onChange={() => { setInfoMessage('') }} />
                     <br />
-                    <label htmlFor="purchasePrice" className='fields'>Purchase Price:</label>
-                    <input type="number" min="0" id="purchasePriceCreate" className="purchase-price-input" placeholder="Purchase Price" onChange={() => { setInfoMessage('') }} />
+                    <label htmlFor="purchasePrice" className='fields'>Purchase Price ($):</label>
+                    <input type="number" min="0" id="purchasePriceCreate" className="purchase-price-input" placeholder="Purchase Price ($)" onChange={() => { setInfoMessage('') }} />
                     <br />
-                    <label htmlFor="sellingPrice" className='fields'>Selling Price:</label>
-                    <input type="number" min="0" id="sellingPriceCreate" className="selling-price-input" placeholder="Selling Price" onChange={() => { setInfoMessage('') }} />
+                    <label htmlFor="sellingPrice" className='fields'>Selling Price ($):</label>
+                    <input type="number" min="0" id="sellingPriceCreate" className="selling-price-input" placeholder="Selling Price ($)" onChange={() => { setInfoMessage('') }} />
                     <br />
                     <label htmlFor="locationId" className='fields'>Location ID:</label> {/*probaaaaa*/}
                     <input type="text" readOnly id="locationCreate" className="location-id-input" placeholder="Location ID" value={locationId} onChange={(e) => setLocationId(e.target.value)} />
