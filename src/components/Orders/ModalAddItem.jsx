@@ -2,12 +2,31 @@ import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
 import './Orders.css';
 
-const ModalAddItem = ({ isOpen, onRequestClose, addItemToOrder }) => {
+const ModalAddItem = ({ isOpen, onRequestClose, setOrderItems,order }) => {
     const [searchText, setSearchText] = useState('');
     const [searchResults, setSearchResults] = useState([]);
     const [selectedItems, setSelectedItems] = useState([]);
     const [items, setItems] = useState([]);
+    const handleQuantityChange = (id, q) => {
+        const updatedItems = items.map(item => {
+            if (item.id === id) {
+                return { ...item, quantity: q };
+            }
+            return item;
+        });
+        if(selectedItems){
+            const update = selectedItems.map(item => {
+                if (item.id === id) {
+                    return { ...item, quantity: q };
+                }
+                return item;
+            });
+            setSelectedItems(update);
+        }
+        setItems(updatedItems);
 
+    };
+    
     const search = () => {
         const filteredResults = items.filter(item =>
             item.name.toLowerCase().includes(searchText.toLowerCase()) ||
@@ -23,19 +42,26 @@ const ModalAddItem = ({ isOpen, onRequestClose, addItemToOrder }) => {
         onRequestClose();
     };
     const toggleItemSelection = (item) => {
-        if (selectedItems.includes(item)) {
-            setSelectedItems(selectedItems.filter(selectedItem => selectedItem !== item));
+        const selectedItemIndex = selectedItems.findIndex(selectedItem => selectedItem.id === item.id);
+        const selectedItem = items.find(i => i.id === item.id); 
+        console.log(selectedItem);
+        if (selectedItemIndex !== -1) {
+            const updatedSelectedItems = [...selectedItems];
+            updatedSelectedItems.splice(selectedItemIndex, 1); 
+            setSelectedItems(updatedSelectedItems);
         } else {
-            setSelectedItems([...selectedItems, item]);
+            setSelectedItems([...selectedItems, { ...item, quantity: selectedItem.quantity }]);
         }
     };
+    
+    
     useEffect(() => {
         fetchItems();
     }, []);
 
     const fetchItems = async () => {
         try {
-            const token ="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJ1c2VybmFtZSI6ImFtaW5hIiwiaWF0IjoxNzEyMDkyNzM1LCJleHAiOjE3MTIwOTQ1MzV9.rropnvD6dvDRQjYoNhs4wZN-nqyGO5C7m5i-uMFAfdc";
+            const token ="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJ1c2VybmFtZSI6ImFtaW5hIiwiaWF0IjoxNzEyMTEwMzM2LCJleHAiOjE3MTIxMTIxMzZ9.affdNlB_HvQIcSIl6U7mw6g-vdnjArX75XrO0JsdakM";
             const response = await fetch('http://localhost:3000/item/', {
                 method: 'GET',
                 headers: {
@@ -44,8 +70,13 @@ const ModalAddItem = ({ isOpen, onRequestClose, addItemToOrder }) => {
                 }
             });
             const data = await response.json();
-            setItems(data);
-            setSearchResults(data);
+            const filteredItems = data.filter(item => !order.items.some(orderItem => orderItem.id === item.id));
+            const updatedItems = filteredItems.map(item => ({
+                ...item,
+                quantity: 1
+            }));
+            setItems(updatedItems);
+            setSearchResults(updatedItems);
         } catch (error) {
             console.error('Error fetching items:', error);
         }
@@ -110,7 +141,8 @@ const ModalAddItem = ({ isOpen, onRequestClose, addItemToOrder }) => {
                     </table>
                 </div>
                 <button onClick={cancelSelection}>Cancel</button>
-                <button onClick={ () =>{addItemToOrder(selectedItems);
+                <button onClick={ () =>{
+                setOrderItems(prevOrderItems => [...prevOrderItems, ...selectedItems]);
                 onRequestClose();} } style={{float:'right'}}>Save</button>
 
             </div>

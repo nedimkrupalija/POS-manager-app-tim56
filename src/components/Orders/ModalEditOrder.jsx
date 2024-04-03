@@ -2,22 +2,23 @@ import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
 import './Orders.css';
 import ModalAddItem from './ModalAddItem';
+import delete_icon from '../../assets/delete.png';
 
-const ModalEditOrder = ({ isOpen, onRequestClose, order, updateOrder, handleQuantityChange }) => {
+import error_icon from '../../assets/error.png';
+import info_icon from '../../assets/info.png';
+const ModalEditOrder = ({ isOpen, onRequestClose, order, updateOrder, fetchOrders }) => {
     const [storages, setStorages] = useState([]);
-    const [selectedItems, setSelectedItems] = useState([]);
     const [isAddingItems, setIsAddingItems] = useState(false);
+    const [infoMessage, setInfoMessage] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
+    const [orderItems, setOrderItems] = useState([]);
 
-    function formatDate(inputDate) {
-        const date = new Date(inputDate);
-        const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2, '0');
-        const day = String(date.getDate()).padStart(2, '0');
-        return `${year}-${month}-${day}`;
-    }
+    const [quantityMap, setQuantityMap] = useState({});
+
+    
     const getStorages = async () => {
         try {
-            const token ="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJ1c2VybmFtZSI6ImFtaW5hIiwiaWF0IjoxNzEyMDkyNzM1LCJleHAiOjE3MTIwOTQ1MzV9.rropnvD6dvDRQjYoNhs4wZN-nqyGO5C7m5i-uMFAfdc";
+            const token ="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJ1c2VybmFtZSI6ImFtaW5hIiwiaWF0IjoxNzEyMTEwMzM2LCJleHAiOjE3MTIxMTIxMzZ9.affdNlB_HvQIcSIl6U7mw6g-vdnjArX75XrO0JsdakM";
            
             const response = await fetch(
                 'http://localhost:3000/storage/',
@@ -39,9 +40,21 @@ const ModalEditOrder = ({ isOpen, onRequestClose, order, updateOrder, handleQuan
         getStorages();
     }, []);
 
-    const addItemToOrder = (item) => {
-        setSelectedItems(prevItems => [...prevItems, item]);
+    const handleQuantityChange = (itemId, q) => {
+        setQuantityMap(prevQuantityMap => ({
+            ...prevQuantityMap,
+            [itemId]: parseFloat(q)
+        }));
+        const updatedOrderItems = orderItems.map(item => {
+            if (item.id === itemId) {
+                return { ...item, quantity: parseFloat(q) };
+            }
+            return item;
+        });
+        setOrderItems(updatedOrderItems);
     };
+    
+    
 
     const handleAddItemsClick = () => {
         setIsAddingItems(true);
@@ -49,11 +62,14 @@ const ModalEditOrder = ({ isOpen, onRequestClose, order, updateOrder, handleQuan
 
     const handleSaveChangesClick = async (order) => {
         try {
-            const token ="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJ1c2VybmFtZSI6ImFtaW5hIiwiaWF0IjoxNzEyMDkyNzM1LCJleHAiOjE3MTIwOTQ1MzV9.rropnvD6dvDRQjYoNhs4wZN-nqyGO5C7m5i-uMFAfdc";
-           console.log(order);
-           const updatedItems = order.items.map(({ id, ...rest }) => ({ ItemId: id, ...rest }));
-
-            const response = await fetch(
+            const token ="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJ1c2VybmFtZSI6ImFtaW5hIiwiaWF0IjoxNzEyMTEwMzM2LCJleHAiOjE3MTIxMTIxMzZ9.affdNlB_HvQIcSIl6U7mw6g-vdnjArX75XrO0JsdakM";
+            const updatedItems = [...order.items, ...orderItems].map(({ id,quantity, ...rest }) => ({
+                ItemId: id,
+                quantity: quantityMap.hasOwnProperty(id) ? quantityMap[id] : quantity,
+                ...rest,
+            }));
+            
+            fetch(
                 'http://localhost:3000/orders/'+order.id,
                 {
                     method: 'PUT',
@@ -63,11 +79,21 @@ const ModalEditOrder = ({ isOpen, onRequestClose, order, updateOrder, handleQuan
                     },
                     body: JSON.stringify({ items: updatedItems })
                 }
-            );
-            const data = await response.json();
-            setStorages(data); 
+            ).then(response=>{
+                if(response.status==200)
+setInfoMessage('Changes saved successfully');
+else 
+setErrorMessage('Error saving changes. Please try again later.');
+
+fetchOrders();
+            }).catch(error=>{
+                setErrorMessage('Error saving changes. Please try again later.');
+
+            });
+
         } catch (error) {
-            console.error('Error fetching storages:', error);
+            setErrorMessage('Error saving changes. Please try again later.');
+
         }    };
 
     return (
@@ -80,16 +106,19 @@ const ModalEditOrder = ({ isOpen, onRequestClose, order, updateOrder, handleQuan
             {order && !isAddingItems && (
                 <div className='edit-order'>
                     <h2>Edit Order</h2>
-                    <label htmlFor="storage">Storage:</label>
-                    <select id="storage" value={order.storage.status} onChange={(e) => updateOrder({ ...order, storage: { status: e.target.value } })}>
-                        {storages.map(storage => (
-                            <option key={storage.id} value={storage.status}>{storage.status}</option>
-                        ))}
-                    </select>
-
-                    <label htmlFor="date">Date:</label>
-                    <input type="date" id="date" value={formatDate(order.date)} onChange={(e) => updateOrder({ ...order, date: e.target.value })} />
-                    <h3>Items:</h3>
+                    {infoMessage && (
+              <div className="info-message">
+                  <img src={info_icon} alt='info' className='info-icon' />
+                  <span>{infoMessage}</span>
+              </div>
+          )}
+          {errorMessage && (
+              <div className="error-message">
+                  <img src={error_icon} alt='error' className='error-icon' />
+                  <span>{errorMessage}</span>
+              </div>
+          )}
+                     <h3>Items:</h3>
                     <div className='table'>
                         <table border={1}>
                             <thead>
@@ -114,26 +143,57 @@ const ModalEditOrder = ({ isOpen, onRequestClose, order, updateOrder, handleQuan
                                             <input 
                                                 type="number" 
                                                 defaultValue={item.quantity} 
+                                                min={0}
                                                 style={{ width: '100%', boxSizing: 'border-box' }}
-                                                onChange={(e) => handleQuantityChange(item.id, e.target.value)}
+                                                onChange={(e) => handleQuantityChange(item.id,e.target.value)}
                                             />
                                         </td>
+                                       
                                     </tr>
                                 ))}
+                                {
+                                    orderItems &&(
+                                        
+                                        <>
+                                                        {
+                                                            
+                                                        orderItems.map(item => (
+                                    <tr key={item.id}>
+                                        <td>{item.id}</td>
+                                        <td>{item.name}</td>
+                                        <td>{item.measurmentUnit}</td>
+                                        <td>{item.purchasePrice}</td>
+                                        <td>{item.sellingPrice}</td>
+                                        <td>
+                                            <input 
+                                                type="number" 
+                                                defaultValue={item.quantity} 
+                                                min={0}
+                                                style={{ width: '100%', boxSizing: 'border-box' }}
+                                                onChange={(e) => handleQuantityChange(item.id,e.target.value)}
+                                            />
+                                        </td>
+                                       
+                                    </tr>
+                                ))}
+                                        </>
+                                    )
+                                }
                             </tbody>
                         </table>
                         <button onClick={handleAddItemsClick} style={{ float: 'right' }}>Add Items</button>
                     </div>
                     <br />
                     <button onClick={() => handleSaveChangesClick(order)}>Save Changes</button>
-                    <button onClick={onRequestClose} className='cancel-button'>Cancel</button>
+                    <button onClick={()=>{setInfoMessage('');setErrorMessage('');onRequestClose();}} className='cancel-button'>Cancel</button>
                 </div>
             )}
             {isAddingItems && (
                 <ModalAddItem
-                    isOpen={true} // Otvorite modal za dodavanje stavki
-                    onRequestClose={() => setIsAddingItems(false)} // Postavite isAddingItems na false da biste zatvorili modal za dodavanje stavki
-                    addItemToOrder={addItemToOrder} // Proslijedite funkciju za dodavanje stavki u modal za dodavanje stavki
+                    isOpen={true} 
+                    onRequestClose={() => setIsAddingItems(false)} 
+                    setOrderItems={setOrderItems}
+                    order={order}
                 />
             )}
         </Modal>

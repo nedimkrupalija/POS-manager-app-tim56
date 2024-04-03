@@ -22,7 +22,7 @@ const Orders = () => {
     const [items, setItems] = useState([]);
     const [storage, setStorage] = useState([]);
     const [quantity, setQuantity] = useState([]);
-    const token ="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJ1c2VybmFtZSI6ImFtaW5hIiwiaWF0IjoxNzEyMDkyNzM1LCJleHAiOjE3MTIwOTQ1MzV9.rropnvD6dvDRQjYoNhs4wZN-nqyGO5C7m5i-uMFAfdc";
+    const token ="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJ1c2VybmFtZSI6ImFtaW5hIiwiaWF0IjoxNzEyMTEwMzM2LCJleHAiOjE3MTIxMTIxMzZ9.affdNlB_HvQIcSIl6U7mw6g-vdnjArX75XrO0JsdakM";
 
     const search = () => {
         const filteredResults = items.filter(item =>
@@ -287,6 +287,7 @@ const Orders = () => {
 
             {!tableVisible && 
 <div className='create'>
+    <label>Storage</label>
 <select id="storage" onChange={(e) => {
     const selectedStorage = storages.find(storage => storage.id === parseInt(e.target.value));
     setStorage(selectedStorage);
@@ -295,9 +296,6 @@ const Orders = () => {
         <option key={storage.id} value={storage.id}>{storage.status}</option>
     ))}
 </select>
-
-    <label htmlFor="date">Date:</label>
-    <input type="date" id="date" />
     <h3>Items:</h3>
     <div>
     <input
@@ -359,13 +357,15 @@ const Orders = () => {
                 isOpen={selectedOrder !== null}
                 onRequestClose={closeOrderDetails}
                 order={selectedOrder}
+                cancelOrder={handleDeleteOrder}
             />
             <ModalEditOrder 
                 isOpen={editingOrder !== null}
                 onRequestClose={closeEditOrderModal}
                 order={editingOrder}
                 updateOrder={updateOrder}
-                handleQuantityChange={handleQuantityChange}
+                fetchOrders={fetchOrders} 
+
             />
         </Home>
     );
