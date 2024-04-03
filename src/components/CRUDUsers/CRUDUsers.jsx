@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './CRUDUsers.css';
+import Cookies from 'js-cookie';
 import edit_icon from '../../assets/edit.png'
 import delete_icon from '../../assets/delete.png'
 import confirm_icon from '../../assets/confirm.png'
@@ -15,14 +16,13 @@ const CRUDUsers = () => {
     const [errorMessage, setErrorMessage] = useState('');
 
     useEffect(() => {
-        console.log("Effecttt")
         fetchUsers();
     }, []);
 
     const fetchUsers = async () => {
         try {
             const headers = {
-                'Authorization': `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJ1c2VybmFtZSI6ImFtaW5hIiwiaWF0IjoxNzEyMDkzNzQ5LCJleHAiOjE3MTIwOTU1NDl9.1aMHFKy0YCKiMK3JF-pGLmND5Qp9BhbpmXLf4iOOD1E`
+                'Authorization': `${Cookies.get('jwt')}`
             };
             const data = await fetchData('GET', 'http://localhost:3000/admin/users', null, headers);
             setUsers(data);
@@ -53,7 +53,7 @@ const CRUDUsers = () => {
             if (isDataValid(username, password, phoneNumber)) {
                 const requestData = { username, password, phoneNumber, role };
                 const headers = {
-                    'Authorization': `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJ1c2VybmFtZSI6ImFtaW5hIiwiaWF0IjoxNzEyMDkzNzQ5LCJleHAiOjE3MTIwOTU1NDl9.1aMHFKy0YCKiMK3JF-pGLmND5Qp9BhbpmXLf4iOOD1E`
+                    'Authorization': `${Cookies.get('jwt')}`
                 };
                 await fetchData('POST', 'http://localhost:3000/admin/users', requestData, headers);
                 setInfoMessage('User created')
@@ -77,7 +77,7 @@ const CRUDUsers = () => {
     const deleteUser = async (id) => {
         try {
             const headers = {
-                'Authorization': `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJ1c2VybmFtZSI6ImFtaW5hIiwiaWF0IjoxNzEyMDkzNzQ5LCJleHAiOjE3MTIwOTU1NDl9.1aMHFKy0YCKiMK3JF-pGLmND5Qp9BhbpmXLf4iOOD1E`
+                'Authorization': `${Cookies.get('jwt')}`
             };
             await fetchData('DELETE', `http://localhost:3000/admin/users/${id}`, null, headers);
             setErrorMessage('')
@@ -121,7 +121,7 @@ const CRUDUsers = () => {
                 if (isDataValid(username, password, phoneNumber)) {
                     const requestData = { username, password, phoneNumber, role };
                     const headers = {
-                        'Authorization': `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJ1c2VybmFtZSI6ImFtaW5hIiwiaWF0IjoxNzEyMDkzNzQ5LCJleHAiOjE3MTIwOTU1NDl9.1aMHFKy0YCKiMK3JF-pGLmND5Qp9BhbpmXLf4iOOD1E`,
+                        'Authorization': `${Cookies.get('jwt')}`,
                     };
 
                     await fetchData('PUT', `http://localhost:3000/admin/users/${id}`, requestData, headers);
@@ -146,7 +146,7 @@ const CRUDUsers = () => {
                 {tableVisible && (
                     <>
                         {errorMessage && (
-                            <div className="error-message">
+                            <div className="error-message-users">
                                 <img src={error_icon} alt='error' className='error-icon' />
                                 <span>{errorMessage}</span>
                             </div>
@@ -222,13 +222,13 @@ const CRUDUsers = () => {
 
             {!tableVisible && <div className='create'>
                 {infoMessage && (
-                    <div className="info-message">
+                    <div className="info-message-users">
                         <img src={info_icon} alt='info' className='info-icon' />
                         <span>{infoMessage}</span>
                     </div>
                 )}
                 {errorMessage && (
-                    <div className="error-message">
+                    <div className="error-message-users">
                         <img src={error_icon} alt='error' className='error-icon' />
                         <span>{errorMessage}</span>
                     </div>
