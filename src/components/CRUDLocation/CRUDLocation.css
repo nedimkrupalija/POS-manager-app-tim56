@@ -25,6 +25,7 @@ body {
 
 .table {
     margin-top: 20px;
+    margin-bottom: 20px;
     margin: 5%;
     margin-right: 10%;
 }
@@ -41,26 +42,39 @@ body {
     text-align: center;
 }
 
-.product-input,
-.service-input,
+.name-input,
 .barcode-input,
-.measurement-input,
-.purchase-input,
-.selling-input {
+.measurment-unit-input,
+.purchase-price-input,
+.selling-price-input,
+.address-input {
     padding: 1%;
     border: 1px solid #ccc;
     border-radius: 5px;
     width: 20%;
-    margin-left: 5%;
+    margin-left: 70px;
     background-color: transparent;
 }
+.address-input:focus { /* Dodali smo .address-input:focus */
+    border-color: #007bff;
+}
 
-.product-input:focus,
-.service-input:focus,
+.location-id-input {
+    padding: 1%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 5%;
+    margin-left: 5%;
+    background-color: transparent;
+    margin-right: 10px;
+}
+
+.name-input:focus,
 .barcode-input:focus,
-.measurement-input:focus,
-.purchase-input:focus,
-.selling-input:focus {
+.measurment-unit-input:focus,
+.purchase-price-input:focus,
+.selling-price-input:focus,
+.location-id-input:focus {
     border-color: #007bff;
 }
 
@@ -93,7 +107,8 @@ body {
 .edit-icon,
 .delete-icon,
 .confirm-icon,
-.close-icon {
+.close-icon,
+.choose-icon {
     width: 20px;
     height: 20px;
     margin: 0 10px 0 10px;
@@ -129,12 +144,13 @@ body {
     background: #72b5dcd3;
 }
 
-.product-input,
-.service-input,
+.name-input,
 .barcode-input,
-.measurement-input,
-.purchase-input,
-.selling-input {
+.measurment-unit-input,
+.purchase-price-input,
+.selling-price-input,
+.location-id-input,
+.address-input {
     color: #000000;
 }
 
@@ -144,6 +160,17 @@ body {
 
 .editable-input {
     width: 100%;
+    padding: 0;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    background-color: transparent;
+    color: #000000;
+    font-family: inherit;
+    font-size: inherit;
+    text-align: center;
+}
+.editable-input-loc {
+    width: 30%;
     padding: 0;
     box-sizing: border-box;
     border: 1px solid #ccc;
@@ -172,4 +199,47 @@ body {
 .error-icon {
     width: 20px;
     height: 20px;
+}
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Promena: Poravnavamo vertikalno */
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+}
+
+.modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    max-height: 600px;
+    overflow-y: auto;
+    width: 80%; /* Promena: Postavljamo širinu sadržaja modala */
+    max-width: 600px; /* Promena: Postavljamo maksimalnu širinu sadržaja modala */
+}
+
+
+.close-modal-icon {
+    position: absolute;
+    top: 20px;
+    right: 20px; /* Promena: Postavljamo dugme u gornji desni ugao sadržaja modala */
+    z-index: 99999;
+    background: none;
+    border: none;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+}
+.list {
+    overflow-y: auto;
+}
+.select-loc-title {
+    margin-left: 27px;
 }
