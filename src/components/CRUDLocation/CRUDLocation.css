@@ -23,7 +23,7 @@ body {
     border: none;
 }
 
-.table {
+.table, .table-container {
     margin-top: 20px;
     margin-bottom: 20px;
     margin: 5%;
@@ -47,7 +47,9 @@ body {
 .measurment-unit-input,
 .purchase-price-input,
 .selling-price-input,
-.address-input {
+.address-input,
+.openingTime-input,
+.status-input {
     padding: 1%;
     border: 1px solid #ccc;
     border-radius: 5px;
@@ -108,7 +110,8 @@ body {
 .delete-icon,
 .confirm-icon,
 .close-icon,
-.choose-icon {
+.choose-icon,
+.icon {
     width: 20px;
     height: 20px;
     margin: 0 10px 0 10px;
@@ -150,7 +153,9 @@ body {
 .purchase-price-input,
 .selling-price-input,
 .location-id-input,
-.address-input {
+.address-input,
+.openingTime-input,
+.status-input {
     color: #000000;
 }
 
