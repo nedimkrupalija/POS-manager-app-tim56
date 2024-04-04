@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Orders from './components/Orders/Orders.jsx';
 import Cookies from 'js-cookie';
 import {Route, BrowserRouter as Router, Routes} from "react-router-dom";
+import CRUDUsers from './components/CRUDUsers/CRUDUsers.jsx';
 import CRUDItems from './components/CRUDItems/CRUDItems.jsx';
 import Modal from 'react-modal';
 
@@ -21,6 +22,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={ isLoggedIn ? <Home /> : <Login /> }></Route>
+          <Route path="/users" element={ isLoggedIn ? <CRUDUsers /> : <Login /> }></Route>
           <Route path="/items" element={ isLoggedIn ? <CRUDItems /> : <Login /> }></Route>
         <Route path="/" element={ isLoggedIn ? <Home /> : <Login /> }></Route>
           <Route path="/orders" element={<Orders/>}/>
