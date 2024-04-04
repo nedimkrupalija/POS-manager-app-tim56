@@ -9,11 +9,12 @@ import
 
 function Sidebar({openSidebarToggle, OpenSidebar}) {
     const [role, setRole] = React.useState("");
-    /*useEffect(() => {
-        const token = Cookies.get('jwt');
-    const decodedToken = jwtDecode(toString(token));
-     setRole(decodedToke);
-  },[]);*/
+    useEffect(() => {
+        const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic3VwZXJhZG1pbiIsInVzZXJuYW1lIjoibmVkYSIsImlhdCI6MTcxMjI2NzQ0MSwiZXhwIjoxNzEyMjY5MjQxfQ.PeuDEfo2CLghG9SYGwzNXGpw4MHB8ci8Rt-4LtfN5rc";
+        const decodedToken = jwtDecode(token);
+        console.log(decodedToken);
+     setRole(decodedToken.role);
+  },[]);
   const userRole=()=>{
     if(role=="superadmin")
     return true;
@@ -31,20 +32,20 @@ return false;
         <ul className='sidebar-list'>
           
             <li className='sidebar-list-item'>
-                <a href="">
+                <a href="./items">
                     <BsFillArchiveFill className='icon'/> Products
                 </a>
             </li>
           
             <li className='sidebar-list-item'>
-                <a href="">
+                <a href="./users">
                     <BsPeopleFill className='icon'/> Users
                 </a>
             </li> 
              {
                 userRole() && (
                     <li className='sidebar-list-item'>
-                    <a href="">
+                    <a href="./administrators">
                         <BsMenuButtonWideFill className='icon'/> Administrators
                     </a>
                 </li>
@@ -56,7 +57,7 @@ return false;
                 </a>
             </li>
             <li className='sidebar-list-item'>
-                <a href="">
+                <a href="./storage">
                     <BsMenuButtonWideFill className='icon'/> Storage places, locations and POS
                 </a>
             </li>

@@ -1,16 +1,17 @@
 body {
     width: 100%;
     color: #000000;
+    margin-top: 500%;
 }
 
 .buttons1 {
-    margin: 10px;
+    margin-left: 5%;
+    margin-top: 2%;
     color: #fff;
     background: #72b5dc;
     border-radius: 50px;
     font-size: 15px;
     font-weight: 700;
-    border: none;
 }
 
 .buttons {
@@ -20,7 +21,6 @@ body {
     border-radius: 50px;
     font-size: 15px;
     font-weight: 700;
-    border: none;
 }
 
 .table {
@@ -47,22 +47,30 @@ body {
 .measurment-unit-input,
 .purchase-price-input,
 .selling-price-input {
-    padding: 1%;
+ 
+
+    width: 90%;
+    padding: 8px;
     border: 1px solid #ccc;
+    background-color: white;
     border-radius: 5px;
-    width: 20%;
-    margin-left: 70px;
-    background-color: transparent;
+    margin-bottom: 10px;
+    margin-left: 30%;
+    
+    color: black;
 }
 
+
 .location-id-input {
-    padding: 1%;
+    width: 40%;
+    padding: 8px;
     border: 1px solid #ccc;
+    background-color: white;
     border-radius: 5px;
-    width: 5%;
-    margin-left: 5%;
-    background-color: transparent;
-    margin-right: 10px;
+    margin-bottom: 10px;
+    margin-left: 30%;
+    
+    color: black;
 }
 
 .name-input:focus,
@@ -255,4 +263,15 @@ body {
 #root {
     width: 100%;
     height: 90%;
+    margin-left: 6%;
   }
+  .createFields {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-left: 0%;
+}
+.select-location-button {
+    margin-left: 80%; 
+    margin-top: -20%;
+}

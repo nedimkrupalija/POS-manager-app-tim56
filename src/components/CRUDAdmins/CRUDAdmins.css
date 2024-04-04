@@ -4,13 +4,13 @@ body {
 }
 
 .buttons1 {
-    margin: 10px;
+    margin-left: 5%;
+    margin-top: 2%;
     color: #fff;
     background: #72b5dc;
     border-radius: 50px;
     font-size: 15px;
     font-weight: 700;
-    border: none;
 }
 
 .buttons {
@@ -20,11 +20,12 @@ body {
     border-radius: 50px;
     font-size: 15px;
     font-weight: 700;
-    border: none;
 }
+
 
 .table {
     margin-top: 20px;
+    margin-bottom: 20px;
     margin: 5%;
     margin-right: 10%;
 }
@@ -41,17 +42,19 @@ body {
     text-align: center;
 }
 
+
 .username-input,
 .password-input,
 .phone-input {
-    padding: 1%;
+    width: 90%;
+    padding: 8px;
     border: 1px solid #ccc;
+    background-color: white;
     border-radius: 5px;
-    width: 20%;
-    margin-left: 5%;
-    background-color: transparent;
+    margin-bottom: 10px;
+    margin-left: 30%;
+    color: black;
 }
-
 .username-input:focus,
 .password-input:focus,
 .phone-input:focus {
@@ -94,11 +97,12 @@ body {
     cursor: pointer;
 }
 
+
 .buttons-container {
     margin-left: 60px;
 }
 
-.users-title {
+.items-title {
     margin-left: 70px;
 }
 
@@ -122,6 +126,7 @@ body {
 .button2:hover {
     background: #72b5dcd3;
 }
+
 
 .username-input,
 .password-input,
@@ -163,4 +168,21 @@ body {
 .error-icon {
     width: 20px;
     height: 20px;
+}
+.list {
+    overflow-y: auto;
+}
+.select-loc-title {
+    margin-left: 27px;
+}
+#root {
+    width: 100%;
+    height: 90%;
+  }
+  .createFields {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 20%;
+    margin-left: 0%;
 }

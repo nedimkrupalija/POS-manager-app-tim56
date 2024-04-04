@@ -8,6 +8,7 @@ import processed_icon from '../../assets/processed.jpeg';
 import error_icon from '../../assets/error.png';
 import ModalOrderDetails from './ModalOrderDetails';
 import ModalEditOrder from './ModalEditOrder';
+import Cookies from 'js-cookie';
 
 const Orders = () => {
     const [tableVisible, settableVisible] = useState(true);
@@ -22,7 +23,7 @@ const Orders = () => {
     const [items, setItems] = useState([]);
     const [storage, setStorage] = useState([]);
     const [quantity, setQuantity] = useState([]);
-    const token = Cookies.get('jwt');
+    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic3VwZXJhZG1pbiIsInVzZXJuYW1lIjoibmVkYSIsImlhdCI6MTcxMjI2NzQ0MSwiZXhwIjoxNzEyMjY5MjQxfQ.PeuDEfo2CLghG9SYGwzNXGpw4MHB8ci8Rt-4LtfN5rc";
 
     const search = () => {
         const filteredResults = items.filter(item =>
@@ -70,6 +71,7 @@ const Orders = () => {
                 }
             }).then(response => response.json()) 
             .then(data => {
+                console.log(data);
                 setOrders(data); 
             }).catch(error=>{
                 setErrorMessage(error.message);
@@ -246,7 +248,6 @@ const Orders = () => {
                             <tr>
                                 <th>ID</th>
                                 <th>Date</th>
-                                <th>Storage</th>
                                 <th>Status</th>
                                 <th>Actions</th>
                                 <th>Details</th>
@@ -256,9 +257,7 @@ const Orders = () => {
                         {orders.map(order => (
                             <tr key={order.id}>
                                 <td>{order.id}</td>
-                                <td>{formatDate(order.date)}</td>
-                                <td>{order.storage.status}</td>
-                               
+                                <td>{formatDate(order.date)}</td>                               
                                 <td>
                                 <button onClick={() => handleStatusChange(order.id)} className={order.status=='placed'? 'Placed':'Processed'}>
                                         {
@@ -324,7 +323,7 @@ const Orders = () => {
             {searchResults.map((item) => (
                                 <tr key={item.id}>
                                     <td>
-                                        <div className='create'>
+                                        <div className='create1'>
                                         <input 
                                             type="checkbox" 
                                             onChange={() => toggleItemSelection(item)}

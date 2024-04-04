@@ -7,13 +7,14 @@ import confirm_icon from '../../assets/confirm.png'
 import close_icon from '../../assets/close.png'
 import info_icon from '../../assets/info.png'
 import error_icon from '../../assets/error.png'
-
+import Home from '../Home/Home';
 const CRUDUsers = () => {
     const [tableVisible, settableVisible] = useState(true);
     const [users, setUsers] = useState([]);
     const [editingUser, setEditingUser] = useState(null);
     const [infoMessage, setInfoMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
+    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic3VwZXJhZG1pbiIsInVzZXJuYW1lIjoibmVkYSIsImlhdCI6MTcxMjI2NzQ0MSwiZXhwIjoxNzEyMjY5MjQxfQ.PeuDEfo2CLghG9SYGwzNXGpw4MHB8ci8Rt-4LtfN5rc";
 
     useEffect(() => {
         fetchUsers();
@@ -22,7 +23,7 @@ const CRUDUsers = () => {
     const fetchUsers = async () => {
         try {
             const headers = {
-                'Authorization': `${Cookies.get('jwt')}`
+                'Authorization': token
             };
             const data = await fetchData('GET', 'http://localhost:3000/admin/users', null, headers);
             setUsers(data);
@@ -53,7 +54,7 @@ const CRUDUsers = () => {
             if (isDataValid(username, password, phoneNumber)) {
                 const requestData = { username, password, phoneNumber, role };
                 const headers = {
-                    'Authorization': `${Cookies.get('jwt')}`
+                    'Authorization': token
                 };
                 await fetchData('POST', 'http://localhost:3000/admin/users', requestData, headers);
                 setInfoMessage('User created')
@@ -77,7 +78,7 @@ const CRUDUsers = () => {
     const deleteUser = async (id) => {
         try {
             const headers = {
-                'Authorization': `${Cookies.get('jwt')}`
+                'Authorization': token
             };
             await fetchData('DELETE', `http://localhost:3000/admin/users/${id}`, null, headers);
             setErrorMessage('')
@@ -136,6 +137,7 @@ const CRUDUsers = () => {
     };
 
     return (
+        <Home>
         <>
             <div className='list'>
                 <h2 className='users-title'>{tableVisible ? "USERS" : "CREATE NEW USER"}</h2>
@@ -247,6 +249,7 @@ const CRUDUsers = () => {
             </div>
             }
         </>
+        </Home>
     );
 };
 

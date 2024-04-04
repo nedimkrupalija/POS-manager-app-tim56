@@ -9,6 +9,8 @@ import close_icon from '../../assets/close.png'
 import info_icon from '../../assets/info.png'
 import error_icon from '../../assets/error.png'
 import choose_icon from '../../assets/choose.png'
+import Home from '../Home/Home';
+const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic3VwZXJhZG1pbiIsInVzZXJuYW1lIjoibmVkYSIsImlhdCI6MTcxMjI2NzQ0MSwiZXhwIjoxNzEyMjY5MjQxfQ.PeuDEfo2CLghG9SYGwzNXGpw4MHB8ci8Rt-4LtfN5rc";
 
 const CRUDItems = () => {
     const [tableVisible, settableVisible] = useState(true);
@@ -27,7 +29,7 @@ const CRUDItems = () => {
     const fetchItems = async () => {
         try {
             const headers = {
-                'Authorization': `${Cookies.get('jwt')}`
+                'Authorization': token
             };
             const data = await fetchData('GET', 'http://localhost:3000/item', null, headers);
             setItems(data);
@@ -38,7 +40,7 @@ const CRUDItems = () => {
     const fetchLocations = async () => {
         try {
             const headers = {
-                'Authorization': `${Cookies.get('jwt')}`
+                'Authorization': token
             };
             const data = await fetchData('GET', 'http://localhost:3000/location', null, headers);
             setLocations(data);
@@ -68,7 +70,7 @@ const CRUDItems = () => {
             if (isDataValid(name, barCode, measurmentUnit, purchasePrice, sellingPrice)) {
                 const requestData = { name, barCode, measurmentUnit, purchasePrice, sellingPrice, LocationId };
                 const headers = {
-                    'Authorization': `${Cookies.get('jwt')}`
+                    'Authorization': token
                 };
                 await fetchData('POST', 'http://localhost:3000/item', requestData, headers);
                 setInfoMessage('Item created')
@@ -95,7 +97,7 @@ const CRUDItems = () => {
     const deleteItem = async (id) => {
         try {
             const headers = {
-                'Authorization': `${Cookies.get('jwt')}`
+                'Authorization': token
             };
             await fetchData('DELETE', `http://localhost:3000/item/${id}`, null, headers);
             setErrorMessage('')
@@ -157,6 +159,7 @@ const CRUDItems = () => {
     };
 
     return (
+        <Home>
         <>
             <div className='list'>
                 <h2 className='items-title'>{tableVisible ? "ITEMS" : "CREATE NEW ITEM"}</h2>
@@ -334,6 +337,7 @@ const CRUDItems = () => {
                 </div>
             )}
         </>
+        </Home>
     );
 };
 

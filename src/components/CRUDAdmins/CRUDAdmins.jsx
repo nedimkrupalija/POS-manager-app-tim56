@@ -6,7 +6,7 @@ import confirm_icon from '../../assets/confirm.png'
 import close_icon from '../../assets/close.png'
 import info_icon from '../../assets/info.png'
 import Cookies from 'js-cookie';
-
+import Home from '../Home/Home';
 const CRUDAdmins = () => {
 
   const [admins, setAdmins] = useState([]);
@@ -14,6 +14,7 @@ const CRUDAdmins = () => {
   const [tableVisible, settableVisible] = useState(true);
   const [infoMessage, setInfoMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic3VwZXJhZG1pbiIsInVzZXJuYW1lIjoibmVkYSIsImlhdCI6MTcxMjI2NzQ0MSwiZXhwIjoxNzEyMjY5MjQxfQ.PeuDEfo2CLghG9SYGwzNXGpw4MHB8ci8Rt-4LtfN5rc";
 
   useEffect(() => {
     fetchAdmins();
@@ -23,7 +24,7 @@ const CRUDAdmins = () => {
     try {
         //const token=Cookies.get('jwt');
         const headers = {
-            'Authorization': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic3VwZXJhZG1pbiIsInVzZXJuYW1lIjoibmVkYSIsImlhdCI6MTcxMjE0OTYxMiwiZXhwIjoxNzEyMTg4Nzk5fQ.wqlAfxnFMUU8Ve5E1QpXNlC2_mRtTkW8V604UYZx16Y'
+            'Authorization': token
         };
         const data = await fetchData('GET', 'http://localhost:3000/admin/administrators', null, headers);
         setAdmins(data);
@@ -51,7 +52,7 @@ const CRUDAdmins = () => {
         else{
         const requestData = { username, password, phoneNumber, role };
         const headers = {
-            'Authorization': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic3VwZXJhZG1pbiIsInVzZXJuYW1lIjoibmVkYSIsImlhdCI6MTcxMjE0OTYxMiwiZXhwIjoxNzEyMTg4Nzk5fQ.wqlAfxnFMUU8Ve5E1QpXNlC2_mRtTkW8V604UYZx16Y'
+            'Authorization': token
         };
         await fetchData('POST', 'http://localhost:3000/admin/administrators', requestData, headers);
         setInfoMessage('User created')
@@ -74,8 +75,8 @@ const confirmDelete = async (id) => {
 const deleteAdmin = async (id) => {
     try {
         const headers = {
-            'Authorization': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic3VwZXJhZG1pbiIsInVzZXJuYW1lIjoibmVkYSIsImlhdCI6MTcxMjE0OTYxMiwiZXhwIjoxNzEyMTg4Nzk5fQ.wqlAfxnFMUU8Ve5E1QpXNlC2_mRtTkW8V604UYZx16Y'
-        };
+            'Authorization': token
+                };
         await fetchData('DELETE', `http://localhost:3000/admin/administrators/${id}`, null, headers);
         fetchAdmins();
     } catch (error) {
@@ -135,6 +136,7 @@ const handleSaveClick = async () => {
 };
 
 return (
+    <Home>
   <>
       <div className='list'>
           <h2 className='users-title'>{tableVisible ? "Admins" : "Create new admin"}</h2>
@@ -246,6 +248,7 @@ return (
       </div>
       }
   </>
+  </Home>
 );
 };
 

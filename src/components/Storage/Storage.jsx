@@ -22,6 +22,7 @@ const Storage = ({ id }) => {
   }, [id]);
 
   return (
+    <Home>
     <div className='storage'> 
       <h1>Storage</h1>
       {errorMessage && <p>Error: {errorMessage}</p>}
@@ -48,6 +49,7 @@ const Storage = ({ id }) => {
         </div>
       )}
     </div>
+    </Home>
   );
 };
 

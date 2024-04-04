@@ -23,22 +23,14 @@ function App() {
   }, []);
 
   return (
-      /*<Router>
-        <Routes>
-          <Route path="/" element={ isLoggedIn ? <Home /> : <Login /> }></Route>
-          <Route path="/users" element={ isLoggedIn ? <CRUDUsers /> : <Login /> }></Route>
-          <Route path="/items" element={ isLoggedIn ? <CRUDItems /> : <Login /> }></Route>
-        <Route path="/" element={ isLoggedIn ? <Home /> : <Login /> }></Route>
-          <Route path="/orders" element={<Orders/>}/>
-          <Route path="/products" element={<Products/>}/>
-          <Route path="/users" element={<CRUDUsers/>}/>
-          <Route path="/administrators" element={<CRUDAdmin/>}/>
-          <Route path="/storage" element={<Storage/>}/>
-        </Routes>
-      </Router>*/
       <Router>
         <Routes>
-          <Route path="/" element={<CRUDAdmins />} />
+          <Route path="/items" element={  <CRUDItems />  }></Route>
+        <Route path="/" element={ <Home /> }></Route>
+          <Route path="/orders" element={<Orders/>}/>
+          <Route path="/users" element={<CRUDUsers/>}/>
+          <Route path="/administrators" element={<CRUDAdmins/>}/>
+          <Route path="/storage" element={<Storage/>}/>
         </Routes>
       </Router>
   )

@@ -6,13 +6,13 @@ body {
 }
 
 .buttons1 {
-    margin: 10px;
+    margin-left: 5%;
+    margin-top: 2%;
     color: #fff;
     background: #72b5dc;
     border-radius: 50px;
     font-size: 15px;
     font-weight: 700;
-    border: none;
 }
 
 .buttons {
@@ -22,13 +22,12 @@ body {
     border-radius: 50px;
     font-size: 15px;
     font-weight: 700;
-    border: none;
 }
-
 
 
 .table {
     margin-top: 20px;
+    margin-bottom: 20px;
     margin: 5%;
     margin-right: 10%;
 }
@@ -40,10 +39,11 @@ body {
 
 .table th,
 .table td {
-    border: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
     padding: 4px 8px;
     text-align: center;
 }
+
 
 
 .fields {
@@ -72,6 +72,7 @@ body {
     gap: 5px;
 }
 
+
 .edit-icon,
 .delete-icon {
     width: 20px;
@@ -84,9 +85,8 @@ body {
     margin-left: 60px;
 }
 
-.users-title {
+.items-title {
     margin-left: 70px;
-    margin-top: 30%;
 }
 
 .buttons:disabled {
@@ -109,6 +109,7 @@ body {
 .button2:hover {
     background: #72b5dcd3;
 }
+
 .Placed{
     background-color: white;
     color: lightgrey;
@@ -229,6 +230,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    width: 100%;
 }
 
 .create label {
@@ -285,7 +287,7 @@ body {
 }
 
 .AddItemsModal input[type="text"],
-.create input[type="text"]{
+.create1 input[type="text"]{
     width: calc(100% - 110px);
     padding: 8px;
     border: 1px solid #ccc;
@@ -314,5 +316,14 @@ body {
     background-color: #458cb2;
 }
 
-
+.list {
+    overflow-y: auto;
+}
+.select-loc-title {
+    margin-left: 27px;
+}
+#root {
+    width: 100%;
+    height: 90%;
+  }
 
