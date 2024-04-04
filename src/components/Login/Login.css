@@ -22,8 +22,6 @@
     align-items: center;
     gap:9px;
     width:100%;
-
-    margin-top: 30px;;
 }
 
 .text{
@@ -163,14 +161,11 @@
 
 }
 
-.admin{
+.admin {
     display: flex;
     justify-content: center;
-    margin: 0;
-    position:absolute;
-    top:92%;
-    left:50%;
-    transform:translate(-50%,-50%);
+    margin-top: -40px;
+    margin-bottom: 20px;
 }
 
 .admin span{
