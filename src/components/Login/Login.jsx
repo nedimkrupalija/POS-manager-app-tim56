@@ -123,7 +123,7 @@ const Login = () => {
                     setMessage('Invalid PIN. Please try again.');
                 } else {
                     setPinInputVisible(false);
-                    setMessage('');  
+                    setMessage('');
                     const expiresIn = 30 * 60;
                     Cookies.set('jwt', token, { expires: expiresIn, path: '/' });
                     setIsLoggedIn(true);
@@ -173,6 +173,9 @@ const Login = () => {
             <div className="submit-container">
                 <div className="submit" onClick={handleLogin}>Log in</div>
             </div>
+            <div className='admin'>
+                <span onClick={handleManagerApp}>Log in as client </span>
+            </div>
             {pinInputVisible && (
                 <div className="pin-input-container">
                     <input
@@ -187,7 +190,6 @@ const Login = () => {
                     <button className="submit-pin" onClick={verifyPin}>Submit</button>
                 </div>
             )}
-
             {message && message.includes('PIN sent successfully. Please check your SMS for the PIN') && (
                 <div className="info-message">
                     <img src={info_icon} alt='info' className='info-icon' />
@@ -211,10 +213,6 @@ const Login = () => {
                     </div>
                 </>
             )}
-
-            <div className='admin'> 
-            <span onClick={handleManagerApp}>Log in as client </span> 
-            </div>
         </div>
     );
 };
