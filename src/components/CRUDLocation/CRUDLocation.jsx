@@ -9,6 +9,7 @@ import error_icon from '../../assets/error.png';
 import pos_icon from '../../assets/pos.png';
 
 const CRUDLocations = () => {
+    const [storageCheckbox, setStorageCheckbox] = useState(false);
     const [tableVisible, setTableVisible] = useState(true);
     const [locations, setLocations] = useState([]);
     const [editingLocation, setEditingLocation] = useState(null);
@@ -54,6 +55,7 @@ const CRUDLocations = () => {
                 }
             });
             const data = await response.json();
+           
             setLocations(data);
         } catch (error) {
             setErrorMessage(error.message);
@@ -71,6 +73,7 @@ const CRUDLocations = () => {
               }
           });
           const data = await response.json();
+          
           setSelectedLocation(data); // Postavite odabranu lokaciju
           setEditingPOS(null);
           setPosTableVisible(true); // Postavite da se tablica s POS-ovima prikaže nakon što je kliknuto na pos_icon
@@ -87,6 +90,7 @@ const CRUDLocations = () => {
     const createLocation = async () => {
         const name = document.getElementById('nameCreate').value;
         const adress = document.getElementById('addressCreate').value; // Promijenjeno ime polja
+        const checkbox = document.getElementById('checkboxCreate').checked;
         try {
             if (name === '' || adress === '') {
                 setErrorMessage('All fields must be filled!');
@@ -96,7 +100,11 @@ const CRUDLocations = () => {
             const headers = {
                 'Authorization': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic3VwZXJhZG1pbiIsInVzZXJuYW1lIjoibmVkYSIsImlhdCI6MTcxMjA4ODAwMCwiZXhwIjoxNzEyMDg5ODAwfQ.PLTUxRMlTTXvGjbMfx9FPWoLrpvgewBm4DKzID4xLO4'
             };
-            await fetchData('POST', 'http://localhost:3000/location', requestData, headers);
+            
+            const data = await fetchData('POST', 'http://localhost:3000/location', requestData, headers);
+            if(checkbox){
+                await fetchData('POST', 'http://localhost:3000/storage', {status : "Active", LocationId: data.id}, headers);
+            }
             setInfoMessage('Location created');
             fetchLocations();
             document.getElementById('nameCreate').value = '';
@@ -107,16 +115,17 @@ const CRUDLocations = () => {
         }
     };
 
-    const confirmDelete = async (id) => {
+    const confirmDelete =  (id, storageId) => {
         if (window.confirm("Are you sure you want to delete this location?")) {
-            await deleteLocation(id);
+             deleteLocation(id, storageId);
         }
     };
 
-    const deleteLocation = async (id) => {
+    const deleteLocation = async (id,storageId) => {
         const headers = {
-            'Authorization': `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic3VwZXJhZG1pbiIsInVzZXJuYW1lIjoibmVkYSIsImlhdCI6MTcxMjA4ODAwMCwiZXhwIjoxNzEyMDg5ODAwfQ.PLTUxRMlTTXvGjbMfx9FPWoLrpvgewBm4DKzID4xLO4`
+            'Authorization': "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic3VwZXJhZG1pbiIsInVzZXJuYW1lIjoibmVkYSIsImlhdCI6MTcxMjA4ODAwMCwiZXhwIjoxNzEyMDg5ODAwfQ.PLTUxRMlTTXvGjbMfx9FPWoLrpvgewBm4DKzID4xLO4"
         };
+        await fetchData('DELETE', `http://localhost:3000/storage/${storageId}`, null, headers);
         await fetchData('DELETE', `http://localhost:3000/location/${id}`, null, headers);
         setErrorMessage('');
         fetchLocations();
@@ -124,16 +133,18 @@ const CRUDLocations = () => {
 
   const deletePOS = async (id) =>{
     const headers = {
-      'Authorization': `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic3VwZXJhZG1pbiIsInVzZXJuYW1lIjoibmVkYSIsImlhdCI6MTcxMjA4ODAwMCwiZXhwIjoxNzEyMDg5ODAwfQ.PLTUxRMlTTXvGjbMfx9FPWoLrpvgewBm4DKzID4xLO4`
+      'Authorization': "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic3VwZXJhZG1pbiIsInVzZXJuYW1lIjoibmVkYSIsImlhdCI6MTcxMjA4ODAwMCwiZXhwIjoxNzEyMDg5ODAwfQ.PLTUxRMlTTXvGjbMfx9FPWoLrpvgewBm4DKzID4xLO4"
   };
     await fetchData ('DELETE', `http://localhost:3000/pos/${id}`, null, headers);
     setErrorMessage('');
     fetchLocations();
+    fetchPOS();
   };
 
   const confirmPOSDelete = async(id)=>{
     if(window.confirm("Are you sure you want to delete this POS?")){
       await deletePOS(id);
+      
     }
   };
 
@@ -151,12 +162,17 @@ const CRUDLocations = () => {
                 options.body = JSON.stringify(requestData);
             }
             const response = await fetch(url, options);
-            const data = await response.json();
+            
+            if(response.body){
+                const data = await response.json();
+                return data;
+            }
             if (!response.ok) {
                 throw new Error(data.message || 'Error fetching data');
             }
-            return data;
+           
         } catch (error) {
+           
             throw new Error(error.message || 'Error fetching data');
         }
     };
@@ -184,20 +200,17 @@ const CRUDLocations = () => {
   };
   
   const createPOS = async () => {
+    
     const name = document.getElementById('nameCreate').value;
     const status = document.getElementById('statusCreate').value;
-    const openingTime = document.getElementById('openingTime').value;
-    const closingTime = document.getElementById('closingTime').value;
-    const createdAt = document.getElementById('createdAt').value;
-    const updatedAt = document.getElementById('updatedAt').value;
-    const locationId = document.getElementById('locationId').value;
-
+    const LocationId = selectedLocation.id;
     try {
-        if (name === '' || status === '' || openingTime === '' || closingTime === '' || createdAt === '' || updatedAt === '' || locationId === '') {
+        if (name === '' || status === '') {
             setErrorMessage('All fields must be filled!');
             return;
         }
-        const requestData = { name, status, openingTime, closingTime, createdAt, updatedAt, locationId };
+        
+        const requestData = { name, status,  LocationId};
         const headers = {
             'Authorization': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic3VwZXJhZG1pbiIsInVzZXJuYW1lIjoibmVkYSIsImlhdCI6MTcxMjA4ODAwMCwiZXhwIjoxNzEyMDg5ODAwfQ.PLTUxRMlTTXvGjbMfx9FPWoLrpvgewBm4DKzID4xLO4'
         };
@@ -206,11 +219,6 @@ const CRUDLocations = () => {
         fetchPOS();
         document.getElementById('nameCreate').value = '';
         document.getElementById('statusCreate').value = '';
-        document.getElementById('openingTime').value = '';
-        document.getElementById('closingTime').value = '';
-        document.getElementById('createdAt').value = '';
-        document.getElementById('updatedAt').value = '';
-        document.getElementById('locationId').value = '';
         setErrorMessage('');
         setCreatePOSShown(false);
     } catch (error) {
@@ -226,6 +234,7 @@ const CRUDLocations = () => {
             const id = editingLocation.id;
             const name = document.getElementById('nameEdit').value;
             const adress = document.getElementById('addressEdit').value; // Promijenjeno ime polja
+            const checkbox = document.getElementById('checkboxEdit').checked;   
             if (name === '' || adress === '') {
                 setErrorMessage('All fields must be filled!');
                 return;
@@ -234,6 +243,19 @@ const CRUDLocations = () => {
             const headers = {
                 'Authorization': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic3VwZXJhZG1pbiIsInVzZXJuYW1lIjoibmVkYSIsImlhdCI6MTcxMjA4ODAwMCwiZXhwIjoxNzEyMDg5ODAwfQ.PLTUxRMlTTXvGjbMfx9FPWoLrpvgewBm4DKzID4xLO4'
             };
+            if(!editingLocation.Storage && checkbox){
+                await fetchData('POST', 'http://localhost:3000/storage', {status : "Active", LocationId: id}, headers);
+            }
+            else if(editingLocation.Storage && !checkbox){
+               
+                try {
+                    await fetchData('DELETE', `http://localhost:3000/storage/${editingLocation.Storage.id}`, null, headers)
+                } catch (error) {
+                    console.log(error)
+                }
+                
+            }
+
             await fetchData('PUT', `http://localhost:3000/location/${id}`, requestData, headers);
             setErrorMessage('');
             fetchLocations();
@@ -264,7 +286,9 @@ const CRUDLocations = () => {
                                         <th>ID</th>
                                         <th>Name</th>
                                         <th>Address</th>
+                                        <th>Storage</th>
                                         <th>Actions</th>
+                                        
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -285,8 +309,18 @@ const CRUDLocations = () => {
                                                     location.adress
                                                 )}
                                             </td>
+                                            <td className='editable-cell'>
+                                          {editingLocation === location ? (
+                                            <input id='checkboxEdit' type="checkbox" defaultChecked={location.Storage}  />   
+                                            ) : (
+                                                location.Storage ? 'Yes' : 'No'
+                                            )}
+
+                                      
+                                            </td>
                                             <td>
                                                 <div className='actions-container'>
+                                               
                                                     <img onClick={() => handlePOSclick(location.id)} src={pos_icon} alt="POS" className='icon' />
                                                     {editingLocation === location ? (
                                                         <img onClick={() => handleSaveClick()} src={confirm_icon} alt="Confirm" className='confirm-icon' />
@@ -296,7 +330,7 @@ const CRUDLocations = () => {
                                                     {editingLocation === location ? (
                                                         <img onClick={() => { setEditingLocation(null); setErrorMessage(''); }} src={close_icon} alt="Close" className='close-icon' />
                                                     ) : (
-                                                        <img onClick={() => confirmDelete(location.id)} src={delete_icon} alt="Delete" className='delete-icon' />
+                                                        <img onClick={() => confirmDelete(location.id, location.Storage.id)} src={delete_icon} alt="Delete" className='delete-icon' />
                                                     )}
                                                 </div>
                                             </td>
@@ -328,6 +362,15 @@ const CRUDLocations = () => {
                         <br />
                         <label htmlFor="address" className='fields'>Address:</label>
                         <input type="text" id="addressCreate" className="address-input" placeholder="Address" onChange={() => { setInfoMessage('') }} />
+                        
+                        <br />
+                        <div style={{ display: 'flex', alignItems: 'center', verticalAlign: 'center' }}>
+                            <label className='fields' htmlFor="checkboxCreate">Storage: </label>
+                            <input defaultChecked={false} type='checkbox' id="checkboxCreate" />
+                        </div>
+                        
+                      
+                        
                         <br />
                     </div>
                     <button className='button2' onClick={createLocation}>CREATE</button>
@@ -439,28 +482,14 @@ const CRUDLocations = () => {
             <label htmlFor="status" className='fields'>Status:</label>
             <input type="text" id="statusCreate" className="status-input" placeholder="Status" onChange={() => { setInfoMessage('') }} />
             <br />
-            <label htmlFor="openingTime" className='fields'>Opening Time:</label>
-  <input type="datetime-local" id="openingTime" name="openingTime" />
-<br />
-  <label htmlFor="closingTime" className='fields'>Closing Time:</label>
-  <input type="datetime-local" id="closingTime" name="closingTime" />
-<br />
-  <label htmlFor="createdAt" className='fields'>Created At:</label>
-  <input type="datetime-local" id="createdAt" name="createdAt" />
-<br />
-  <label htmlFor="updatedAt" className='fields'>Updated At:</label>
-  <input type="datetime-local" id="updatedAt" name="updatedAt" />
-  <br />
 
-  <label htmlFor="locationId" className='fields'>Location ID:</label>
-  <input type="number" id="locationId" name="locationId" />
-  <br />
+
         </div>
         <button className='button2' onClick={createPOS}>CREATE</button>
     </div>
 )}
 </>
 );
-};
+        };
 
 export default CRUDLocations;
