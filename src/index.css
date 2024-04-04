@@ -19,6 +19,11 @@
   height: 90%;
 }
 
+#root {
+  width: 100%;
+  height: 90%;
+}
+
 a {
   font-weight: 500;
   color: #646cff;

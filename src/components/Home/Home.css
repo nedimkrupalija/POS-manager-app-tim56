@@ -1,3 +1,19 @@
+.button-container {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: flex;
+    box-sizing: border-box;
+  }
+  
+  .button-container button {
+    margin: 10px;
+    color: #fff;
+    background: #72b5dc;
+    border-radius: 50px;
+    font-size: 15px;
+    font-weight: 700;
+  }
 body {
   background-color: white;
   display: flex;
