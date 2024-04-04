@@ -19,9 +19,12 @@ function App() {
   return (
       <Router>
         <Routes>
-          <Route path="/" element={ <Home/>}></Route>
+        <Route path="/" element={ isLoggedIn ? <Home /> : <Login /> }></Route>
           <Route path="/orders" element={<Orders/>}/>
-  
+          <Route path="/products" element={<Products/>}/>
+          <Route path="/users" element={<CRUDUsers/>}/>
+          <Route path="/administrators" element={<CRUDAdmin/>}/>
+          <Route path="/storage" element={<Storage/>}/>
         </Routes>
       </Router>
   )

@@ -22,7 +22,7 @@ const Orders = () => {
     const [items, setItems] = useState([]);
     const [storage, setStorage] = useState([]);
     const [quantity, setQuantity] = useState([]);
-    const token ="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJ1c2VybmFtZSI6ImFtaW5hIiwiaWF0IjoxNzEyMTEwMzM2LCJleHAiOjE3MTIxMTIxMzZ9.affdNlB_HvQIcSIl6U7mw6g-vdnjArX75XrO0JsdakM";
+    const token = Cookies.get('jwt');
 
     const search = () => {
         const filteredResults = items.filter(item =>

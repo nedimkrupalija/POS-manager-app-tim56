@@ -7,6 +7,8 @@ const ModalAddItem = ({ isOpen, onRequestClose, setOrderItems,order }) => {
     const [searchResults, setSearchResults] = useState([]);
     const [selectedItems, setSelectedItems] = useState([]);
     const [items, setItems] = useState([]);
+    const token = Cookies.get('jwt');
+
     const handleQuantityChange = (id, q) => {
         const updatedItems = items.map(item => {
             if (item.id === id) {
@@ -61,7 +63,6 @@ const ModalAddItem = ({ isOpen, onRequestClose, setOrderItems,order }) => {
 
     const fetchItems = async () => {
         try {
-            const token ="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJ1c2VybmFtZSI6ImFtaW5hIiwiaWF0IjoxNzEyMTEwMzM2LCJleHAiOjE3MTIxMTIxMzZ9.affdNlB_HvQIcSIl6U7mw6g-vdnjArX75XrO0JsdakM";
             const response = await fetch('http://localhost:3000/item/', {
                 method: 'GET',
                 headers: {

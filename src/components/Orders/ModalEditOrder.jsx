@@ -14,11 +14,11 @@ const ModalEditOrder = ({ isOpen, onRequestClose, order, updateOrder, fetchOrder
     const [orderItems, setOrderItems] = useState([]);
 
     const [quantityMap, setQuantityMap] = useState({});
+    const token = Cookies.get('jwt');
 
     
     const getStorages = async () => {
         try {
-            const token ="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJ1c2VybmFtZSI6ImFtaW5hIiwiaWF0IjoxNzEyMTEwMzM2LCJleHAiOjE3MTIxMTIxMzZ9.affdNlB_HvQIcSIl6U7mw6g-vdnjArX75XrO0JsdakM";
            
             const response = await fetch(
                 'http://localhost:3000/storage/',
@@ -62,7 +62,6 @@ const ModalEditOrder = ({ isOpen, onRequestClose, order, updateOrder, fetchOrder
 
     const handleSaveChangesClick = async (order) => {
         try {
-            const token ="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJ1c2VybmFtZSI6ImFtaW5hIiwiaWF0IjoxNzEyMTEwMzM2LCJleHAiOjE3MTIxMTIxMzZ9.affdNlB_HvQIcSIl6U7mw6g-vdnjArX75XrO0JsdakM";
             const updatedItems = [...order.items, ...orderItems].map(({ id,quantity, ...rest }) => ({
                 ItemId: id,
                 quantity: quantityMap.hasOwnProperty(id) ? quantityMap[id] : quantity,
