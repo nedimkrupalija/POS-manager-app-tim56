@@ -76,7 +76,7 @@ const ModalEditOrder = ({ isOpen, onRequestClose, order, updateOrder, fetchOrder
                 ...rest,
             }));
             
-            const response= awaitfetch(
+            const response= await fetch(
                 'https://pos-app-backend-tim56.onrender.com/orders/'+order.id,
                 {
                     method: 'PUT',

@@ -149,33 +149,30 @@ const Orders = () => {
     };
     const handleStatusChange = (id) => {
         setOrders(prevOrders => prevOrders.map(order => {
-          
-            try{           
-            fetch(
-               'https://pos-app-backend-tim56.onrender.com/orders/finish/'+id,
-               {
-               method: 'POST',
-               headers: {
-                   'Content-Type': 'application/json',
-                   'Authorization': token()
-               }
-           })
             if (order.id === id && order.status === 'placed') {
                 return { ...order, status: 'processed' };
             }
-
-            const extendedToken=response.headers.get('Authorization');
-            console.log(extendedToken);
-            if(extendedToken){
-                Cookies.set(jwt,extendedToken,{expires:1/48});
-         
+            try {
+                fetch(
+                    'https://pos-app-backend-tim56.onrender.com/orders/finish/'+id,
+                    {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': token()
+                        }
+                    }
+                ).catch(error => {
+                    setErrorMessage(error.message);
+                });
+            } catch (error) {
+                setErrorMessage(error.message);
             }
-       } catch (error) {
-           setErrorMessage(error.message);
-       }
             return order;
         }));
     };
+    
+
 
     const openEditOrderModal = (order) => {
         setEditingOrder(order);
@@ -228,12 +225,12 @@ const Orders = () => {
            })
             fetchOrders();
 
-            const extendedToken=response.headers.get('Authorization');
-            console.log(extendedToken);
-            if(extendedToken){
-                Cookies.set(jwt,extendedToken,{expires:1/48});
-         
-            }
+           const extendedToken=response.headers.get('Authorization');
+               console.log(extendedToken);
+               if(extendedToken){
+                   Cookies.set(jwt,extendedToken,{expires:1/48});
+            
+               }
        } catch (error) {
            setErrorMessage(error.message);
        }

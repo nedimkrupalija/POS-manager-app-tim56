@@ -22,11 +22,11 @@ function App() {
   useEffect(() => {
     const jwtToken = Cookies.get('jwt');
     console.log(!!jwtToken);
-
     setIsLoggedIn(!!jwtToken);
   }, []);
   return (
-      <Router>
+    
+      <Router basename='/'>
         <Routes>
           <Route path="/items" element={isLoggedIn?  <CRUDItems /> :<Login/> }></Route>
         <Route path="/" element={ isLoggedIn?  <Home /> :<Login/> }></Route>
