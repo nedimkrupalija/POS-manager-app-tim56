@@ -119,9 +119,10 @@ const Login = () => {
         })
             .then(response => response.json())
             .then(data => {
-                if (data.verified === false) {
+                if (data.verified === undefined || data.verified == false) {
                     setMessage('Invalid PIN. Please try again.');
                 } else {
+                    
                     setPinInputVisible(false);
                     setMessage('');
                
