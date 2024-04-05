@@ -72,6 +72,12 @@ const ModalAddItem = ({ isOpen, onRequestClose, setOrderItems,order }) => {
                     'Authorization': token()
                 }
             });
+            const extendedToken=response.headers.get('Authorization');
+            console.log(extendedToken);
+            if(extendedToken){
+                Cookies.set(jwt,extendedToken,{expires:1/48});
+         
+            }
             const data = await response.json();
             const filteredItems = data.filter(item => !order.items.some(orderItem => orderItem.id === item.id));
             const updatedItems = filteredItems.map(item => ({

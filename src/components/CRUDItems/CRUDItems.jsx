@@ -122,6 +122,12 @@ const CRUDItems = () => {
                 console.log(options.body)
             }
             const response = await fetch(url, options);
+            const extendedToken=response.headers.get('Authorization');
+            console.log(extendedToken);
+            if(extendedToken){
+                Cookies.set(jwt,extendedToken,{expires:1/48});
+         
+            }
             const data = await response.json();
             if (!response.ok) {
                 throw new Error(data.message || 'Error fetching data');

@@ -20,6 +20,12 @@ const Storage = ({ id }) => {
         if (!response.ok) {
           throw new Error('Failed to fetch storage data');
         }
+        const extendedToken=response.headers.get('Authorization');
+        console.log(extendedToken);
+        if(extendedToken){
+            Cookies.set(jwt,extendedToken,{expires:1/48});
+     
+        }
         const data = await response.json();
         setStorageData(data);
       } catch (error) {

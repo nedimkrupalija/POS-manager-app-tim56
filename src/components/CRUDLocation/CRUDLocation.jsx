@@ -45,6 +45,8 @@ const CRUDLocations = () => {
                 'Authorization': token()
             }
           });
+          const extendedToken=response.headers.get('Authorization');
+          console.log(response);
           const data = await response.json();
           setPosList(data);
       } catch (error) {
@@ -62,6 +64,8 @@ const CRUDLocations = () => {
                     'Authorization': token()
                 }
             });
+            const extendedToken=response.headers.get('Authorization');
+            console.log(response);
             const data = await response.json();
            
             setLocations(data);
@@ -80,6 +84,12 @@ const CRUDLocations = () => {
                 'Authorization': token()
             }
           });
+          const extendedToken=response.headers.get('Authorization');
+          console.log(extendedToken);
+          if(extendedToken){
+              Cookies.set(jwt,extendedToken,{expires:1/48});
+       
+          }
           const data = await response.json();
           
           setSelectedLocation(data); // Postavite odabranu lokaciju
@@ -112,6 +122,12 @@ const CRUDLocations = () => {
             const data = await fetchData('POST', 'https://pos-app-backend-tim56.onrender.com/location', requestData, headers);
             if(checkbox){
                 await fetchData('POST', 'https://pos-app-backend-tim56.onrender.com/storage', {status : "Active", LocationId: data.id}, headers);
+            }
+            const extendedToken=response.headers.get('Authorization');
+            console.log(extendedToken);
+            if(extendedToken){
+                Cookies.set(jwt,extendedToken,{expires:1/48});
+         
             }
             setInfoMessage('Location created');
             fetchLocations();
@@ -172,6 +188,12 @@ const CRUDLocations = () => {
             const response = await fetch(url, options);
             
             if(response.body){
+                const extendedToken=response.headers.get('Authorization');
+                console.log(extendedToken);
+                if(extendedToken){
+                    Cookies.set(jwt,extendedToken,{expires:1/48});
+             
+                }
                 const data = await response.json();
                 return data;
             }

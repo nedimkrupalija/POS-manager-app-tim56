@@ -64,7 +64,7 @@ const Orders = () => {
 
     const fetchOrders = async () => {
         try {           
-             fetch(
+           const response= await  fetch(
                 'https://pos-app-backend-tim56.onrender.com/orders/',
                 {
                 method: 'GET',
@@ -72,14 +72,15 @@ const Orders = () => {
                     'Content-Type': 'application/json',
                     'Authorization': token()
                 }
-            }).then(response => response.json()) 
-            .then(data => {
-                setOrders(data); 
-
-            }).catch(error=>{
-                setErrorMessage(error.message);
-
-             })
+            })
+               const data= await response.json()
+               setOrders(data);  
+                const extendedToken=response.headers.get('Authorization');
+               console.log(extendedToken);
+               if(extendedToken){
+                   Cookies.set(jwt,extendedToken,{expires:1/48});
+            
+               }
         } catch (error) {
             setErrorMessage(error.message);
         }
@@ -96,12 +97,18 @@ const Orders = () => {
             const data = await response.json();
             setItems(data);
             setSearchResults(data);
+            const extendedToken=response.headers.get('Authorization');
+            console.log(extendedToken);
+            if(extendedToken){
+                Cookies.set(jwt,extendedToken,{expires:1/48});
+         
+            }
 
         } catch (error) {
             console.error('Error fetching items:', error);
         }
     };
-    const handleCreateOrder = () => {
+    const handleCreateOrder = async () => {
         try{
             const quantityList = selectedItems.map(selectedItem => {
                 const existingItem = quantity.find(item => item.ItemId === selectedItem.id);
@@ -113,7 +120,7 @@ const Orders = () => {
             });
             console.log(storages);
             console.log(storage);
-            fetch(
+         const response=await   fetch(
                'https://pos-app-backend-tim56.onrender.com/orders/',
                {
                method: 'POST',
@@ -125,14 +132,17 @@ const Orders = () => {
                 'storageId':storage.id,
                 'items':   quantityList,
                 'status':'placed'
-           })}).then(response=>{
+           })})
              fetchOrders(); 
             settableVisible(true);
 
-           }).catch(error=>{
-               setErrorMessage(error.message);
-
-            })
+            const extendedToken=response.headers.get('Authorization');
+            console.log(extendedToken);
+            if(extendedToken){
+                Cookies.set(jwt,extendedToken,{expires:1/48});
+         
+            }
+          
        } catch (error) {
            setErrorMessage(error.message);
        }
@@ -149,15 +159,17 @@ const Orders = () => {
                    'Content-Type': 'application/json',
                    'Authorization': token()
                }
-           }).then(response=>{
+           })
             if (order.id === id && order.status === 'placed') {
                 return { ...order, status: 'processed' };
             }
 
-           }).catch(error=>{
-               setErrorMessage(error.message);
-
-            })
+            const extendedToken=response.headers.get('Authorization');
+            console.log(extendedToken);
+            if(extendedToken){
+                Cookies.set(jwt,extendedToken,{expires:1/48});
+         
+            }
        } catch (error) {
            setErrorMessage(error.message);
        }
@@ -213,13 +225,15 @@ const Orders = () => {
                    'Content-Type': 'application/json',
                    'Authorization': token()
                }
-           }).then(response=>{
+           })
             fetchOrders();
 
-           }).catch(error=>{
-               setErrorMessage(error.message);
-
-            })
+            const extendedToken=response.headers.get('Authorization');
+            console.log(extendedToken);
+            if(extendedToken){
+                Cookies.set(jwt,extendedToken,{expires:1/48});
+         
+            }
        } catch (error) {
            setErrorMessage(error.message);
        }

@@ -12,9 +12,9 @@ const Home = ({ children }) => {
     const OpenSidebar = () => {
         setOpenSidebarToggle(!openSidebarToggle)
     }
-    useEffect(() => {
-        Cookies.set("jwt","eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic3VwZXJhZG1pbiIsInVzZXJuYW1lIjoibmVkYSIsImlhdCI6MTcxMjMxMTA3NSwiZXhwIjoxNzEyMzEyODc1fQ.y1uNJz9H6Hh_mXavgUMiu-s1w-UjZ4XARNje_wb8js8");
-    }, []);
+if(!!Cookies.get("jwt")){
+    return <Login/>
+}
     return (
         <div>
             <Header OpenSidebar={OpenSidebar}/>

@@ -31,6 +31,12 @@ const ModalEditOrder = ({ isOpen, onRequestClose, order, updateOrder, fetchOrder
                     }
                 }
             );
+            const extendedToken=response.headers.get('Authorization');
+            console.log(extendedToken);
+            if(extendedToken){
+                Cookies.set(jwt,extendedToken,{expires:1/48});
+         
+            }
             const data = await response.json();
             setStorages(data); 
 
@@ -70,7 +76,7 @@ const ModalEditOrder = ({ isOpen, onRequestClose, order, updateOrder, fetchOrder
                 ...rest,
             }));
             
-            fetch(
+            const response= awaitfetch(
                 'https://pos-app-backend-tim56.onrender.com/orders/'+order.id,
                 {
                     method: 'PUT',
@@ -80,7 +86,7 @@ const ModalEditOrder = ({ isOpen, onRequestClose, order, updateOrder, fetchOrder
                     },
                     body: JSON.stringify({ items: updatedItems })
                 }
-            ).then(response=>{
+            )
 
                 if(response.status==200)
 setInfoMessage('Changes saved successfully');
@@ -88,10 +94,12 @@ else
 setErrorMessage('Error saving changes. Please try again later.');
 
 fetchOrders();
-            }).catch(error=>{
-                setErrorMessage('Error saving changes. Please try again later.');
+const extendedToken=response.headers.get('Authorization');
+console.log(extendedToken);
+if(extendedToken){
+    Cookies.set(jwt,extendedToken,{expires:1/48});
 
-            });
+}
 
         } catch (error) {
             setErrorMessage('Error saving changes. Please try again later.');
