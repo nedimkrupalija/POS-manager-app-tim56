@@ -123,12 +123,7 @@ const CRUDLocations = () => {
             if(checkbox){
                 await fetchData('POST', 'https://pos-app-backend-tim56.onrender.com/storage', {status : "Active", LocationId: data.id}, headers);
             }
-            const extendedToken=data.headers.get('Authorization');
-            console.log(extendedToken);
-            if(extendedToken){
-                Cookies.set(jwt,extendedToken,{expires:1/48});
-         
-            }
+           
             setInfoMessage('Location created');
             fetchLocations();
             document.getElementById('nameCreate').value = '';
@@ -139,17 +134,20 @@ const CRUDLocations = () => {
         }
     };
 
-    const confirmDelete =  (id, storageId) => {
+    const confirmDelete =  (id, storage) => {
         if (window.confirm("Are you sure you want to delete this location?")) {
-             deleteLocation(id, storageId);
+             deleteLocation(id, storage);
         }
     };
 
-    const deleteLocation = async (id,storageId) => {
+    const deleteLocation = async (id,storage) => {
         const headers = {
             'Authorization': token()
         };
-        await fetchData('DELETE', `https://pos-app-backend-tim56.onrender.com/storage/${storageId}`, null, headers);
+        if(storage)
+        {
+            await fetchData('DELETE', `https://pos-app-backend-tim56.onrender.com/storage/${storage.id}`, null, headers);
+        }
         await fetchData('DELETE', `https://pos-app-backend-tim56.onrender.com/location/${id}`, null, headers);
         setErrorMessage('');
         fetchLocations();
@@ -372,7 +370,7 @@ if(showStorage){
                     {editingLocation === location ? (
                         <img onClick={() => { setEditingLocation(null); setErrorMessage(''); }} src={close_icon} alt="Close" className='close-icon' />
                     ) : (
-                        <img onClick={() => confirmDelete(location.id, location.Storage.id)} src={delete_icon} alt="Delete" className='delete-icon' />
+                        <img onClick={() => confirmDelete(location.id, location.Storage)} src={delete_icon} alt="Delete" className='delete-icon' />
                     )}
                 </div>
             </td>
