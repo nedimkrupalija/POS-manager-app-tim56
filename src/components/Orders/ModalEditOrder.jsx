@@ -3,7 +3,7 @@ import Modal from 'react-modal';
 import './Orders.css';
 import ModalAddItem from './ModalAddItem';
 import delete_icon from '../../assets/delete.png';
-
+import Cookies from 'js-cookie';
 import error_icon from '../../assets/error.png';
 import info_icon from '../../assets/info.png';
 const ModalEditOrder = ({ isOpen, onRequestClose, order, updateOrder, fetchOrders }) => {
@@ -14,19 +14,20 @@ const ModalEditOrder = ({ isOpen, onRequestClose, order, updateOrder, fetchOrder
     const [orderItems, setOrderItems] = useState([]);
 
     const [quantityMap, setQuantityMap] = useState({});
-    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic3VwZXJhZG1pbiIsInVzZXJuYW1lIjoibmVkYSIsImlhdCI6MTcxMjI4MDY2OSwiZXhwIjoxNzEyMjgyNDY5fQ.U407zA89BHG0sADYwWeLYxPPFNJIW3JnLnXqYpUHTUE";
-
+    const token =()=>{
+     return   Cookies.get("jwt");
+    } 
     
     const getStorages = async () => {
         try {
            
             const response = await fetch(
-                'http://localhost:3000/storage/',
+                'https://pos-app-backend-tim56.onrender.com/storage/',
                 {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': token
+                        'Authorization': token()
                     }
                 }
             );
@@ -70,12 +71,12 @@ const ModalEditOrder = ({ isOpen, onRequestClose, order, updateOrder, fetchOrder
             }));
             
             fetch(
-                'http://localhost:3000/orders/'+order.id,
+                'https://pos-app-backend-tim56.onrender.com/orders/'+order.id,
                 {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': token
+                        'Authorization': token()
                     },
                     body: JSON.stringify({ items: updatedItems })
                 }

@@ -14,8 +14,9 @@ const CRUDUsers = () => {
     const [editingUser, setEditingUser] = useState(null);
     const [infoMessage, setInfoMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
-    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic3VwZXJhZG1pbiIsInVzZXJuYW1lIjoibmVkYSIsImlhdCI6MTcxMjI3NTU3NCwiZXhwIjoxNzEyMjc3Mzc0fQ.9PLLRy_FoXDjNmPZzQh_Iw5yj4Cum0FLciriqxKs9DE";
-
+    const token =()=>{
+      return  Cookies.get("jwt");
+    } 
     useEffect(() => {
         fetchUsers();
     }, []);
@@ -23,9 +24,9 @@ const CRUDUsers = () => {
     const fetchUsers = async () => {
         try {
             const headers = {
-                'Authorization': token
+                'Authorization': token()
             };
-            const data = await fetchData('GET', 'http://localhost:3000/admin/users', null, headers);
+            const data = await fetchData('GET', 'https://pos-app-backend-tim56.onrender.com/admin/users', null, headers);
             setUsers(data);
         } catch (error) {
             setErrorMessage(error.message)
@@ -54,9 +55,9 @@ const CRUDUsers = () => {
             if (isDataValid(username, password, phoneNumber)) {
                 const requestData = { username, password, phoneNumber, role };
                 const headers = {
-                    'Authorization': token
+                    'Authorization': token()
                 };
-                await fetchData('POST', 'http://localhost:3000/admin/users', requestData, headers);
+                await fetchData('POST', 'https://pos-app-backend-tim56.onrender.com/admin/users', requestData, headers);
                 setInfoMessage('User created')
                 document.getElementById('usernameCreate').value = ''
                 document.getElementById('passwordCreate').value = ''
@@ -78,9 +79,9 @@ const CRUDUsers = () => {
     const deleteUser = async (id) => {
         try {
             const headers = {
-                'Authorization': token
+                'Authorization': token()
             };
-            await fetchData('DELETE', `http://localhost:3000/admin/users/${id}`, null, headers);
+            await fetchData('DELETE', `https://pos-app-backend-tim56.onrender.com/admin/users/${id}`, null, headers);
             setErrorMessage('')
             fetchUsers();
         } catch (error) {
@@ -105,8 +106,6 @@ const CRUDUsers = () => {
             if (!response.ok) {
                 throw new Error(data.message || 'Error fetching data');
             }
-            Cookies.set('jwt', token, { expires:  30 * 60 });
-
             return data;
         } catch (error) {
             throw new Error(error.message || 'Error fetching data');
@@ -127,7 +126,7 @@ const CRUDUsers = () => {
                         'Authorization': `${Cookies.get('jwt')}`,
                     };
 
-                    await fetchData('PUT', `http://localhost:3000/admin/users/${id}`, requestData, headers);
+                    await fetchData('PUT', `https://pos-app-backend-tim56.onrender.com/admin/users/${id}`, requestData, headers);
                     setErrorMessage('')
                     fetchUsers();
                     setEditingUser(null);

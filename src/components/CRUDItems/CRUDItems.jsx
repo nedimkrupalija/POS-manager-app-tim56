@@ -10,7 +10,6 @@ import info_icon from '../../assets/info.png'
 import error_icon from '../../assets/error.png'
 import choose_icon from '../../assets/choose.png'
 import Home from '../Home/Home';
-const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic3VwZXJhZG1pbiIsInVzZXJuYW1lIjoibmVkYSIsImlhdCI6MTcxMjI4MDY2OSwiZXhwIjoxNzEyMjgyNDY5fQ.U407zA89BHG0sADYwWeLYxPPFNJIW3JnLnXqYpUHTUE";
 
 const CRUDItems = () => {
     const [tableVisible, settableVisible] = useState(true);
@@ -21,7 +20,9 @@ const CRUDItems = () => {
     const [errorMessage, setErrorMessage] = useState('');
     const [locationId, setLocationId] = useState(''); 
     const [modalVisible, setModalVisible] = useState(false);
-
+    const token =()=>{
+       return Cookies.get("jwt");
+    } 
     useEffect(() => {
         fetchItems();
     }, []);
@@ -29,9 +30,9 @@ const CRUDItems = () => {
     const fetchItems = async () => {
         try {
             const headers = {
-                'Authorization': token
+                'Authorization': token()
             };
-            const data = await fetchData('GET', 'http://localhost:3000/item', null, headers);
+            const data = await fetchData('GET', 'https://pos-app-backend-tim56.onrender.com/item', null, headers);
             setItems(data);
         } catch (error) {
             setErrorMessage(error.message)
@@ -40,9 +41,9 @@ const CRUDItems = () => {
     const fetchLocations = async () => {
         try {
             const headers = {
-                'Authorization': token
+                'Authorization': token()
             };
-            const data = await fetchData('GET', 'http://localhost:3000/location', null, headers);
+            const data = await fetchData('GET', 'https://pos-app-backend-tim56.onrender.com/location', null, headers);
             setLocations(data);
             console.log(data)
         } catch (error) {
@@ -70,9 +71,9 @@ const CRUDItems = () => {
             if (isDataValid(name, barCode, measurmentUnit, purchasePrice, sellingPrice)) {
                 const requestData = { name, barCode, measurmentUnit, purchasePrice, sellingPrice, LocationId };
                 const headers = {
-                    'Authorization': token
+                    'Authorization': token()
                 };
-                await fetchData('POST', 'http://localhost:3000/item', requestData, headers);
+                await fetchData('POST', 'https://pos-app-backend-tim56.onrender.com/item', requestData, headers);
                 setInfoMessage('Item created')
                 document.getElementById('nameCreate').value = ''
                 document.getElementById('barcodeCreate').value = ''
@@ -97,9 +98,9 @@ const CRUDItems = () => {
     const deleteItem = async (id) => {
         try {
             const headers = {
-                'Authorization': token
+                'Authorization': token()
             };
-            await fetchData('DELETE', `http://localhost:3000/item/${id}`, null, headers);
+            await fetchData('DELETE', `https://pos-app-backend-tim56.onrender.com/item/${id}`, null, headers);
             setErrorMessage('')
             fetchItems();
         } catch (error) {
@@ -147,7 +148,7 @@ const CRUDItems = () => {
                         'Authorization': `${Cookies.get('jwt')}`,
                     };
 
-                    await fetchData('PUT', `http://localhost:3000/item/${id}`, requestData, headers);
+                    await fetchData('PUT', `https://pos-app-backend-tim56.onrender.com/item/${id}`, requestData, headers);
                     setErrorMessage('')
                     fetchItems();
                     setEditingItem(null);

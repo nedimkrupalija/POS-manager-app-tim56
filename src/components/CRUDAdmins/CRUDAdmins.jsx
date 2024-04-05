@@ -14,8 +14,9 @@ const CRUDAdmins = () => {
   const [tableVisible, settableVisible] = useState(true);
   const [infoMessage, setInfoMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic3VwZXJhZG1pbiIsInVzZXJuYW1lIjoibmVkYSIsImlhdCI6MTcxMjI3ODQ5NywiZXhwIjoxNzEyMjgwMjk3fQ.3T6B2XsLMXT9ldg_xGAUEZsILhn5leEkKYO5e4RLNoo";
-
+  const token =()=>{
+   return Cookies.get("jwt");
+} 
   useEffect(() => {
     fetchAdmins();
 }, []);
@@ -24,9 +25,9 @@ const CRUDAdmins = () => {
     try {
         //const token=Cookies.get('jwt');
         const headers = {
-            'Authorization': token
+            'Authorization': token()
         };
-        const data = await fetchData('GET', 'http://localhost:3000/admin/administrators', null, headers);
+        const data = await fetchData('GET', 'https://pos-app-backend-tim56.onrender.com/admin/administrators', null, headers);
         setAdmins(data);
     } catch (error) {
         console.error(error);
@@ -52,9 +53,9 @@ const CRUDAdmins = () => {
         else{
         const requestData = { username, password, phoneNumber, role };
         const headers = {
-            'Authorization': token
+            'Authorization': token()
         };
-        await fetchData('POST', 'http://localhost:3000/admin/administrators', requestData, headers);
+        await fetchData('POST', 'https://pos-app-backend-tim56.onrender.com/admin/administrators', requestData, headers);
         setInfoMessage('User created')
                 document.getElementById('usernameCreate').value = ''
                 document.getElementById('passwordCreate').value = ''
@@ -75,9 +76,9 @@ const confirmDelete = async (id) => {
 const deleteAdmin = async (id) => {
     try {
         const headers = {
-            'Authorization': token
-                };
-        await fetchData('DELETE', `http://localhost:3000/admin/administrators/${id}`, null, headers);
+            'Authorization': token()
+        };
+        await fetchData('DELETE', `https://pos-app-backend-tim56.onrender.com/admin/administrators/${id}`, null, headers);
         fetchAdmins();
     } catch (error) {
         console.error(error);
@@ -126,7 +127,7 @@ const handleSaveClick = async () => {
           const headers = {
               'Authorization': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic3VwZXJhZG1pbiIsInVzZXJuYW1lIjoibmVkYSIsImlhdCI6MTcxMjE0OTYxMiwiZXhwIjoxNzEyMTg4Nzk5fQ.wqlAfxnFMUU8Ve5E1QpXNlC2_mRtTkW8V604UYZx16Y',
           };
-          await fetchData('PUT', `http://localhost:3000/admin/administrators/${id}`, requestData, headers);
+          await fetchData('PUT', `https://pos-app-backend-tim56.onrender.com/admin/administrators/${id}`, requestData, headers);
           fetchAdmins();
           setEditingAdmin(null);
       }

@@ -1,17 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import './Storage.css';
 import Home from '../Home/Home';
+import Cookies from 'js-cookie';
 const Storage = ({ id }) => {
   const [storageData, setStorageData] = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
-
+  const token =()=>{
+    return Cookies.get("jwt");
+  } 
   useEffect(() => {
     const fetchStorageData = async () => {
       try {
-        const response = await fetch(`http://localhost:3000/storage/${id}`, {
+        const response = await fetch(`https://pos-app-backend-tim56.onrender.com/storage/${id}`, {
           method: 'GET',
           headers: {
-            'Authorization': "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic3VwZXJhZG1pbiIsInVzZXJuYW1lIjoibmVkYSIsImlhdCI6MTcxMjI4MDY2OSwiZXhwIjoxNzEyMjgyNDY5fQ.U407zA89BHG0sADYwWeLYxPPFNJIW3JnLnXqYpUHTUE"
+            'Authorization': token()
           }
       });
         if (!response.ok) {

@@ -23,8 +23,10 @@ const Orders = () => {
     const [items, setItems] = useState([]);
     const [storage, setStorage] = useState([]);
     const [quantity, setQuantity] = useState([]);
-    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic3VwZXJhZG1pbiIsInVzZXJuYW1lIjoibmVkYSIsImlhdCI6MTcxMjI4MDY2OSwiZXhwIjoxNzEyMjgyNDY5fQ.U407zA89BHG0sADYwWeLYxPPFNJIW3JnLnXqYpUHTUE";
 
+    const token =()=>{
+        return Cookies.get("jwt");
+    } 
     const search = () => {
         const filteredResults = items.filter(item =>
             item.name.toLowerCase().includes(searchText.toLowerCase()) ||
@@ -36,12 +38,12 @@ const Orders = () => {
         try {
            
              fetch(
-                'http://localhost:3000/storage/',
+                'https://pos-app-backend-tim56.onrender.com/storage/',
                 {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': token
+                    'Authorization': token()
                 }
             }).then(response => response.json()) 
             .then(data => {
@@ -63,16 +65,15 @@ const Orders = () => {
     const fetchOrders = async () => {
         try {           
              fetch(
-                'http://localhost:3000/orders/',
+                'https://pos-app-backend-tim56.onrender.com/orders/',
                 {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': token
+                    'Authorization': token()
                 }
             }).then(response => response.json()) 
             .then(data => {
-                console.log(data);
                 setOrders(data); 
 
             }).catch(error=>{
@@ -85,13 +86,13 @@ const Orders = () => {
     };
     const fetchItems = async () => {
         try {
-            const response = await fetch('http://localhost:3000/item/', {
+            const response = await fetch('https://pos-app-backend-tim56.onrender.com/item/', {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': token
+                    'Authorization': token()
                 }
-            });
+            });   
             const data = await response.json();
             setItems(data);
             setSearchResults(data);
@@ -113,12 +114,12 @@ const Orders = () => {
             console.log(storages);
             console.log(storage);
             fetch(
-               'http://localhost:3000/orders/',
+               'https://pos-app-backend-tim56.onrender.com/orders/',
                {
                method: 'POST',
                headers: {
                    'Content-Type': 'application/json',
-                   'Authorization': token
+                   'Authorization': token()
                },
                body: JSON.stringify({
                 'storageId':storage.id,
@@ -141,12 +142,12 @@ const Orders = () => {
           
             try{           
             fetch(
-               'http://localhost:3000/orders/finish/'+id,
+               'https://pos-app-backend-tim56.onrender.com/orders/finish/'+id,
                {
                method: 'POST',
                headers: {
                    'Content-Type': 'application/json',
-                   'Authorization': token
+                   'Authorization': token()
                }
            }).then(response=>{
             if (order.id === id && order.status === 'placed') {
@@ -205,12 +206,12 @@ const Orders = () => {
     const handleDeleteOrder = (itemId) => {
         try{           
             fetch(
-               'http://localhost:3000/orders/'+itemId,
+               'https://pos-app-backend-tim56.onrender.com/orders/'+itemId,
                {
                method: 'DELETE',
                headers: {
                    'Content-Type': 'application/json',
-                   'Authorization': token
+                   'Authorization': token()
                }
            }).then(response=>{
             fetchOrders();

@@ -26,14 +26,12 @@ function App() {
   return (
       <Router>
         <Routes>
-          <Route path="/items" element={  <CRUDItems />  }></Route>
-        <Route path="/" element={ <Home /> }></Route>
-          <Route path="/orders" element={<Orders/>}/>
-          <Route path="/users" element={<CRUDUsers/>}/>
-          <Route path="/administrators" element={<CRUDAdmins/>}/>
-          <Route path="/locations" element={<CRUDLocations/>}/>
-          <Route path="/storage/:id" element={Storage} />
-
+          <Route path="/items" element={isLoggedIn?  <CRUDItems /> :<Login/> }></Route>
+        <Route path="/" element={ isLoggedIn?  <Home /> :<Login/> }></Route>
+          <Route path="/orders" element={isLoggedIn?  <Orders /> :<Login/> }/>
+          <Route path="/users" element={isLoggedIn?  <CRUDUsers /> :<Login/> }/>
+          <Route path="/administrators" element={isLoggedIn?  <CRUDAdmins /> :<Login/> }/>
+          <Route path="/locations" element={isLoggedIn?  <CRUDLocations /> :<Login/> }/>
         </Routes>
       </Router>
     

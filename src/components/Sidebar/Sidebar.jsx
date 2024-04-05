@@ -10,9 +10,8 @@ import
 function Sidebar({openSidebarToggle, OpenSidebar}) {
     const [role, setRole] = React.useState("");
     useEffect(() => {
-        const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic3VwZXJhZG1pbiIsInVzZXJuYW1lIjoibmVkYSIsImlhdCI6MTcxMjI2NzQ0MSwiZXhwIjoxNzEyMjY5MjQxfQ.PeuDEfo2CLghG9SYGwzNXGpw4MHB8ci8Rt-4LtfN5rc";
+        const token = Cookies.get("jwt");
         const decodedToken = jwtDecode(token);
-        console.log(decodedToken);
      setRole(decodedToken.role);
   },[]);
   const userRole=()=>{

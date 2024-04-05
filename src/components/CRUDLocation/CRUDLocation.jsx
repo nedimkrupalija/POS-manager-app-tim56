@@ -9,6 +9,7 @@ import error_icon from '../../assets/error.png';
 import pos_icon from '../../assets/pos.png';
 import Home from '../Home/Home';
 import Storage from '../Storage/Storage';
+import Cookies from 'js-cookie';
 const CRUDLocations = () => {
     const [storageCheckbox, setStorageCheckbox] = useState(false);
     const [tableVisible, setTableVisible] = useState(true);
@@ -33,13 +34,15 @@ const CRUDLocations = () => {
     setShowStorage(true);
 
   };
-
+  const token =()=>{
+    return Cookies.get("jwt");
+} 
     const fetchPOS= async () => {
       try {
-          const response = await fetch('http://localhost:3000/pos', {
+          const response = await fetch('https://pos-app-backend-tim56.onrender.com/pos', {
               method: 'GET',
               headers: {
-                'Authorization': "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic3VwZXJhZG1pbiIsInVzZXJuYW1lIjoibmVkYSIsImlhdCI6MTcxMjI4MDY2OSwiZXhwIjoxNzEyMjgyNDY5fQ.U407zA89BHG0sADYwWeLYxPPFNJIW3JnLnXqYpUHTUE"
+                'Authorization': token()
             }
           });
           const data = await response.json();
@@ -53,10 +56,10 @@ const CRUDLocations = () => {
 
     const fetchLocations = async () => {
         try {
-            const response = await fetch('http://localhost:3000/location', {
+            const response = await fetch('https://pos-app-backend-tim56.onrender.com/location', {
                 method: 'GET',
                 headers: {
-                    'Authorization': "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic3VwZXJhZG1pbiIsInVzZXJuYW1lIjoibmVkYSIsImlhdCI6MTcxMjI4MDY2OSwiZXhwIjoxNzEyMjgyNDY5fQ.U407zA89BHG0sADYwWeLYxPPFNJIW3JnLnXqYpUHTUE"
+                    'Authorization': token()
                 }
             });
             const data = await response.json();
@@ -71,11 +74,11 @@ const CRUDLocations = () => {
 
     const handlePOSclick = async (locationId) => {
       try {
-          const response = await fetch(`http://localhost:3000/location/${locationId}`, {
+          const response = await fetch(`https://pos-app-backend-tim56.onrender.com/location/${locationId}`, {
               method: 'GET',
               headers: {
-                'Authorization': "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic3VwZXJhZG1pbiIsInVzZXJuYW1lIjoibmVkYSIsImlhdCI6MTcxMjI4MDY2OSwiZXhwIjoxNzEyMjgyNDY5fQ.U407zA89BHG0sADYwWeLYxPPFNJIW3JnLnXqYpUHTUE"
-              }
+                'Authorization': token()
+            }
           });
           const data = await response.json();
           
@@ -103,12 +106,12 @@ const CRUDLocations = () => {
             }
             const requestData = { name, adress }; // Promijenjeno ime polja
             const headers = {
-                'Authorization': "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic3VwZXJhZG1pbiIsInVzZXJuYW1lIjoibmVkYSIsImlhdCI6MTcxMjI4MDY2OSwiZXhwIjoxNzEyMjgyNDY5fQ.U407zA89BHG0sADYwWeLYxPPFNJIW3JnLnXqYpUHTUE"
+                'Authorization': token()
             };
             
-            const data = await fetchData('POST', 'http://localhost:3000/location', requestData, headers);
+            const data = await fetchData('POST', 'https://pos-app-backend-tim56.onrender.com/location', requestData, headers);
             if(checkbox){
-                await fetchData('POST', 'http://localhost:3000/storage', {status : "Active", LocationId: data.id}, headers);
+                await fetchData('POST', 'https://pos-app-backend-tim56.onrender.com/storage', {status : "Active", LocationId: data.id}, headers);
             }
             setInfoMessage('Location created');
             fetchLocations();
@@ -128,19 +131,19 @@ const CRUDLocations = () => {
 
     const deleteLocation = async (id,storageId) => {
         const headers = {
-            'Authorization': "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic3VwZXJhZG1pbiIsInVzZXJuYW1lIjoibmVkYSIsImlhdCI6MTcxMjI4MDY2OSwiZXhwIjoxNzEyMjgyNDY5fQ.U407zA89BHG0sADYwWeLYxPPFNJIW3JnLnXqYpUHTUE"
+            'Authorization': token()
         };
-        await fetchData('DELETE', `http://localhost:3000/storage/${storageId}`, null, headers);
-        await fetchData('DELETE', `http://localhost:3000/location/${id}`, null, headers);
+        await fetchData('DELETE', `https://pos-app-backend-tim56.onrender.com/storage/${storageId}`, null, headers);
+        await fetchData('DELETE', `https://pos-app-backend-tim56.onrender.com/location/${id}`, null, headers);
         setErrorMessage('');
         fetchLocations();
     };
 
   const deletePOS = async (id) =>{
     const headers = {
-        'Authorization': "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic3VwZXJhZG1pbiIsInVzZXJuYW1lIjoibmVkYSIsImlhdCI6MTcxMjI4MDY2OSwiZXhwIjoxNzEyMjgyNDY5fQ.U407zA89BHG0sADYwWeLYxPPFNJIW3JnLnXqYpUHTUE"
+        'Authorization': token()
     };
-    await fetchData ('DELETE', `http://localhost:3000/pos/${id}`, null, headers);
+    await fetchData ('DELETE', `https://pos-app-backend-tim56.onrender.com/pos/${id}`, null, headers);
     setErrorMessage('');
     fetchLocations();
     fetchPOS();
@@ -194,9 +197,9 @@ const CRUDLocations = () => {
           }
           const requestData = { name, status };
           const headers = {
-            'Authorization': "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic3VwZXJhZG1pbiIsInVzZXJuYW1lIjoibmVkYSIsImlhdCI6MTcxMjI4MDY2OSwiZXhwIjoxNzEyMjgyNDY5fQ.U407zA89BHG0sADYwWeLYxPPFNJIW3JnLnXqYpUHTUE"
+            'Authorization': token()
         };
-              await fetchData('PUT', `http://localhost:3000/pos/${id}`, requestData, headers);
+              await fetchData('PUT', `https://pos-app-backend-tim56.onrender.com/pos/${id}`, requestData, headers);
               setErrorMessage('');
               fetchPOS();
               setEditingPOS(null);
@@ -217,9 +220,9 @@ const CRUDLocations = () => {
         
         const requestData = { name, status,  LocationId};
         const headers = {
-            'Authorization': "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic3VwZXJhZG1pbiIsInVzZXJuYW1lIjoibmVkYSIsImlhdCI6MTcxMjI4MDY2OSwiZXhwIjoxNzEyMjgyNDY5fQ.U407zA89BHG0sADYwWeLYxPPFNJIW3JnLnXqYpUHTUE"
+            'Authorization': token()
         };
-        await fetchData('POST', 'http://localhost:3000/pos', requestData, headers);
+        await fetchData('POST', 'https://pos-app-backend-tim56.onrender.com/pos', requestData, headers);
         setInfoMessage('POS created');
         fetchPOS();
         document.getElementById('nameCreate').value = '';
@@ -246,22 +249,22 @@ const CRUDLocations = () => {
             }
             const requestData = { name, adress }; // Promijenjeno ime polja
             const headers = {
-                'Authorization': "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic3VwZXJhZG1pbiIsInVzZXJuYW1lIjoibmVkYSIsImlhdCI6MTcxMjI4MDY2OSwiZXhwIjoxNzEyMjgyNDY5fQ.U407zA89BHG0sADYwWeLYxPPFNJIW3JnLnXqYpUHTUE"
+                'Authorization': token()
             };
             if(!editingLocation.Storage && checkbox){
-                await fetchData('POST', 'http://localhost:3000/storage', {status : "Active", LocationId: id}, headers);
+                await fetchData('POST', 'https://pos-app-backend-tim56.onrender.com/storage', {status : "Active", LocationId: id}, headers);
             }
             else if(editingLocation.Storage && !checkbox){
                
                 try {
-                    await fetchData('DELETE', `http://localhost:3000/storage/${editingLocation.Storage.id}`, null, headers)
+                    await fetchData('DELETE', `https://pos-app-backend-tim56.onrender.com/storage/${editingLocation.Storage.id}`, null, headers)
                 } catch (error) {
                     console.log(error)
                 }
                 
             }
 
-            await fetchData('PUT', `http://localhost:3000/location/${id}`, requestData, headers);
+            await fetchData('PUT', `https://pos-app-backend-tim56.onrender.com/location/${id}`, requestData, headers);
             setErrorMessage('');
             fetchLocations();
             setEditingLocation(null);

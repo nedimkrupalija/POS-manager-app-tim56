@@ -124,8 +124,10 @@ const Login = () => {
                 } else {
                     setPinInputVisible(false);
                     setMessage('');
-                    const expiresIn = 30 * 60;
-                    Cookies.set('jwt', token, { expires: expiresIn, path: '/' });
+                    const decodedToken = jwt_decode(token);
+                    const expirationTimeInSeconds = decodedToken.exp;
+                    console.log(expirationTimeInSeconds);
+                    Cookies.set('jwt', token, { expires: expirationTimeInSeconds, path: '/' });
                     setIsLoggedIn(true);
                 }
             })
