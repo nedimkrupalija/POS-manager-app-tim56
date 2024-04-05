@@ -25,7 +25,8 @@ function App() {
     setIsLoggedIn(!!jwtToken);
   }, []);
   return (
-      <Router>
+    
+      <Router basename='/'>
         <Routes>
           <Route path="/items" element={isLoggedIn?  <CRUDItems /> :<Login/> }></Route>
         <Route path="/" element={ isLoggedIn?  <Home /> :<Login/> }></Route>
