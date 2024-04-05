@@ -23,7 +23,7 @@ const Orders = () => {
     const [items, setItems] = useState([]);
     const [storage, setStorage] = useState([]);
     const [quantity, setQuantity] = useState([]);
-    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic3VwZXJhZG1pbiIsInVzZXJuYW1lIjoibmVkYSIsImlhdCI6MTcxMjI2NzQ0MSwiZXhwIjoxNzEyMjY5MjQxfQ.PeuDEfo2CLghG9SYGwzNXGpw4MHB8ci8Rt-4LtfN5rc";
+    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic3VwZXJhZG1pbiIsInVzZXJuYW1lIjoibmVkYSIsImlhdCI6MTcxMjI4MDY2OSwiZXhwIjoxNzEyMjgyNDY5fQ.U407zA89BHG0sADYwWeLYxPPFNJIW3JnLnXqYpUHTUE";
 
     const search = () => {
         const filteredResults = items.filter(item =>
@@ -47,6 +47,7 @@ const Orders = () => {
             .then(data => {
                 setStorages(data); 
                 setStorage(data[0]);
+
             }).catch(error=>{
                 setErrorMessage(error.message);
 
@@ -73,6 +74,7 @@ const Orders = () => {
             .then(data => {
                 console.log(data);
                 setOrders(data); 
+
             }).catch(error=>{
                 setErrorMessage(error.message);
 
@@ -93,6 +95,7 @@ const Orders = () => {
             const data = await response.json();
             setItems(data);
             setSearchResults(data);
+
         } catch (error) {
             console.error('Error fetching items:', error);
         }
@@ -107,6 +110,8 @@ const Orders = () => {
                     return { ItemId: selectedItem.id, quantity: 1 };
                 }
             });
+            console.log(storages);
+            console.log(storage);
             fetch(
                'http://localhost:3000/orders/',
                {
@@ -122,6 +127,7 @@ const Orders = () => {
            })}).then(response=>{
              fetchOrders(); 
             settableVisible(true);
+
            }).catch(error=>{
                setErrorMessage(error.message);
 
@@ -132,9 +138,7 @@ const Orders = () => {
     };
     const handleStatusChange = (id) => {
         setOrders(prevOrders => prevOrders.map(order => {
-            if (order.id === id && order.status === 'placed') {
-                return { ...order, status: 'processed' };
-            }
+          
             try{           
             fetch(
                'http://localhost:3000/orders/finish/'+id,
@@ -144,6 +148,11 @@ const Orders = () => {
                    'Content-Type': 'application/json',
                    'Authorization': token
                }
+           }).then(response=>{
+            if (order.id === id && order.status === 'placed') {
+                return { ...order, status: 'processed' };
+            }
+
            }).catch(error=>{
                setErrorMessage(error.message);
 
@@ -157,10 +166,12 @@ const Orders = () => {
 
     const openEditOrderModal = (order) => {
         setEditingOrder(order);
+
     };
 
     const closeEditOrderModal = () => {
         setEditingOrder(null);
+
     };
 
     const updateOrder = (orderData) => {
@@ -171,6 +182,7 @@ const Orders = () => {
             return order;
         }));
         setEditingOrder(null);
+
     };
     function formatDate(inputDate) {
         const date = new Date(inputDate);
@@ -202,6 +214,7 @@ const Orders = () => {
                }
            }).then(response=>{
             fetchOrders();
+
            }).catch(error=>{
                setErrorMessage(error.message);
 
@@ -292,7 +305,7 @@ const Orders = () => {
     setStorage(selectedStorage);
 }}>
     {storages.map(storage => (
-        <option key={storage.id} value={storage.id}>{storage.status}</option>
+        <option key={storage.id} value={storage.id}>{storage.id}</option>
     ))}
 </select>
     <h3>Items:</h3>

@@ -7,7 +7,8 @@ import close_icon from '../../assets/close.png';
 import info_icon from '../../assets/info.png';
 import error_icon from '../../assets/error.png';
 import pos_icon from '../../assets/pos.png';
-
+import Home from '../Home/Home';
+import Storage from '../Storage/Storage';
 const CRUDLocations = () => {
     const [storageCheckbox, setStorageCheckbox] = useState(false);
     const [tableVisible, setTableVisible] = useState(true);
@@ -20,22 +21,26 @@ const CRUDLocations = () => {
     const [posList, setPosList] = useState([]);
     const [posTableVisible, setPosTableVisible] = useState(false);
     const [createPOSShown, setCreatePOSShown] = useState(false);
-
-
+    const [showStorage, setShowStorage] = useState(false);
+    const [storageId,setStorageId]=useState();
 
     useEffect(() => {
         fetchLocations();
         fetchPOS();
     }, []);
-  
-  
+  const handleStorageclick=(storageId)=>{
+    setStorageId(storageId);
+    setShowStorage(true);
+
+  };
+
     const fetchPOS= async () => {
       try {
           const response = await fetch('http://localhost:3000/pos', {
               method: 'GET',
               headers: {
-                  'Authorization': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic3VwZXJhZG1pbiIsInVzZXJuYW1lIjoibmVkYSIsImlhdCI6MTcxMjA4ODAwMCwiZXhwIjoxNzEyMDg5ODAwfQ.PLTUxRMlTTXvGjbMfx9FPWoLrpvgewBm4DKzID4xLO4'
-              }
+                'Authorization': "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic3VwZXJhZG1pbiIsInVzZXJuYW1lIjoibmVkYSIsImlhdCI6MTcxMjI4MDY2OSwiZXhwIjoxNzEyMjgyNDY5fQ.U407zA89BHG0sADYwWeLYxPPFNJIW3JnLnXqYpUHTUE"
+            }
           });
           const data = await response.json();
           setPosList(data);
@@ -51,7 +56,7 @@ const CRUDLocations = () => {
             const response = await fetch('http://localhost:3000/location', {
                 method: 'GET',
                 headers: {
-                    'Authorization': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic3VwZXJhZG1pbiIsInVzZXJuYW1lIjoibmVkYSIsImlhdCI6MTcxMjA4ODAwMCwiZXhwIjoxNzEyMDg5ODAwfQ.PLTUxRMlTTXvGjbMfx9FPWoLrpvgewBm4DKzID4xLO4'
+                    'Authorization': "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic3VwZXJhZG1pbiIsInVzZXJuYW1lIjoibmVkYSIsImlhdCI6MTcxMjI4MDY2OSwiZXhwIjoxNzEyMjgyNDY5fQ.U407zA89BHG0sADYwWeLYxPPFNJIW3JnLnXqYpUHTUE"
                 }
             });
             const data = await response.json();
@@ -69,7 +74,7 @@ const CRUDLocations = () => {
           const response = await fetch(`http://localhost:3000/location/${locationId}`, {
               method: 'GET',
               headers: {
-                  'Authorization': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic3VwZXJhZG1pbiIsInVzZXJuYW1lIjoibmVkYSIsImlhdCI6MTcxMjA4ODAwMCwiZXhwIjoxNzEyMDg5ODAwfQ.PLTUxRMlTTXvGjbMfx9FPWoLrpvgewBm4DKzID4xLO4'
+                'Authorization': "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic3VwZXJhZG1pbiIsInVzZXJuYW1lIjoibmVkYSIsImlhdCI6MTcxMjI4MDY2OSwiZXhwIjoxNzEyMjgyNDY5fQ.U407zA89BHG0sADYwWeLYxPPFNJIW3JnLnXqYpUHTUE"
               }
           });
           const data = await response.json();
@@ -98,7 +103,7 @@ const CRUDLocations = () => {
             }
             const requestData = { name, adress }; // Promijenjeno ime polja
             const headers = {
-                'Authorization': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic3VwZXJhZG1pbiIsInVzZXJuYW1lIjoibmVkYSIsImlhdCI6MTcxMjA4ODAwMCwiZXhwIjoxNzEyMDg5ODAwfQ.PLTUxRMlTTXvGjbMfx9FPWoLrpvgewBm4DKzID4xLO4'
+                'Authorization': "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic3VwZXJhZG1pbiIsInVzZXJuYW1lIjoibmVkYSIsImlhdCI6MTcxMjI4MDY2OSwiZXhwIjoxNzEyMjgyNDY5fQ.U407zA89BHG0sADYwWeLYxPPFNJIW3JnLnXqYpUHTUE"
             };
             
             const data = await fetchData('POST', 'http://localhost:3000/location', requestData, headers);
@@ -123,7 +128,7 @@ const CRUDLocations = () => {
 
     const deleteLocation = async (id,storageId) => {
         const headers = {
-            'Authorization': "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic3VwZXJhZG1pbiIsInVzZXJuYW1lIjoibmVkYSIsImlhdCI6MTcxMjA4ODAwMCwiZXhwIjoxNzEyMDg5ODAwfQ.PLTUxRMlTTXvGjbMfx9FPWoLrpvgewBm4DKzID4xLO4"
+            'Authorization': "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic3VwZXJhZG1pbiIsInVzZXJuYW1lIjoibmVkYSIsImlhdCI6MTcxMjI4MDY2OSwiZXhwIjoxNzEyMjgyNDY5fQ.U407zA89BHG0sADYwWeLYxPPFNJIW3JnLnXqYpUHTUE"
         };
         await fetchData('DELETE', `http://localhost:3000/storage/${storageId}`, null, headers);
         await fetchData('DELETE', `http://localhost:3000/location/${id}`, null, headers);
@@ -133,8 +138,8 @@ const CRUDLocations = () => {
 
   const deletePOS = async (id) =>{
     const headers = {
-      'Authorization': "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic3VwZXJhZG1pbiIsInVzZXJuYW1lIjoibmVkYSIsImlhdCI6MTcxMjA4ODAwMCwiZXhwIjoxNzEyMDg5ODAwfQ.PLTUxRMlTTXvGjbMfx9FPWoLrpvgewBm4DKzID4xLO4"
-  };
+        'Authorization': "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic3VwZXJhZG1pbiIsInVzZXJuYW1lIjoibmVkYSIsImlhdCI6MTcxMjI4MDY2OSwiZXhwIjoxNzEyMjgyNDY5fQ.U407zA89BHG0sADYwWeLYxPPFNJIW3JnLnXqYpUHTUE"
+    };
     await fetchData ('DELETE', `http://localhost:3000/pos/${id}`, null, headers);
     setErrorMessage('');
     fetchLocations();
@@ -189,8 +194,8 @@ const CRUDLocations = () => {
           }
           const requestData = { name, status };
           const headers = {
-              'Authorization': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic3VwZXJhZG1pbiIsInVzZXJuYW1lIjoibmVkYSIsImlhdCI6MTcxMjA4ODAwMCwiZXhwIjoxNzEyMDg5ODAwfQ.PLTUxRMlTTXvGjbMfx9FPWoLrpvgewBm4DKzID4xLO4'
-          };
+            'Authorization': "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic3VwZXJhZG1pbiIsInVzZXJuYW1lIjoibmVkYSIsImlhdCI6MTcxMjI4MDY2OSwiZXhwIjoxNzEyMjgyNDY5fQ.U407zA89BHG0sADYwWeLYxPPFNJIW3JnLnXqYpUHTUE"
+        };
               await fetchData('PUT', `http://localhost:3000/pos/${id}`, requestData, headers);
               setErrorMessage('');
               fetchPOS();
@@ -212,7 +217,7 @@ const CRUDLocations = () => {
         
         const requestData = { name, status,  LocationId};
         const headers = {
-            'Authorization': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic3VwZXJhZG1pbiIsInVzZXJuYW1lIjoibmVkYSIsImlhdCI6MTcxMjA4ODAwMCwiZXhwIjoxNzEyMDg5ODAwfQ.PLTUxRMlTTXvGjbMfx9FPWoLrpvgewBm4DKzID4xLO4'
+            'Authorization': "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic3VwZXJhZG1pbiIsInVzZXJuYW1lIjoibmVkYSIsImlhdCI6MTcxMjI4MDY2OSwiZXhwIjoxNzEyMjgyNDY5fQ.U407zA89BHG0sADYwWeLYxPPFNJIW3JnLnXqYpUHTUE"
         };
         await fetchData('POST', 'http://localhost:3000/pos', requestData, headers);
         setInfoMessage('POS created');
@@ -241,7 +246,7 @@ const CRUDLocations = () => {
             }
             const requestData = { name, adress }; // Promijenjeno ime polja
             const headers = {
-                'Authorization': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic3VwZXJhZG1pbiIsInVzZXJuYW1lIjoibmVkYSIsImlhdCI6MTcxMjA4ODAwMCwiZXhwIjoxNzEyMDg5ODAwfQ.PLTUxRMlTTXvGjbMfx9FPWoLrpvgewBm4DKzID4xLO4'
+                'Authorization': "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic3VwZXJhZG1pbiIsInVzZXJuYW1lIjoibmVkYSIsImlhdCI6MTcxMjI4MDY2OSwiZXhwIjoxNzEyMjgyNDY5fQ.U407zA89BHG0sADYwWeLYxPPFNJIW3JnLnXqYpUHTUE"
             };
             if(!editingLocation.Storage && checkbox){
                 await fetchData('POST', 'http://localhost:3000/storage', {status : "Active", LocationId: id}, headers);
@@ -262,8 +267,12 @@ const CRUDLocations = () => {
             setEditingLocation(null);
         }
     };
-
+if(showStorage){
+    
+    return <Storage id={storageId}/>
+}
     return (
+        <Home>
         <>
             <div className='list'>
                 <h2 className='locations-title'>{tableVisible ? "LOCATIONS" : "CREATE NEW LOCATION"}</h2>
@@ -292,51 +301,60 @@ const CRUDLocations = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {locations.map(location => (
-                                        <tr key={location.id}>
-                                            <td>{location.id}</td>
-                                            <td className="editable-cell">
-                                                {editingLocation === location ? (
-                                                    <input id="nameEdit" type="text" defaultValue={location.name} className="editable-input" />
-                                                ) : (
-                                                    location.name
-                                                )}
-                                            </td>
-                                            <td className="editable-cell">
-                                                {editingLocation === location ? (
-                                                    <input id="addressEdit" type="text" defaultValue={location.adress} className="editable-input" />
-                                                ) : (
-                                                    location.adress
-                                                )}
-                                            </td>
-                                            <td className='editable-cell'>
-                                          {editingLocation === location ? (
-                                            <input id='checkboxEdit' type="checkbox" defaultChecked={location.Storage}  />   
-                                            ) : (
-                                                location.Storage ? 'Yes' : 'No'
-                                            )}
+    {locations.map(location => (
+        <tr key={location.id}>
+            <td>{location.id}</td>
+            <td className="editable-cell">
+                {editingLocation === location ? (
+                    <input id="nameEdit" type="text" defaultValue={location.name} className="editable-input" />
+                ) : (
+                    location.name
+                )}
+            </td>
+            <td className="editable-cell">
+                {editingLocation === location ? (
+                    <input id="addressEdit" type="text" defaultValue={location.adress} className="editable-input" />
+                ) : (
+                    location.adress
+                )}
+            </td>
+            <td className='editable-cell'>
+                {editingLocation === location ? (
+                    <input id='checkboxEdit' type="checkbox" defaultChecked={location.Storage}  />   
+                ) : (
+                    <div>
+                        {location.Storage ? (
+                            <>
+                                Yes
+                                <button className="buttons1" onClick={() => handleStorageclick(location.Storage.id)}>
+                                    View Storage
+                                </button>
+                            </>
+                        ) : (
+                            "No"
+                        )}
+                    </div>
+                )}
+            </td>
+            <td>
+                <div className='actions-container'>
+                    <img onClick={() => handlePOSclick(location.id)} src={pos_icon} alt="POS" className='icon' />
+                    {editingLocation === location ? (
+                        <img onClick={() => handleSaveClick()} src={confirm_icon} alt="Confirm" className='confirm-icon' />
+                    ) : (
+                        <img onClick={() => setEditingLocation(location)} src={edit_icon} alt="Edit" className='edit-icon' />
+                    )}
+                    {editingLocation === location ? (
+                        <img onClick={() => { setEditingLocation(null); setErrorMessage(''); }} src={close_icon} alt="Close" className='close-icon' />
+                    ) : (
+                        <img onClick={() => confirmDelete(location.id, location.Storage.id)} src={delete_icon} alt="Delete" className='delete-icon' />
+                    )}
+                </div>
+            </td>
+        </tr>
+    ))}
+</tbody>
 
-                                      
-                                            </td>
-                                            <td>
-                                                <div className='actions-container'>
-                                               
-                                                    <img onClick={() => handlePOSclick(location.id)} src={pos_icon} alt="POS" className='icon' />
-                                                    {editingLocation === location ? (
-                                                        <img onClick={() => handleSaveClick()} src={confirm_icon} alt="Confirm" className='confirm-icon' />
-                                                    ) : (
-                                                        <img onClick={() => setEditingLocation(location)} src={edit_icon} alt="Edit" className='edit-icon' />
-                                                    )}
-                                                    {editingLocation === location ? (
-                                                        <img onClick={() => { setEditingLocation(null); setErrorMessage(''); }} src={close_icon} alt="Close" className='close-icon' />
-                                                    ) : (
-                                                        <img onClick={() => confirmDelete(location.id, location.Storage.id)} src={delete_icon} alt="Delete" className='delete-icon' />
-                                                    )}
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    ))}
-                                </tbody>
                             </table>
                         </div>
                     </>
@@ -489,6 +507,7 @@ const CRUDLocations = () => {
     </div>
 )}
 </>
+</Home>
 );
         };
 

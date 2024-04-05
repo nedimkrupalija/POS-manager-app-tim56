@@ -1,41 +1,19 @@
-.storage {
-  margin-top: 10px;
-  margin-left: 10px;
-}
-h1 {
-  margin-top: 10px; /* Remove default margin */
-  margin-bottom: 10px;
-  position: fixed; /* Position the h1 element relative to the viewport */
-  top: 0; /* Align the h1 element to the top of the viewport */
-  width: 100%; /* Make the h1 element span the entire width */
-  background-color: #ffffff; /* Optional: Add a background color */
-  z-index: 1000; /* Ensure the h1 element is on top of other content */
-}
-table {
-  border-collapse: collapse;
-  margin-top: 5px;
-  margin: auto; /* Center the table horizontally */
-  width: 100%; /* Adjust table width as needed */
-}
-.prviNaslov {
-  font-size: 40px;
-  margin-top: 5px;
-  margin-bottom: 10px;
-  background-color: #62b5dc; /* Change background color of h2 */
-  color: #fff; /* Change text color to white */
-}
-.drugiNaslov {
-  font-size: medium;
-  margin-top: 0px;
-  margin-bottom: 5px;
-  height: 25px;
-  padding: 10px; /* Add padding to h2 elements */
-  background-color: #62b5dc; /* Change background color of h2 */
-  color: #fff; /* Change text color to white */
+
+.table {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  margin: 5%;
+  margin-right: 10%;
 }
 
-th, td {
-  border: 1px solid #000; /* Add a solid border to table headers and data cells */
-  padding: 8px; /* Add padding to improve spacing */
-  text-align: left; /* Optionally, align text within cells */
+.table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th,
+.table td {
+  border-bottom: 1px solid #ccc;
+  padding: 4px 8px;
+  text-align: center;
 }

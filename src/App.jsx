@@ -16,29 +16,27 @@ import Modal from 'react-modal';
 Modal.setAppElement('#root'); 
 function App() {
 
-  /*const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
     const jwtToken = Cookies.get('jwt');
     setIsLoggedIn(!!jwtToken);
-  }, []);*/
+  }, []);
 
   return (
-      /*<Router>
+      <Router>
         <Routes>
           <Route path="/items" element={  <CRUDItems />  }></Route>
         <Route path="/" element={ <Home /> }></Route>
           <Route path="/orders" element={<Orders/>}/>
           <Route path="/users" element={<CRUDUsers/>}/>
           <Route path="/administrators" element={<CRUDAdmins/>}/>
-          <Route path="/storage" element={<Storage/>}/>
-        </Routes>
-      </Router>*/
-      <Router>
-        <Routes>
-          <Route path="/" element={<CRUDLocations />} />
+          <Route path="/locations" element={<CRUDLocations/>}/>
+          <Route path="/storage/:id" element={Storage} />
+
         </Routes>
       </Router>
+    
   )
 }
 export default App

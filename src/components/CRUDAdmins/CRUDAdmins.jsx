@@ -14,7 +14,7 @@ const CRUDAdmins = () => {
   const [tableVisible, settableVisible] = useState(true);
   const [infoMessage, setInfoMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic3VwZXJhZG1pbiIsInVzZXJuYW1lIjoibmVkYSIsImlhdCI6MTcxMjI2NzQ0MSwiZXhwIjoxNzEyMjY5MjQxfQ.PeuDEfo2CLghG9SYGwzNXGpw4MHB8ci8Rt-4LtfN5rc";
+  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic3VwZXJhZG1pbiIsInVzZXJuYW1lIjoibmVkYSIsImlhdCI6MTcxMjI3ODQ5NywiZXhwIjoxNzEyMjgwMjk3fQ.3T6B2XsLMXT9ldg_xGAUEZsILhn5leEkKYO5e4RLNoo";
 
   useEffect(() => {
     fetchAdmins();
@@ -104,7 +104,7 @@ const fetchData = async (method, url, requestData = null, headers = {}) => {
         if (!response.ok) {
             throw new Error(data.message || 'Error fetching data');
         }
-
+   
         return data;
     } catch (error) {
         throw new Error(error.message || 'Error fetching data');

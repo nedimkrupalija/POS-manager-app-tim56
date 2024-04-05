@@ -57,7 +57,7 @@ return false;
                 </a>
             </li>
             <li className='sidebar-list-item'>
-                <a href="./storage">
+                <a href="./locations">
                     <BsMenuButtonWideFill className='icon'/> Storage places, locations and POS
                 </a>
             </li>

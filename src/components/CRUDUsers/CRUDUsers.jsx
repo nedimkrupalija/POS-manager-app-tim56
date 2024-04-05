@@ -14,7 +14,7 @@ const CRUDUsers = () => {
     const [editingUser, setEditingUser] = useState(null);
     const [infoMessage, setInfoMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
-    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic3VwZXJhZG1pbiIsInVzZXJuYW1lIjoibmVkYSIsImlhdCI6MTcxMjI2NzQ0MSwiZXhwIjoxNzEyMjY5MjQxfQ.PeuDEfo2CLghG9SYGwzNXGpw4MHB8ci8Rt-4LtfN5rc";
+    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic3VwZXJhZG1pbiIsInVzZXJuYW1lIjoibmVkYSIsImlhdCI6MTcxMjI3NTU3NCwiZXhwIjoxNzEyMjc3Mzc0fQ.9PLLRy_FoXDjNmPZzQh_Iw5yj4Cum0FLciriqxKs9DE";
 
     useEffect(() => {
         fetchUsers();
@@ -105,6 +105,8 @@ const CRUDUsers = () => {
             if (!response.ok) {
                 throw new Error(data.message || 'Error fetching data');
             }
+            Cookies.set('jwt', token, { expires:  30 * 60 });
+
             return data;
         } catch (error) {
             throw new Error(error.message || 'Error fetching data');

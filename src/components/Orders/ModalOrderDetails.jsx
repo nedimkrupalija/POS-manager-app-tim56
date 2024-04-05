@@ -25,7 +25,7 @@ const ModalOrderDetails = ({ isOpen, onRequestClose, order, cancelOrder }) => {
                     <h2>Order Details</h2>
                     <p><strong>Date:</strong> {formatDate(order.date)}</p>
                     <p><strong>Status:</strong> {order.status}</p>
-                    <p><strong>Storage:</strong> {order.storage.status}</p>
+                    <p><strong>Storage:</strong> {order.storage ? order.storage.id : "N/A"}</p>
                     <h3>Items:</h3>
                     <div className='table'>
                     <table border={1}>

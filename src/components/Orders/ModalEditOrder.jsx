@@ -14,7 +14,7 @@ const ModalEditOrder = ({ isOpen, onRequestClose, order, updateOrder, fetchOrder
     const [orderItems, setOrderItems] = useState([]);
 
     const [quantityMap, setQuantityMap] = useState({});
-    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic3VwZXJhZG1pbiIsInVzZXJuYW1lIjoibmVkYSIsImlhdCI6MTcxMjI2NzQ0MSwiZXhwIjoxNzEyMjY5MjQxfQ.PeuDEfo2CLghG9SYGwzNXGpw4MHB8ci8Rt-4LtfN5rc";
+    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic3VwZXJhZG1pbiIsInVzZXJuYW1lIjoibmVkYSIsImlhdCI6MTcxMjI4MDY2OSwiZXhwIjoxNzEyMjgyNDY5fQ.U407zA89BHG0sADYwWeLYxPPFNJIW3JnLnXqYpUHTUE";
 
     
     const getStorages = async () => {
@@ -32,6 +32,7 @@ const ModalEditOrder = ({ isOpen, onRequestClose, order, updateOrder, fetchOrder
             );
             const data = await response.json();
             setStorages(data); 
+
         } catch (error) {
             console.error('Error fetching storages:', error);
         }
@@ -79,6 +80,7 @@ const ModalEditOrder = ({ isOpen, onRequestClose, order, updateOrder, fetchOrder
                     body: JSON.stringify({ items: updatedItems })
                 }
             ).then(response=>{
+
                 if(response.status==200)
 setInfoMessage('Changes saved successfully');
 else 

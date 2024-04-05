@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './Storage.css';
+import Home from '../Home/Home';
 const Storage = ({ id }) => {
   const [storageData, setStorageData] = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
@@ -7,7 +8,12 @@ const Storage = ({ id }) => {
   useEffect(() => {
     const fetchStorageData = async () => {
       try {
-        const response = await fetch(`http://localhost:3000/storage/${id}`);
+        const response = await fetch(`http://localhost:3000/storage/${id}`, {
+          method: 'GET',
+          headers: {
+            'Authorization': "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic3VwZXJhZG1pbiIsInVzZXJuYW1lIjoibmVkYSIsImlhdCI6MTcxMjI4MDY2OSwiZXhwIjoxNzEyMjgyNDY5fQ.U407zA89BHG0sADYwWeLYxPPFNJIW3JnLnXqYpUHTUE"
+          }
+      });
         if (!response.ok) {
           throw new Error('Failed to fetch storage data');
         }
@@ -23,14 +29,15 @@ const Storage = ({ id }) => {
 
   return (
     <Home>
-    <div className='storage'> 
-      <h1>Storage</h1>
+    <div className='list'> 
+      <h2 className='users-title'>Storage</h2>
       {errorMessage && <p>Error: {errorMessage}</p>}
       {storageData && (
         <div>
-          <h2 className='prviNaslov'>Storage location: {storageData.Location.name}</h2>
-          <h2 className='drugiNaslov'>Storage status: {storageData.status}</h2>
-          <table>
+          <h2  className='users-title'>Storage location: {storageData.Location.name}</h2>
+          <h2 className='users-title'>Storage status: {storageData.status}</h2>
+          <div className='table'>
+          <table border={1}>
             <thead>
               <tr>
                 <th>Item Name</th>
@@ -46,6 +53,7 @@ const Storage = ({ id }) => {
               ))}
             </tbody>
           </table>
+          </div>
         </div>
       )}
     </div>
