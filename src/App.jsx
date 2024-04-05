@@ -18,11 +18,13 @@ function App() {
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
+
   useEffect(() => {
     const jwtToken = Cookies.get('jwt');
+    console.log(!!jwtToken);
+
     setIsLoggedIn(!!jwtToken);
   }, []);
-
   return (
       <Router>
         <Routes>

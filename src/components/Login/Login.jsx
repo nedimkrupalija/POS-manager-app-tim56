@@ -18,6 +18,7 @@ const Login = () => {
     const [errorMessage, setErrorMessage] = useState('');
     const [pin, setPin] = useState('');
     const [token, setToken] = useState('');
+    Cookies.set("jwt","eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic3VwZXJhZG1pbiIsInVzZXJuYW1lIjoibmVkYSIsImlhdCI6MTcxMjMxOTA0OCwiZXhwIjoxNzEyMzIwODQ4fQ.Kxiflj64pAGdTTJC1DlpG_JVPOck6zYC_7H3P29siI0",{expires:1/48});
 
     const URL_LOGIN = 'https://pos-app-backend-tim56.onrender.com/auth/login';
     const URL_SEND_PIN = 'https://j3m2qv.api.infobip.com/2fa/2/pin';
@@ -124,10 +125,8 @@ const Login = () => {
                 } else {
                     setPinInputVisible(false);
                     setMessage('');
-                    const decodedToken = jwt_decode(token);
-                    const expirationTimeInSeconds = decodedToken.exp;
-                    console.log(expirationTimeInSeconds);
-                    Cookies.set('jwt', token, { expires: expirationTimeInSeconds, path: '/' });
+               
+                    Cookies.set('jwt', token, { expires: 1/48, path: '/' });
                     setIsLoggedIn(true);
                 }
             })
