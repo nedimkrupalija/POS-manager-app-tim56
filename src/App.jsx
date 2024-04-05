@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Orders from './components/Orders/Orders.jsx';
 import Cookies from 'js-cookie';
 import {Route, BrowserRouter as Router, Routes} from "react-router-dom";
+import CRUDLocations from './components/CRUDLocation/CRUDLocation.jsx';
 
 import CRUDAdmins from './components/CRUDAdmins/CRUDAdmins.jsx';
 
@@ -15,15 +16,15 @@ import Modal from 'react-modal';
 Modal.setAppElement('#root'); 
 function App() {
 
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  /*const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
     const jwtToken = Cookies.get('jwt');
     setIsLoggedIn(!!jwtToken);
-  }, []);
+  }, []);*/
 
   return (
-      <Router>
+      /*<Router>
         <Routes>
           <Route path="/items" element={  <CRUDItems />  }></Route>
         <Route path="/" element={ <Home /> }></Route>
@@ -31,6 +32,11 @@ function App() {
           <Route path="/users" element={<CRUDUsers/>}/>
           <Route path="/administrators" element={<CRUDAdmins/>}/>
           <Route path="/storage" element={<Storage/>}/>
+        </Routes>
+      </Router>*/
+      <Router>
+        <Routes>
+          <Route path="/" element={<CRUDLocations />} />
         </Routes>
       </Router>
   )
