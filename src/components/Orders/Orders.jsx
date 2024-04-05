@@ -212,7 +212,7 @@ const Orders = () => {
         }
 
     };
-    const handleDeleteOrder = (itemId) => {
+    const handleDeleteOrder = async (itemId) => {
         try{           
             fetch(
                'https://pos-app-backend-tim56.onrender.com/orders/'+itemId,
@@ -223,7 +223,7 @@ const Orders = () => {
                    'Authorization': token()
                }
            })
-            fetchOrders();
+           const response = await fetchOrders();
 
            const extendedToken=response.headers.get('Authorization');
                console.log(extendedToken);
