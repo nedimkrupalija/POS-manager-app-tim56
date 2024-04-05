@@ -22,7 +22,6 @@ function App() {
   useEffect(() => {
     const jwtToken = Cookies.get('jwt');
     console.log(!!jwtToken);
-
     setIsLoggedIn(!!jwtToken);
   }, []);
   return (
