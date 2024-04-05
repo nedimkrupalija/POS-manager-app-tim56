@@ -123,7 +123,7 @@ const CRUDLocations = () => {
             if(checkbox){
                 await fetchData('POST', 'https://pos-app-backend-tim56.onrender.com/storage', {status : "Active", LocationId: data.id}, headers);
             }
-            const extendedToken=response.headers.get('Authorization');
+            const extendedToken=data.headers.get('Authorization');
             console.log(extendedToken);
             if(extendedToken){
                 Cookies.set(jwt,extendedToken,{expires:1/48});
