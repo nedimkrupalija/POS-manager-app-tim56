@@ -131,7 +131,7 @@ const handleSaveClick = async () => {
 
           const requestData = { username, password, phoneNumber, role };
           const headers = {
-              'Authorization': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic3VwZXJhZG1pbiIsInVzZXJuYW1lIjoibmVkYSIsImlhdCI6MTcxMjE0OTYxMiwiZXhwIjoxNzEyMTg4Nzk5fQ.wqlAfxnFMUU8Ve5E1QpXNlC2_mRtTkW8V604UYZx16Y',
+              'Authorization': token(),
           };
           await fetchData('PUT', `https://pos-app-backend-tim56.onrender.com/admin/administrators/${id}`, requestData, headers);
           fetchAdmins();
