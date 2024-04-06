@@ -29,7 +29,7 @@ const VATgroups = () => {
             const headers = {
                 'Authorization': token()
             };
-            const data = await fetchData('GET', 'http://localhost:3000/vat', null, headers);
+            const data = await fetchData('GET', 'https://pos-app-backend-tim56.onrender.com/vat', null, headers);
             setVATgroups(data);
         } catch (error) {
             setErrorMessage(error.message)
@@ -76,7 +76,7 @@ const VATgroups = () => {
             const headers = {
                 'Authorization': token()
             };
-            await fetchData('DELETE', `http://localhost:3000/vat/${id}`, null, headers);
+            await fetchData('DELETE', `https://pos-app-backend-tim56.onrender.com/vat/${id}`, null, headers);
             setErrorMessage('')
             fetchGroups();
         } catch (error) {
@@ -117,7 +117,7 @@ const VATgroups = () => {
                         'Authorization': `${Cookies.get('jwt')}`,
                     };
 
-                    await fetchData('PUT', `http://localhost:3000/vat/${id}`, requestData, headers);
+                    await fetchData('PUT', `https://pos-app-backend-tim56.onrender.com/vat/${id}`, requestData, headers);
                     setErrorMessage('')
                     fetchGroups();
                     setEditingGroup(null);
@@ -137,7 +137,7 @@ const VATgroups = () => {
                 const headers = {
                     'Authorization': token()
                 };
-                await fetchData('POST', 'http://localhost:3000/vat', requestData, headers);
+                await fetchData('POST', 'https://pos-app-backend-tim56.onrender.com/vat', requestData, headers);
                 setInfoMessage('User created')
                 document.getElementById('nameCreate').value = ''
                 document.getElementById('percentCreate').value = ''
