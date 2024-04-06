@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import 
 {BsCart3, BsFillArchiveFill, BsFillGrid3X3GapFill, BsPeopleFill, 
-  BsListCheck, BsMenuButtonWideFill, BsFillGearFill}
+  BsListCheck, BsMenuButtonWideFill, BsFillGearFill, BsPercent}
  from 'react-icons/bs';
  import './Sidebar.css';
  import { jwtDecode } from "jwt-decode";
@@ -60,7 +60,11 @@ return false;
                     <BsMenuButtonWideFill className='icon'/> Storage places, locations and POS
                 </a>
             </li>
-          
+            <li className='sidebar-list-item'>
+                <a href="./vat">
+                    <BsPercent className='icon'/> VAT groups
+                </a>
+            </li>
             
         </ul>
     </aside>
