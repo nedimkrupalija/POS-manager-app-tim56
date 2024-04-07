@@ -24,7 +24,8 @@ const CRUDTablesStations = () => {
         const headers = {
             'Authorization': token()
         };
-        const data = await fetchData('GET', 'https://pos-app-backend-tim56.onrender.com/admin/administrators', null, headers);
+        //ruta: 
+        const data = await fetchData('GET', 'https://localhost:3000/location/:id/tables', null, headers);
         setStation(data);
     } catch (error) {
         console.error(error);
@@ -45,8 +46,8 @@ const CRUDTablesStations = () => {
         const headers = {
             'Authorization': token()
         };
-        //link zamijenit
-        await fetchData('POST', 'https://pos-app-backend-tim56.onrender.com/admin/administrators', requestData, headers);
+        //ruta
+        await fetchData('POST', 'https://localhost:3000/location/:id/tables', requestData, headers);
         setInfoMessage('Table/Station created')
                 document.getElementById('numberCreate').value = ''
                 setErrorMessage('')   
@@ -99,8 +100,8 @@ return (
     <div className='list'>
         <h2 className='users-title'>{tableVisible ? "Table/Station" : "Create new table/station"}</h2>
         <div className="buttons-container">
-            <button disabled={tableVisible} className={tableVisible ? 'buttons' : 'buttons1'} onClick={() => { settableVisible(true); fetchTablesStations(); setInfoMessage(''); setErrorMessage('') }}>List tables/stations</button>
-            <button disabled={!tableVisible} className={tableVisible ? 'buttons1' : 'buttons'} onClick={() => { settableVisible(false); setErrorMessage('') }}>Create new</button>
+            <button disabled={tableVisible} className={tableVisible ? 'buttons' : 'buttons1'} onClick={() => { settableVisible(true); fetchTablesStations(); setInfoMessage(''); setErrorMessage('') }}>LIST OF TABLES</button>
+            <button disabled={!tableVisible} className={tableVisible ? 'buttons1' : 'buttons'} onClick={() => { settableVisible(false); setErrorMessage('') }}>CREATE NEW</button>
         </div>
         {tableVisible && (
             <>
@@ -115,19 +116,15 @@ return (
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Table/Station number</th>
+                                <th>Table name</th>
                             </tr>
                         </thead>
                         <tbody>
                             {stations.map(station => (
                                 <tr key={station.id}>
                                     <td>{station.id}</td>
-                                    <td className="editable-cell">
-                                        {editingAdmin === admin ? (
-                                            <input id="numberEdit" type="text" defaultValue={station.number} className="editable-input" />
-                                        ) : (
-                                            station.number
-                                        )}
+                                    <td className="editable-cell">                                       
+                                            <input id="numberEdit" type="text" defaultValue={station.number} className="editable-input" />                                    
                                     </td>
                                 </tr>
                             ))}
@@ -151,10 +148,10 @@ return (
             </div>
         )}
         <div className='createFields'>
-            <label htmlFor="number" className='fields'>Table/Station number:</label>
-            <input type="number" id="numberCreate" className="number-input" placeholder="Table/Station number" onChange={() => {setInfoMessage('')}}/>
+            <label htmlFor="number" className='fields'>Table name: </label>
+            <input type="text" id="numberCreate" className="number-input" placeholder="Table name" onChange={() => {setInfoMessage('')}}/>
         </div>
-        <button className='button2' onClick={createTablesStations}>Create</button>
+        <button className='button2' onClick={createTablesStations}>CREATE</button>
     </div>
     }
 </>
