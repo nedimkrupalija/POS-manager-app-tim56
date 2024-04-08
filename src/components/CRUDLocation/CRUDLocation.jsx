@@ -9,11 +9,14 @@ import error_icon from '../../assets/error.png';
 import pos_icon from '../../assets/pos.png';
 import Home from '../Home/Home';
 import Storage from '../Storage/Storage';
+import ModalListTables from '../CRUDLocation/ModalListTables'
 import Cookies from 'js-cookie';
 const CRUDLocations = () => {
     const [storageCheckbox, setStorageCheckbox] = useState(false);
     const [tableVisible, setTableVisible] = useState(true);
     const [locations, setLocations] = useState([]);
+    const [location, setLocation] = useState(null);
+
     const [editingLocation, setEditingLocation] = useState(null);
     const [infoMessage, setInfoMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
@@ -24,6 +27,10 @@ const CRUDLocations = () => {
     const [createPOSShown, setCreatePOSShown] = useState(false);
     const [showStorage, setShowStorage] = useState(false);
     const [storageId,setStorageId]=useState();
+    const [table,setTable]=useState();
+    const [showTable, setShowTable] = useState(false);
+    const [tableId,setTableId]=useState();
+    const [stations, setStation] = useState([]);
 
     useEffect(() => {
         fetchLocations();
@@ -34,7 +41,14 @@ const CRUDLocations = () => {
     setShowStorage(true);
 
   };
+  const handleTableclick=(tableId)=>{
+    setTableId(tableId);
+    setShowTable(true);
+
+  };
+
   const token =()=>{
+    Cookies.set("jwt","eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic3VwZXJhZG1pbiIsInVzZXJuYW1lIjoibmVkYSIsImlhdCI6MTcxMjU3ODYyMSwiZXhwIjoxNzEyNTgwNDIxfQ.-Cu3hC37fGNj8525E-MxWrpxPY1dKTBerJzCXzNe4hE");
     return Cookies.get("jwt");
 } 
     const fetchPOS= async () => {
@@ -254,8 +268,29 @@ const CRUDLocations = () => {
     }
 };
 
+const fetchTablesStations = async (location) => {
+    try {
+        //const token=Cookies.get('jwt');
+        const headers = {
+            'Authorization': token()
+        };
+        //ruta: 
+        console.log(location);
+        const data = await fetchData('GET', 'https://localhost:3000/location/'+location.id+'/tables', null, headers);
+        setStation(data);
+    } catch (error) {
+        console.error(error);
+    }
+  };
+const openEditOrderModal = (location) => {
+    fetchTablesStations(location);
+    setLocation(location);
 
+};
 
+const closeEditOrderModal = () => {
+    setLocation(null);
+};
 
     const handleSaveClick = async () => {
         if (editingLocation) {
@@ -293,6 +328,11 @@ const CRUDLocations = () => {
 if(showStorage){
     
     return <Storage id={storageId}/>
+}
+
+if(showTable){
+    
+    return <Storage id={tableId}/>
 }
     return (
         <Home>
@@ -371,7 +411,14 @@ if(showStorage){
                         <img onClick={() => { setEditingLocation(null); setErrorMessage(''); }} src={close_icon} alt="Close" className='close-icon' />
                     ) : (
                         <img onClick={() => confirmDelete(location.id, location.Storage)} src={delete_icon} alt="Delete" className='delete-icon' />
+
                     )}
+                     <button className="buttons1" onClick={() => handleTableclick(location.id)}>
+                                    Add new table
+                                </button>
+                                <button className="buttons1" onClick={() => openEditOrderModal(location) }>
+                                   View tables
+                                </button>
                 </div>
             </td>
         </tr>
@@ -529,7 +576,17 @@ if(showStorage){
         <button className='button2' onClick={createPOS}>CREATE</button>
     </div>
 )}
+
+
+
 </>
+
+<ModalListTables 
+                isOpen={location !== null}
+                onRequestClose={closeEditOrderModal}
+                location={stations}
+            />
+
 </Home>
 );
         };

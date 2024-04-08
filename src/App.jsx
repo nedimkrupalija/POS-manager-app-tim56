@@ -5,6 +5,8 @@ import Cookies from 'js-cookie';
 import {Route, BrowserRouter as Router, Routes} from "react-router-dom";
 
 import CRUDTablesStations from './components/CRUDTablesStations/CRUDTablesStations.jsx';
+import CRUDLocation from './components/CRUDLocation/CRUDLocation.jsx';
+
 
 import Modal from 'react-modal';
 
@@ -22,7 +24,7 @@ function App() {
   return (
     <Router>
     <Routes>
-    <Route path="/" element={<CRUDTablesStations />} />
+    <Route path="/" element={<CRUDLocation />} />
     </Routes>
       </Router>
 
@@ -34,7 +36,7 @@ function App() {
           <Route path="/orders" element={isLoggedIn?  <Orders /> :<Login/> }/>
           <Route path="/users" element={isLoggedIn?  <CRUDUsers /> :<Login/> }/>
           <Route path="/administrators" element={isLoggedIn?  <CRUDAdmins /> :<Login/> }/>
-          <Route path="/locations" element={isLoggedIn?  <CRUDLocations /> :<Login/> }/>
+          <Route path="/locations" element={isLoggedIn?  <CRUDLocation /> :<Login/> }/>
         </Routes>
       </Router>
     */

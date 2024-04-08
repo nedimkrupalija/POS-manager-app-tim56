@@ -4,10 +4,9 @@ import close_icon from '../../assets/close.png'
 import info_icon from '../../assets/info.png'
 import Cookies from 'js-cookie';
 import Home from '../Home/Home';
-const CRUDTablesStations = () => {
+const CRUDTablesStations = ({ id }) => {
 
   const [stations, setStation] = useState([]);
-  const [tableVisible, settableVisible] = useState(true);
   const [infoMessage, setInfoMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -25,7 +24,7 @@ const CRUDTablesStations = () => {
             'Authorization': token()
         };
         //ruta: 
-        const data = await fetchData('GET', 'https://localhost:3000/location/:id/tables', null, headers);
+        const data = await fetchData('GET', 'https://localhost:3000/location/'+id+'/tables', null, headers);
         setStation(data);
     } catch (error) {
         console.error(error);
@@ -47,7 +46,7 @@ const CRUDTablesStations = () => {
             'Authorization': token()
         };
         //ruta
-        await fetchData('POST', 'https://localhost:3000/location/:id/tables', requestData, headers);
+        await fetchData('POST', 'https://localhost:3000/location/'+id+'/tables', requestData, headers);
         setInfoMessage('Table/Station created')
                 document.getElementById('numberCreate').value = ''
                 setErrorMessage('')   
@@ -98,43 +97,11 @@ return (
     
     <>
     <div className='list'>
-        <h2 className='users-title'>{tableVisible ? "Table/Station" : "Create new table/station"}</h2>
+        <h2 className='users-title'> "Create new table/station"</h2>
         <div className="buttons-container">
-            <button disabled={tableVisible} className={tableVisible ? 'buttons' : 'buttons1'} onClick={() => { settableVisible(true); fetchTablesStations(); setInfoMessage(''); setErrorMessage('') }}>LIST OF TABLES</button>
-            <button disabled={!tableVisible} className={tableVisible ? 'buttons1' : 'buttons'} onClick={() => { settableVisible(false); setErrorMessage('') }}>CREATE NEW</button>
+            <button >CREATE NEW</button>
         </div>
-        {tableVisible && (
-            <>
-                {errorMessage && (
-                    <div className="error-message">
-                        <img src={error_icon} alt='error' className='error-icon' />
-                        <span>{errorMessage}</span>
-                    </div>
-                )}
-                <div className='table'>
-                    <table border="1">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Table name</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {stations.map(station => (
-                                <tr key={station.id}>
-                                    <td>{station.id}</td>
-                                    <td className="editable-cell">                                       
-                                            <input id="numberEdit" type="text" defaultValue={station.number} className="editable-input" />                                    
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div> </>
-        )}
-    </div>
-
-    {!tableVisible && <div className='create'>
+       <div className='create'>
         {infoMessage && (
             <div className="info-message">
                 <img src={info_icon} alt='info' className='info-icon' />
@@ -153,7 +120,7 @@ return (
         </div>
         <button className='button2' onClick={createTablesStations}>CREATE</button>
     </div>
-    }
+    </div>
 </>
 
     
