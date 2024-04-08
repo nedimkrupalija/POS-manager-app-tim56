@@ -38,19 +38,18 @@ const Login = () => {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(requestBody)
-        })
-            .then(response => {
+        }).then(async response => {
                 if (response.ok) {
                     return response.json();
                 } else {
-                    return response.json().then(data => {
-                        throw new Error(data.message);
-                    });
+                    const data = await response.json();
+                    throw new Error(data.message);
                 }
             })
             .then(data => {
                 setToken(data.token);
-                sendPinRequest(data.phoneNumber)
+                Cookies.set("jwt",token);
+              //  sendPinRequest(data.phoneNumber)
                 setErrorMessage('')
             })
             .catch(error => {
@@ -59,7 +58,7 @@ const Login = () => {
     };
 
 
-    const sendPinRequest = (phoneNumber) => {
+   /* const sendPinRequest = (phoneNumber) => {
         if (phoneNumber.charAt(0) != '3') {
             phoneNumber = phoneNumber.substring(1);
             phoneNumber = "387" + phoneNumber
@@ -94,17 +93,17 @@ const Login = () => {
             .catch(error => {
                 setErrorMessage(error.message)
             });
-    };
+    };*/
 
-    const handleResendPin = () => {
+/*    const handleResendPin = () => {
         setMessage('');
         sendPinRequest();
-    };
+    };*/
     const handleManagerApp = () => {
         Cookies.remove('jwt');
         window.location.href = "https://pos-client-app-tim56.vercel.app/";
     }
-    const verifyPin = () => {
+   /* const verifyPin = () => {
         const pinRequestBody = {
             pin: pin
         };
@@ -133,7 +132,7 @@ const Login = () => {
             .catch(error => {
                 setErrorMessage(error.message)
             });
-    };
+    };*/
     if (isLoggedIn) {
         return <Home />;
     }

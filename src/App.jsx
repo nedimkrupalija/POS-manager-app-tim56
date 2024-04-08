@@ -12,7 +12,7 @@ import CRUDUsers from './components/CRUDUsers/CRUDUsers.jsx';
 
 import CRUDItems from './components/CRUDItems/CRUDItems.jsx';
 import Modal from 'react-modal';
-
+import StorageOrder from './components/Storage/StorageOrder.jsx';
 Modal.setAppElement('#root'); 
 function App() {
 
@@ -34,6 +34,8 @@ function App() {
           <Route path="/users" element={isLoggedIn?  <CRUDUsers /> :<Login/> }/>
           <Route path="/administrators" element={isLoggedIn?  <CRUDAdmins /> :<Login/> }/>
           <Route path="/locations" element={isLoggedIn?  <CRUDLocations /> :<Login/> }/>
+          <Route path="/storageOrder/:id" element={isLoggedIn ? <StorageOrder /> : <Login />} />
+
         </Routes>
       </Router>
     
