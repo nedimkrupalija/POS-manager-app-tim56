@@ -22,9 +22,6 @@ const ModalListTables = ({ isOpen, onRequestClose,  tables}) => {
                 tables &&(
              <div className='list'>
         <h2 className='users-title'>"Table/Station"</h2>
-        <div className="buttons-container">
-            <button>LIST OF TABLES</button>
-        </div>
             <>
                 {errorMessage && (
                     <div className="error-message">
@@ -51,8 +48,13 @@ const ModalListTables = ({ isOpen, onRequestClose,  tables}) => {
                             ))}
                         </tbody>
                     </table>
-                </div> </>
-    </div>     )}
+                </div> 
+                <button onClick={onRequestClose} className='close-button'>Close</button>
+                </>
+    </div>   
+    
+    
+    )}
         </Modal>
     );
 };

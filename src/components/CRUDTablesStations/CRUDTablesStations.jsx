@@ -92,9 +92,6 @@ const CRUDTablesStations = ({ id }) => {
       <>
         <div className='list'>
           <h2 className='users-title'>Create new table/station</h2>
-          <div className="buttons-container">
-            <button onClick={createTablesStations}>CREATE NEW</button> {/* Dodan onClick handler */}
-          </div>
           <div className='create'>
             {infoMessage && (
               <div className="info-message">
@@ -104,7 +101,7 @@ const CRUDTablesStations = ({ id }) => {
             )}
             {errorMessage && (
               <div className="error-message">
-                <img src={error_icon} alt='error' className='error-icon' /> {/* Promijenjen asset */}
+                <img src={error_icon} alt='error' className='error-icon' /> 
                 <span>{errorMessage}</span>
               </div>
             )}
