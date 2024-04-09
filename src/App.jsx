@@ -6,10 +6,11 @@ import {Route, BrowserRouter as Router, Routes} from "react-router-dom";
 
 import CRUDTablesStations from './components/CRUDTablesStations/CRUDTablesStations.jsx';
 import CRUDLocation from './components/CRUDLocation/CRUDLocation.jsx';
-
-
+import CRUDItems from './components/CRUDItems/CRUDItems.jsx';
+import Orders from './components/Orders/Orders.jsx';
 import Modal from 'react-modal';
-
+import CRUDAdmins from './components/CRUDAdmins/CRUDAdmins.jsx';
+import CRUDUsers from './components/CRUDUsers/CRUDUsers.jsx';
 Modal.setAppElement('#root'); 
 function App() {
 
@@ -22,13 +23,9 @@ function App() {
     setIsLoggedIn(!!jwtToken);
   }, []);
   return (
-    <Router>
-    <Routes>
-    <Route path="/" element={<CRUDLocation />} />
-    </Routes>
-      </Router>
+ 
 
-    /*
+    
       <Router basename='/'>
         <Routes>
           <Route path="/items" element={isLoggedIn?  <CRUDItems /> :<Login/> }></Route>
@@ -39,7 +36,7 @@ function App() {
           <Route path="/locations" element={isLoggedIn?  <CRUDLocation /> :<Login/> }/>
         </Routes>
       </Router>
-    */
+    
   )
 }
 export default App

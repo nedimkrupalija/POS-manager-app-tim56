@@ -11,6 +11,7 @@ import Home from '../Home/Home';
 import Storage from '../Storage/Storage';
 import ModalListTables from '../CRUDLocation/ModalListTables'
 import Cookies from 'js-cookie';
+import CRUDTablesStations from '../CRUDTablesStations/CRUDTablesStations';
 const CRUDLocations = () => {
     const [storageCheckbox, setStorageCheckbox] = useState(false);
     const [tableVisible, setTableVisible] = useState(true);
@@ -30,7 +31,7 @@ const CRUDLocations = () => {
     const [table,setTable]=useState();
     const [showTable, setShowTable] = useState(false);
     const [tableId,setTableId]=useState();
-    const [stations, setStation] = useState([]);
+    const [stations, setStations] = useState([]);
 
     useEffect(() => {
         fetchLocations();
@@ -48,7 +49,6 @@ const CRUDLocations = () => {
   };
 
   const token =()=>{
-    Cookies.set("jwt","eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic3VwZXJhZG1pbiIsInVzZXJuYW1lIjoibmVkYSIsImlhdCI6MTcxMjU3ODYyMSwiZXhwIjoxNzEyNTgwNDIxfQ.-Cu3hC37fGNj8525E-MxWrpxPY1dKTBerJzCXzNe4hE");
     return Cookies.get("jwt");
 } 
     const fetchPOS= async () => {
@@ -276,8 +276,8 @@ const fetchTablesStations = async (location) => {
         };
         //ruta: 
         console.log(location);
-        const data = await fetchData('GET', 'https://localhost:3000/location/'+location.id+'/tables', null, headers);
-        setStation(data);
+        const data = await fetchData('GET', 'http://localhost:3000/location/'+location.id+'/tables', null, headers);
+        setStations(data);
     } catch (error) {
         console.error(error);
     }
@@ -285,7 +285,6 @@ const fetchTablesStations = async (location) => {
 const openEditOrderModal = (location) => {
     fetchTablesStations(location);
     setLocation(location);
-
 };
 
 const closeEditOrderModal = () => {
@@ -332,7 +331,7 @@ if(showStorage){
 
 if(showTable){
     
-    return <Storage id={tableId}/>
+    return <CRUDTablesStations id={tableId}/>
 }
     return (
         <Home>
@@ -584,7 +583,7 @@ if(showTable){
 <ModalListTables 
                 isOpen={location !== null}
                 onRequestClose={closeEditOrderModal}
-                location={stations}
+                tables={stations}
             />
 
 </Home>

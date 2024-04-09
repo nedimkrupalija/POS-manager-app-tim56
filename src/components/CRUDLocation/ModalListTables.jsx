@@ -1,7 +1,7 @@
 import Modal from 'react-modal';
 import React, { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
-const ModalListTables = ({ isOpen, onRequestClose,  location}) => {
+const ModalListTables = ({ isOpen, onRequestClose,  tables}) => {
  
     const [stations, setStation] = useState([]);
     const [infoMessage, setInfoMessage] = useState('');
@@ -19,7 +19,7 @@ const ModalListTables = ({ isOpen, onRequestClose,  location}) => {
             contentLabel="Order Details"
         >
             {
-                location &&(
+                tables &&(
              <div className='list'>
         <h2 className='users-title'>"Table/Station"</h2>
         <div className="buttons-container">
@@ -41,11 +41,11 @@ const ModalListTables = ({ isOpen, onRequestClose,  location}) => {
                             </tr>
                         </thead>
                         <tbody>
-                            {stations.map(station => (
+                            {tables.map(station => (
                                 <tr key={station.id}>
                                     <td>{station.id}</td>
-                                    <td className="editable-cell">                                       
-                                            <input id="numberEdit" type="text" defaultValue={station.number} className="editable-input" />                                    
+                                    <td>                                       
+                                          {station.name}                                    
                                     </td>
                                 </tr>
                             ))}

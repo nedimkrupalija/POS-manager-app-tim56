@@ -12,6 +12,7 @@ const Home = ({ children }) => {
         setOpenSidebarToggle(!openSidebarToggle)
     }
     useEffect(() => {
+
         const jwtToken = Cookies.get('jwt');
         console.log(!!jwtToken);
     
