@@ -78,7 +78,7 @@ const Orders = () => {
                 const extendedToken=response.headers.get('Authorization');
                console.log(extendedToken);
                if(extendedToken){
-                   Cookies.set(jwt,extendedToken,{expires:1/48});
+                   Cookies.set("jwt",extendedToken,{expires:1/48});
             
                }
         } catch (error) {
@@ -100,7 +100,7 @@ const Orders = () => {
             const extendedToken=response.headers.get('Authorization');
             console.log(extendedToken);
             if(extendedToken){
-                Cookies.set(jwt,extendedToken,{expires:1/48});
+                Cookies.set("jwt",extendedToken,{expires:1/48});
          
             }
 
@@ -139,7 +139,7 @@ const Orders = () => {
             const extendedToken=response.headers.get('Authorization');
             console.log(extendedToken);
             if(extendedToken){
-                Cookies.set(jwt,extendedToken,{expires:1/48});
+                Cookies.set("jwt",extendedToken,{expires:1/48});
          
             }
           
@@ -228,7 +228,7 @@ const Orders = () => {
            const extendedToken=response.headers.get('Authorization');
                console.log(extendedToken);
                if(extendedToken){
-                   Cookies.set(jwt,extendedToken,{expires:1/48});
+                   Cookies.set("jwt",extendedToken,{expires:1/48});
             
                }
        } catch (error) {

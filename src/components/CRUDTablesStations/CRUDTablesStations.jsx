@@ -10,6 +10,7 @@ const CRUDTablesStations = ({ id }) => {
   const [stations, setStations] = useState([]);
   const [infoMessage, setInfoMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const [tableInputs, setTableInputs] = useState([{ id: Date.now(), value: '' }]);
 
   const token = () => {
     return Cookies.get("jwt");
@@ -32,26 +33,36 @@ const CRUDTablesStations = ({ id }) => {
   };
 
   const createTablesStations = async () => {
-    const number = document.getElementById('numberCreate').value;
     try {
-      if (number === '') {
-        setErrorMessage('All fields must be filled!')
-        setInfoMessage('')
-      } else {
-        const requestData = { tables: [{ name: number }] }; 
-                const requestBody = JSON.stringify(requestData);
-                const headers = {
-          'Authorization': token()
-        };
-        await fetchData('POST', 'http://localhost:3000/location/' + id + '/tables', requestData, headers);
-        setInfoMessage('Table/Station created');
-        document.getElementById('numberCreate').value = '';
-        setErrorMessage('');
-        fetchTablesStations();
-      }
+      const requestData = { tables: tableInputs.map(input => ({ name: input.value })) }; 
+      const headers = {
+        'Authorization': token()
+      };
+      await fetchData('POST', 'http://localhost:3000/location/' + id + '/tables', requestData, headers);
+      setInfoMessage('Tables/Stations created');
+      setTableInputs([{ id: Date.now(), value: '' }]);
+      setErrorMessage('');
+      fetchTablesStations();
     } catch (error) {
       console.error(error);
     }
+  };
+
+  const handleInputChange = (id, value) => {
+    setTableInputs(prevInputs => prevInputs.map(input => {
+      if (input.id === id) {
+        return { ...input, value };
+      }
+      return input;
+    }));
+  };
+
+  const addTableInput = () => {
+    setTableInputs(prevInputs => [...prevInputs, { id: Date.now(), value: '' }]);
+  };
+
+  const removeTableInput = id => {
+    setTableInputs(prevInputs => prevInputs.filter(input => input.id !== id));
   };
 
   const fetchData = async (method, url, requestData = null, headers = {}) => {
@@ -105,10 +116,14 @@ const CRUDTablesStations = ({ id }) => {
                 <span>{errorMessage}</span>
               </div>
             )}
-            <div className='createFields'>
-              <label htmlFor="number" className='fields'>Table name: </label>
-              <input type="text" id="numberCreate" className="number-input" placeholder="Table name" onChange={() => { setInfoMessage('') }} />
-            </div>
+            {tableInputs.map(input => (
+              <div key={input.id} className='createFields'>
+                <label htmlFor={`number${input.id}`} className='fields'>Table name: </label>
+                <input type="text" id={`number${input.id}`} className="number-input" placeholder="Table name" onChange={e => handleInputChange(input.id, e.target.value)} value={input.value} />
+                <button className='buttons2' onClick={() => removeTableInput(input.id)}>Remove</button>
+              </div>
+            ))}
+            <button className='buttons2' onClick={addTableInput}>Add More Tables</button>
             <button className='button2' onClick={createTablesStations}>CREATE</button>
           </div>
         </div>
