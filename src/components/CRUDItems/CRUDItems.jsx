@@ -12,19 +12,27 @@ import choose_icon from '../../assets/choose.png'
 import Home from '../Home/Home';
 
 const CRUDItems = () => {
+    //const ROUTE = 'https://pos-app-backend-tim56.onrender.com/'
+    const ROUTE = 'http://localhost:3000/'
+    
     const [tableVisible, settableVisible] = useState(true);
     const [items, setItems] = useState([]);
     const [locations, setLocations] = useState([]);
+    const [vatGroups, setVATgroups] = useState([]);
     const [editingItem, setEditingItem] = useState(null);
     const [infoMessage, setInfoMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const [locationId, setLocationId] = useState(''); 
-    const [modalVisible, setModalVisible] = useState(false);
+    const [vatGroup, setVATgroup] = useState(''); 
+    const [locModalVisible, setLocModalVisible] = useState(false);
+    const [vatModalVisible, setVatModalVisible] = useState(false);
     const token =()=>{
        return Cookies.get("jwt");
     } 
     useEffect(() => {
         fetchItems();
+        fetchVatGroups();
+        fetchLocations();
     }, []);
 
     const fetchItems = async () => {
@@ -32,20 +40,32 @@ const CRUDItems = () => {
             const headers = {
                 'Authorization': token()
             };
-            const data = await fetchData('GET', 'https://pos-app-backend-tim56.onrender.com/item', null, headers);
+            const data = await fetchData('GET', `${ROUTE}item`, null, headers);
             setItems(data);
         } catch (error) {
             setErrorMessage(error.message)
         }
     };
+    
+    const fetchVatGroups = async () => {
+        try {
+            const headers = {
+                'Authorization': token()
+            };
+            const data = await fetchData('GET', `${ROUTE}vat`, null, headers);
+            setVATgroups(data);
+        } catch (error) {
+            setErrorMessage(error.message)
+        }
+    };
+
     const fetchLocations = async () => {
         try {
             const headers = {
                 'Authorization': token()
             };
-            const data = await fetchData('GET', 'https://pos-app-backend-tim56.onrender.com/location', null, headers);
+            const data = await fetchData('GET', `${ROUTE}location`, null, headers);
             setLocations(data);
-            console.log(data)
         } catch (error) {
             setErrorMessage(error.message)
         }
@@ -67,13 +87,14 @@ const CRUDItems = () => {
         const purchasePrice = document.getElementById('purchasePriceCreate').value;
         const sellingPrice = document.getElementById('sellingPriceCreate').value;
         const LocationId = document.getElementById('locationCreate').value;
+        const VATId= vatGroup.id;
         try {
             if (isDataValid(name, barCode, measurmentUnit, purchasePrice, sellingPrice)) {
-                const requestData = { name, barCode, measurmentUnit, purchasePrice, sellingPrice, LocationId };
+                const requestData = { name, barCode, measurmentUnit, purchasePrice, sellingPrice, LocationId, VATId };
                 const headers = {
                     'Authorization': token()
                 };
-                await fetchData('POST', 'https://pos-app-backend-tim56.onrender.com/item', requestData, headers);
+                await fetchData('POST', `${ROUTE}item`, requestData, headers);
                 setInfoMessage('Item created')
                 document.getElementById('nameCreate').value = ''
                 document.getElementById('barcodeCreate').value = ''
@@ -82,7 +103,9 @@ const CRUDItems = () => {
                 document.getElementById('sellingPriceCreate').value = ''
                 setErrorMessage('')
                 fetchItems();
-                setLocationId('');
+                fetchVatGroups();
+                fetchLocations();
+                settableVisible(true)
             }
         } catch (error) {
             setErrorMessage(error.message)
@@ -100,7 +123,7 @@ const CRUDItems = () => {
             const headers = {
                 'Authorization': token()
             };
-            await fetchData('DELETE', `https://pos-app-backend-tim56.onrender.com/item/${id}`, null, headers);
+            await fetchData('DELETE', `${ROUTE}item/${id}`, null, headers);
             setErrorMessage('')
             fetchItems();
         } catch (error) {
@@ -148,16 +171,18 @@ const CRUDItems = () => {
                 const purchasePrice = document.getElementById('purchasePriceEdit').value;
                 const sellingPrice = document.getElementById('sellingPriceEdit').value;
                 const LocationId = document.getElementById('locationEdit').value
+                const VATId = vatGroup.id
                 if (isDataValid(name, barCode, measurmentUnit, purchasePrice, sellingPrice)) {
-                    const requestData = { name, barCode, measurmentUnit, purchasePrice, sellingPrice, LocationId };
+                    const requestData = { name, barCode, measurmentUnit, purchasePrice, sellingPrice, LocationId, VATId };
                     const headers = {
                         'Authorization': `${Cookies.get('jwt')}`,
                     };
 
-                    await fetchData('PUT', `https://pos-app-backend-tim56.onrender.com/item/${id}`, requestData, headers);
+                    await fetchData('PUT', `${ROUTE}item/${id}`, requestData, headers);
                     setErrorMessage('')
                     fetchItems();
-                    setEditingItem(null);
+                    fetchVatGroups()
+                    fetchLocations()
                 }
             }
         } catch (error) {
@@ -171,8 +196,8 @@ const CRUDItems = () => {
             <div className='list'>
                 <h2 className='items-title'>{tableVisible ? "ITEMS" : "CREATE NEW ITEM"}</h2>
                 <div className="buttons-container">
-                    <button disabled={tableVisible} className={tableVisible ? 'buttons' : 'buttons1'} onClick={() => { settableVisible(true); fetchItems(); setInfoMessage(''); setErrorMessage(''); setLocationId('') }}>LIST ITEMS</button>
-                    <button disabled={!tableVisible} className={tableVisible ? 'buttons1' : 'buttons'} onClick={() => { settableVisible(false); setErrorMessage(''); setLocationId('') }}>CREATE NEW</button>
+                    <button disabled={tableVisible} className={tableVisible ? 'buttons' : 'buttons1'} onClick={() => { settableVisible(true); setInfoMessage(''); setErrorMessage(''); setLocationId(''); setVATgroup(''); }}>LIST ITEMS</button>
+                    <button disabled={!tableVisible} className={tableVisible ? 'buttons1' : 'buttons'} onClick={() => { settableVisible(false); setErrorMessage(''); setLocationId(''); setVATgroup('') }}>CREATE NEW</button>
                 </div>
                 {tableVisible && (
                     <>
@@ -192,6 +217,7 @@ const CRUDItems = () => {
                                         <th>Measurement</th>
                                         <th>Purchase Price ($)</th>
                                         <th>Selling Price ($)</th>
+                                        <th>VAT group (%)</th>
                                         <th>Location ID</th>
                                         <th>Actions</th>
                                     </tr>
@@ -240,14 +266,32 @@ const CRUDItems = () => {
                                                     {editingItem === item ? (
                                                         <>
                                                             <input
+                                                                id="vatGroupEdit"
+                                                                type="text"
+                                                                className="editable-input"
+                                                                readOnly
+                                                                //Ako je izabrana nova vrijednost ona će biti prikazana, ako nije, bit će prikazana stara vrijednost
+                                                                Value={vatGroup ? `${vatGroup.name} (${vatGroup.percent}%)`: (item.VAT ? `${item.VAT.name} (${item.VAT.percent}%)` : 'N/A')}
+                                                            />
+
+                                                            <button className='buttons1' onClick={() => { setVatModalVisible(true); }}>Find VAT group</button>
+                                                        </>
+                                                    ) : (
+                                                        item.VAT ? `${item.VAT.name} (${item.VAT.percent}%)` : 'N/A'
+                                                    )}
+                                                </td>
+                                                <td className="editable-cell">
+                                                    {editingItem === item ? (
+                                                        <>
+                                                            <input
                                                                 id="locationEdit"
                                                                 type="text"
                                                                 className="editable-input-loc"
                                                                 readOnly
-                                                                value={locationId ? locationId : (item.Location ? item.Location.id : 'N/A')}
+                                                                Value={locationId ? locationId : (item.Location ? item.Location.id : 'N/A')}
                                                             />
 
-                                                            <button className='select-location-button buttons1' onClick={() => { setModalVisible(true); fetchLocations() }}>Find Location</button>
+                                                            <button className='buttons1' onClick={() => { setLocModalVisible(true); }}>Find Location</button>
                                                         </>
                                                     ) : (
                                                         item.Location && item.Location.id ? item.Location.id : 'N/A'
@@ -258,12 +302,12 @@ const CRUDItems = () => {
                                                     <div className='actions-containter'>
                                                         {
                                                             editingItem === item
-                                                                ? <img onClick={() => { handleSaveClick(); setLocationId('') }} src={confirm_icon} alt="Confirm" className='confirm-icon' />
-                                                                : <img onClick={() => setEditingItem(item)} src={edit_icon} alt="Edit" className='edit-icon' />
+                                                                ? <img onClick={() => { handleSaveClick(); }} src={confirm_icon} alt="Confirm" className='confirm-icon' />
+                                                                : <img onClick={() => {setEditingItem(item); setLocationId(''); setVATgroup('')}} src={edit_icon} alt="Edit" className='edit-icon' />
                                                         }
                                                         {
                                                             editingItem === item
-                                                                ? <img onClick={() => { setEditingItem(null); setLocationId('') }} src={close_icon} alt="Close" className='close-icon' />
+                                                                ? <img onClick={() => { setEditingItem(null); setLocationId(''); setVATgroup('') }} src={close_icon} alt="Close" className='close-icon' />
                                                                 : <img onClick={() => confirmDelete(item.id)} src={delete_icon} alt="Delete" className='delete-icon' />
                                                         }
                                                     </div>
@@ -306,17 +350,21 @@ const CRUDItems = () => {
                     <label htmlFor="sellingPrice" className='fields'>Selling Price ($):</label>
                     <input type="number" min="0" id="sellingPriceCreate" className="selling-price-input" placeholder="Selling Price ($)" onChange={() => { setInfoMessage('') }} />
                     <br />
+                    <label htmlFor="vatGroup" className='fields'>VAT group:</label>
+                    <input type="text" readOnly id="vatCreate" className="location-id-input" placeholder="VAT group" value={vatGroup && `${vatGroup.name} (${vatGroup.percent}%)`} />
+                    <button className='select-location-button buttons1' onClick={() => { setVatModalVisible(true) }}>Find VAT group</button>
+                    <br />
                     <label htmlFor="locationId" className='fields'>Location ID:</label> {/*probaaaaa*/}
                     <input type="text" readOnly id="locationCreate" className="location-id-input" placeholder="Location ID" value={locationId} onChange={(e) => setLocationId(e.target.value)} />
-                    <button className='select-location-button buttons1' onClick={() => { setModalVisible(true); fetchLocations() }}>Find Location</button>
+                    <button className='select-location-button buttons1' onClick={() => { setLocModalVisible(true); fetchLocations() }}>Find Location</button>
                 </div>
                 <button className='button2' onClick={createItem}>CREATE</button>
             </div>
             }
-            {modalVisible && (
+            {locModalVisible && (
                 <div className="modal">
                     <div className="modal-content">
-                        <img src={close_modal_icon} onClick={() => setModalVisible(false)} alt="Close" className="close-modal-icon" />
+                        <img src={close_modal_icon} onClick={() => setLocModalVisible(false)} alt="Close" className="close-modal-icon" />
                         <h2 className='select-loc-title'>SELECT LOCATION</h2>
                         <div className='table'>
                             <table border="1">
@@ -334,7 +382,37 @@ const CRUDItems = () => {
                                             <td>{location.id}</td>
                                             <td>{location.name}</td>
                                             <td>{location.adress}</td>
-                                            <td><img onClick={() => { setLocationId(location.id); setModalVisible(false); setInfoMessage('') }} src={choose_icon} alt="Choose" className='choose-icon' /></td>
+                                            <td><img onClick={() => { setLocationId(location.id); setLocModalVisible(false); setInfoMessage('') }} src={choose_icon} alt="Choose" className='choose-icon' /></td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            )}
+            {vatModalVisible && (
+                <div className="modal">
+                    <div className="modal-content">
+                        <img src={close_modal_icon} onClick={() => setVatModalVisible(false)} alt="Close" className="close-modal-icon" />
+                        <h2 className='select-loc-title'>SELECT VAT GROUP</h2>
+                        <div className='table'>
+                            <table border="1">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Name</th>
+                                        <th>Percent</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {vatGroups.map(group => (
+                                        <tr key={group.id}>
+                                            <td>{group.id}</td>
+                                            <td>{group.name}</td>
+                                            <td>{group.percent}</td>
+                                            <td><img onClick={() => { setVATgroup(group); setVatModalVisible(false); setInfoMessage('') }} src={choose_icon} alt="Choose" className='choose-icon' /></td>
                                         </tr>
                                     ))}
                                 </tbody>
