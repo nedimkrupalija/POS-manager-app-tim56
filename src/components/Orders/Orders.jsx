@@ -65,7 +65,7 @@ const Orders = () => {
     const fetchOrders = async () => {
         try {           
            const response= await  fetch(
-                'https://pos-app-backend-tim56.onrender.com/orders/',
+                'http://localhost:3000/orders/',
                 {
                 method: 'GET',
                 headers: {
@@ -77,12 +77,11 @@ const Orders = () => {
             const authHeader = response.headers;
 
                const data= await response.json()
-               console.log('Extended token:',authHeader); 
                setOrders(data);  
                 const extendedToken=response.headers.get('Authorization');
-               console.log(extendedToken);
+               console.log("extended header: ",extendedToken);
                if(extendedToken){
-                   Cookies.set(jwt,extendedToken,{expires:1/48});
+                   Cookies.set("jwt",extendedToken,{expires:1/48});
             
                }
         } catch (error) {
@@ -104,7 +103,7 @@ const Orders = () => {
             const extendedToken=response.headers;
             console.log(extendedToken);
             if(extendedToken){
-                Cookies.set(jwt,extendedToken,{expires:1/48});
+                Cookies.set("jwt",extendedToken,{expires:1/48});
          
             }
 
@@ -143,7 +142,7 @@ const Orders = () => {
             const extendedToken=response.headers.get('Authorization');
             console.log(extendedToken);
             if(extendedToken){
-                Cookies.set(jwt,extendedToken,{expires:1/48});
+                Cookies.set("jwt",extendedToken,{expires:1/48});
          
             }
           
@@ -232,7 +231,7 @@ const Orders = () => {
            const extendedToken=response.headers.get('Authorization');
                console.log(extendedToken);
                if(extendedToken){
-                   Cookies.set(jwt,extendedToken,{expires:1/48});
+                   Cookies.set("jwt",extendedToken,{expires:1/48});
             
                }
        } catch (error) {
