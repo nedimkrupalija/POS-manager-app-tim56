@@ -38,19 +38,18 @@ const Login = () => {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(requestBody)
-        })
-            .then(response => {
+        }).then(async response => {
                 if (response.ok) {
                     return response.json();
                 } else {
-                    return response.json().then(data => {
-                        throw new Error(data.message);
-                    });
+                    const data = await response.json();
+                    throw new Error(data.message);
                 }
             })
             .then(data => {
                 setToken(data.token);
-                sendPinRequest(data.phoneNumber)
+                Cookies.set("jwt",token);
+               sendPinRequest(data.phoneNumber)
                 setErrorMessage('')
             })
             .catch(error => {

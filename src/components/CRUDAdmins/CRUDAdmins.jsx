@@ -6,6 +6,8 @@ import confirm_icon from '../../assets/confirm.png'
 import close_icon from '../../assets/close.png'
 import info_icon from '../../assets/info.png'
 import Cookies from 'js-cookie';
+import { jwtDecode } from "jwt-decode";
+import error_icon from '../../assets/error.png'
 import Home from '../Home/Home';
 const CRUDAdmins = () => {
 
@@ -17,10 +19,18 @@ const CRUDAdmins = () => {
   const token =()=>{
    return Cookies.get("jwt");
 } 
+const [role, setRole] = React.useState(false);
+
+
+
   useEffect(() => {
+    const token = Cookies.get("jwt");
+    const decodedToken = jwtDecode(token);
+    if(decodedToken.role === "superadmin")
+    setRole(true);
+else setErrorMessage("You are not authorized. Only superadministrators have access to these privileges.");
     fetchAdmins();
 }, []);
-
   const fetchAdmins = async () => {
     try {
         //const token=Cookies.get('jwt');
@@ -103,7 +113,7 @@ const fetchData = async (method, url, requestData = null, headers = {}) => {
         const extendedToken=response.headers.get('Authorization');
         console.log(extendedToken);
         if(extendedToken){
-            Cookies.set(jwt,extendedToken,{expires:1/48});
+            Cookies.set("jwt",extendedToken,{expires:1/48});
      
         }
         const data = await response.json();
@@ -144,8 +154,11 @@ const handleSaveClick = async () => {
 
 return (
     <Home>
-  <>
-      <div className='list'>
+
+  {
+    role &&  
+    <>
+  <div className='list'>
           <h2 className='users-title'>{tableVisible ? "Admins" : "Create new admin"}</h2>
           <div className="buttons-container">
               <button disabled={tableVisible} className={tableVisible ? 'buttons' : 'buttons1'} onClick={() => { settableVisible(true); fetchAdmins(); setInfoMessage(''); setErrorMessage('') }}>List admins</button>
@@ -254,7 +267,16 @@ return (
           <button className='button2' onClick={createAdmin}>Create</button>
       </div>
       }
-  </>
+  </> }
+     {
+        !role &&
+        (errorMessage && (
+            <div className="error-message">
+                <img src={error_icon} alt='error' className='error-icon' />
+                <span>{errorMessage}</span>
+            </div>
+        ))
+     }
   </Home>
 );
 };
