@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom'; // Import Link
-import { BsCart3, BsFillArchiveFill, BsFillGrid3X3GapFill, BsPeopleFill, 
-  BsListCheck, BsMenuButtonWideFill, BsFillGearFill} from 'react-icons/bs';
+import {BsCart3, BsFillArchiveFill, BsFillGrid3X3GapFill, BsPeopleFill, 
+  BsListCheck, BsMenuButtonWideFill, BsFillGearFill, BsPercent} from 'react-icons/bs';
 import './Sidebar.css';
 import { jwtDecode } from "jwt-decode";
 import Cookies from 'js-cookie';
@@ -55,6 +55,11 @@ function Sidebar({openSidebarToggle, OpenSidebar}) {
                 <li className='sidebar-list-item'>
                     <Link to="/locations"> {/* Change href to 'to' */}
                         <BsMenuButtonWideFill className='icon'/> Storage places, locations and POS
+                    </Link>
+                </li>
+                <li className='sidebar-list-item'>
+                    <Link to="/vat"> {/* Change href to 'to' */}
+                        <BsPercent className='icon'/> VAT groups
                     </Link>
                 </li>
             </ul>
