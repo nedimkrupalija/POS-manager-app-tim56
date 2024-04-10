@@ -10,8 +10,7 @@ import Home from '../Home/Home';
 import './VATgroups.css'
 
 const VATgroups = () => {
-    //const ROUTE = 'https://pos-app-backend-tim56.onrender.com/'
-    const ROUTE = 'http://localhost:3000/'
+    const ROUTE = 'https://pos-app-backend-tim56.onrender.com/'
 
     const [tableVisible, settableVisible] = useState(true);
     const [infoMessage, setInfoMessage] = useState('');

@@ -12,8 +12,7 @@ import choose_icon from '../../assets/choose.png'
 import Home from '../Home/Home';
 
 const CRUDItems = () => {
-    //const ROUTE = 'https://pos-app-backend-tim56.onrender.com/'
-    const ROUTE = 'http://localhost:3000/'
+    const ROUTE = 'https://pos-app-backend-tim56.onrender.com/'
     
     const [tableVisible, settableVisible] = useState(true);
     const [items, setItems] = useState([]);
