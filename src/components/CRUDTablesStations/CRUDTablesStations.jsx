@@ -120,10 +120,10 @@ const CRUDTablesStations = ({ id }) => {
               <div key={input.id} className='createFields'>
                 <label htmlFor={`number${input.id}`} className='fields'>Table name: </label>
                 <input type="text" id={`number${input.id}`} className="number-input" placeholder="Table name" onChange={e => handleInputChange(input.id, e.target.value)} value={input.value} />
-                <button className='buttons2' onClick={() => removeTableInput(input.id)}>Remove</button>
+                <button className='buttonNovi' onClick={() => removeTableInput(input.id)}>Remove</button>
               </div>
             ))}
-            <button className='buttons2' onClick={addTableInput}>Add More Tables</button>
+            <button className='buttonNovi2' onClick={addTableInput}>Add more</button>
             <button className='button2' onClick={createTablesStations}>CREATE</button>
           </div>
         </div>

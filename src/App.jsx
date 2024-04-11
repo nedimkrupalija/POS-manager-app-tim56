@@ -18,7 +18,7 @@ function App() {
 
 
   useEffect(() => {
-    Cookies.set('jwt', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic3VwZXJhZG1pbiIsInVzZXJuYW1lIjoibmVkYSIsImlhdCI6MTcxMjc1MDMzOCwiZXhwIjoxNzEyNzUyMTM4fQ.-TiuypmbxNwlhpYtghAKRcw-kDydbM5XulwS0JvwtKo');
+   // Cookies.set('jwt', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic3VwZXJhZG1pbiIsInVzZXJuYW1lIjoibmVkYSIsImlhdCI6MTcxMjgyMzg3MiwiZXhwIjoxNzEyODI1NjcyfQ.8UTw-fjFEKeNSgV-ugqUX2yxVYwurAaKE2_0nTRTG28');
     const jwtToken = Cookies.get('jwt');
     console.log(!!jwtToken);
     setIsLoggedIn(!!jwtToken);
