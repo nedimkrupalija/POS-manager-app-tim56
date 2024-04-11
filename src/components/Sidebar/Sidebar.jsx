@@ -31,34 +31,34 @@ function Sidebar({openSidebarToggle, OpenSidebar}) {
 
             <ul className='sidebar-list'>
                 <li className='sidebar-list-item'>
-                    <Link to="/items"> {/* Change href to 'to' */}
+                    <Link to="/items"> 
                         <BsFillArchiveFill className='icon'/> Products
                     </Link>
                 </li>
                 <li className='sidebar-list-item'>
-                    <Link to="/users"> {/* Change href to 'to' */}
+                    <Link to="/users"> 
                         <BsPeopleFill className='icon'/> Users
                     </Link>
                 </li> 
                 {userRole() && (
                     <li className='sidebar-list-item'>
-                        <Link to="/administrators"> {/* Change href to 'to' */}
+                        <Link to="/administrators"> 
                             <BsMenuButtonWideFill className='icon'/> Administrators
                         </Link>
                     </li>
                 )}
                 <li className='sidebar-list-item'>
-                    <Link to="/orders"> {/* Change href to 'to' */}
+                    <Link to="/orders"> 
                         <BsListCheck className='icon'/> Orders
                     </Link>
                 </li>
                 <li className='sidebar-list-item'>
-                    <Link to="/locations"> {/* Change href to 'to' */}
+                    <Link to="/locations"> 
                         <BsMenuButtonWideFill className='icon'/> Storage places, locations and POS
                     </Link>
                 </li>
                 <li className='sidebar-list-item'>
-                    <Link to="/vat"> {/* Change href to 'to' */}
+                    <Link to="/vat">
                         <BsPercent className='icon'/> VAT groups
                     </Link>
                 </li>
