@@ -14,8 +14,10 @@ import CRUDUsers from './components/CRUDUsers/CRUDUsers.jsx';
 
 import VATgroups from './components/VATgroups/VATgroups.jsx';
 import StorageOrder from './components/Storage/StorageOrder.jsx';
-
+import Storage from './components/Storage/Storage.jsx';
 Modal.setAppElement('#root'); 
+
+
 function App() {
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -42,6 +44,7 @@ function App() {
           <Route path="/locations" element={isLoggedIn?  <CRUDLocation /> :<Login/> }/>
           <Route path="/vat" element={isLoggedIn?  <VATgroups /> :<Login/> }/>
           <Route path="/storageOrder/:id" element={isLoggedIn ? <StorageOrder /> : <Login />} />
+          <Route path="/storage/:id" element={isLoggedIn ? <Storage /> : <Login />} />
 
         </Routes>
       </Router>

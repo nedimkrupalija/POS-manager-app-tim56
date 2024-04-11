@@ -5,13 +5,16 @@ import Cookies from 'js-cookie';
 import { Link } from 'react-router-dom';
 
 
-const Storage = ({ id }) => {
+const Storage = () => {
   const [storageData, setStorageData] = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
+  const { pathname } = location;
+
   const token =()=>{
     return Cookies.get("jwt");
   } 
   useEffect(() => {
+    const id = pathname.split('/').pop();
     const fetchStorageData = async () => {
       try {
         const response = await fetch(`https://pos-app-backend-tim56.onrender.com/storage/${id}`, {
@@ -37,7 +40,7 @@ const Storage = ({ id }) => {
     };
 
     fetchStorageData();
-  }, [id]);
+  }, [pathname]);
 
   return (
     <Home>
