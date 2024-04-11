@@ -11,6 +11,8 @@ import Home from '../Home/Home';
 import Storage from '../Storage/Storage';
 import ModalListTables from '../CRUDLocation/ModalListTables'
 import Cookies from 'js-cookie';
+import { Link } from 'react-router-dom';
+
 import CRUDTablesStations from '../CRUDTablesStations/CRUDTablesStations';
 const CRUDLocations = () => {
     const [storageCheckbox, setStorageCheckbox] = useState(false);
@@ -388,9 +390,10 @@ if(showTable){
                         {location.Storage ? (
                             <>
                                 Yes
-                                <button className="buttons1" onClick={() => handleStorageclick(location.Storage.id)}>
+                                <Link to={`/storage/${location.Storage.id}`}>
+   <button className="buttons1">
                                     View Storage
-                                </button>
+                                </button></Link>
                             </>
                         ) : (
                             "No"
