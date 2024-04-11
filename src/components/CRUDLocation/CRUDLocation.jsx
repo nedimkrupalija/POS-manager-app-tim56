@@ -276,7 +276,7 @@ const fetchTablesStations = async (location) => {
         };
         //ruta: 
         console.log(location);
-        const data = await fetchData('GET', 'http://localhost:3000/location/'+location.id+'/tables', null, headers);
+        const data = await fetchData('GET', 'https://pos-app-backend-tim56.onrender.com/location/'+location.id+'/tables', null, headers);
         setStations(data);
     } catch (error) {
         console.error(error);

@@ -46,7 +46,7 @@ const StorageOrder = () => {
             const extendedToken = response.headers.get('Authorization');
             console.log(extendedToken);
             if (extendedToken) {
-                Cookies.set(jwt, extendedToken, { expires: 1/48 });
+                Cookies.set("jwt", extendedToken, { expires: 1/48 });
             }
             const data = await response.json();
             const updatedItems = data.map(item => ({
@@ -96,7 +96,7 @@ const StorageOrder = () => {
             const extendedToken = response.headers.get('Authorization');
             console.log(extendedToken);
             if (extendedToken) {
-                Cookies.set(jwt, extendedToken, { expires: 1/48 });
+                Cookies.set("jwt", extendedToken, { expires: 1/48 });
             }
             setInfoMessage("Your new order has been successfully placed!");
         } catch (error) {
