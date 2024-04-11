@@ -86,7 +86,7 @@ body {
     font-size: 15px;
     font-weight: 700;
     margin-left: 105%;
-    margin-top: -13%;
+    margin-top: -20%;
     border: none;
 }
 
@@ -97,13 +97,13 @@ body {
     border-radius: 50px;
     font-size: 15px;
     font-weight: 700;
-    margin-left: 27%;
-    margin-top: -3%;
+    margin-left: 31%;
+    margin-top: -4.7%;
     border: none;
     display: inline-block;
     width: 170px;
         white-space: nowrap;
-}
+    }
 
 .actions-container {
     display: flex;

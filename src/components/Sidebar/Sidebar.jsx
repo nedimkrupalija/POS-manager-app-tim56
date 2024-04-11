@@ -30,38 +30,41 @@ function Sidebar({openSidebarToggle, OpenSidebar}) {
             </div>
 
             <ul className='sidebar-list'>
-                <li className='sidebar-list-item'>
-                    <Link to="/items"> 
+                                 <Link to="/items"> 
+   <li className='sidebar-list-item'>
                         <BsFillArchiveFill className='icon'/> Products
-                    </Link>
-                </li>
+                </li>                        </Link>
+                <Link to="/users"> 
+
                 <li className='sidebar-list-item'>
-                    <Link to="/users"> 
                         <BsPeopleFill className='icon'/> Users
-                    </Link>
-                </li> 
-                {userRole() && (
+                </li>                     </Link>
+
+                {userRole() && (           
+                                 <Link to="/administrators"> 
+
                     <li className='sidebar-list-item'>
-                        <Link to="/administrators"> 
                             <BsMenuButtonWideFill className='icon'/> Administrators
-                        </Link>
-                    </li>
-                )}
+                    </li>                        </Link>
+
+                )}  <Link to="/orders"> 
                 <li className='sidebar-list-item'>
-                    <Link to="/orders"> 
+                  
                         <BsListCheck className='icon'/> Orders
-                    </Link>
-                </li>
-                <li className='sidebar-list-item'>
+                </li>            
+                        </Link>
                     <Link to="/locations"> 
-                        <BsMenuButtonWideFill className='icon'/> Storage places, locations and POS
-                    </Link>
-                </li>
+
                 <li className='sidebar-list-item'>
+                        <BsMenuButtonWideFill className='icon'/> Storage places, locations and POS
+                </li>                    </Link>
                     <Link to="/vat">
+
+                <li className='sidebar-list-item'>
                         <BsPercent className='icon'/> VAT groups
-                    </Link>
-                </li>
+                </li>     
+                               </Link>
+
             </ul>
         </aside>
     );
