@@ -21,10 +21,19 @@ const StorageOrder = () => {
     const [infoMessage, setInfoMessage] = useState('');
     const location = useLocation();
     const { pathname } = location;
-  
+  const [storageData,setStorageData]=useState();
     const token = () => {
         return Cookies.get("jwt");
     } 
+
+    useEffect(() => {
+        const id = pathname.split('/').pop();
+        setStorage(id);
+    }, [pathname]);
+    
+    useEffect(() => {
+        fetchItems();
+    }, [storage]);
 
     const search = () => {
         const filteredResults = items.filter(item =>
@@ -33,7 +42,29 @@ const StorageOrder = () => {
         );
         setSearchResults(filteredResults);
     };
-
+    const fetchStorageData = async () => {
+        try {
+          const response = await fetch(`https://pos-app-backend-tim56.onrender.com/storage/${pathname.split('/').pop()}`, {
+            method: 'GET',
+            headers: {
+              'Authorization': token()
+            }
+        });
+          if (!response.ok) {
+            throw new Error('Failed to fetch storage data');
+          }
+          const extendedToken=response.headers.get('Authorization');
+          if(extendedToken){
+              Cookies.set("jwt",extendedToken,{expires:1/48});
+       
+          }
+          const data = await response.json();
+return data;
+        } catch (error) {
+          setErrorMessage(error.message);
+        }
+      };
+  
     const fetchItems = async () => {
         try {
             const response = await fetch('https://pos-app-backend-tim56.onrender.com/item/', {
@@ -44,12 +75,15 @@ const StorageOrder = () => {
                 }
             });
             const extendedToken = response.headers.get('Authorization');
-            console.log(extendedToken);
             if (extendedToken) {
                 Cookies.set("jwt", extendedToken, { expires: 1/48 });
             }
             const data = await response.json();
-            const updatedItems = data.map(item => ({
+
+            const storageData=await fetchStorageData();
+            const filteredItems = data.filter(item => item.Location.id === storageData.LocationId);
+
+            const updatedItems = filteredItems.map(item => ({
                 ...item,
                 quantity: 1
             }));
@@ -60,12 +94,6 @@ const StorageOrder = () => {
         }
     };
 
-    useEffect(() => {
-        // Izdvoji id iz pathname
-        const id = pathname.split('/').pop();
-        setStorage(id);
-        fetchItems();
-    }, []);
 
     const handleCreateOrder = async () => {
         try {
@@ -121,7 +149,6 @@ const StorageOrder = () => {
         } else {
             setSelectedItems([...selectedItems, item]);
         }
-        console.log(selectedItems);
     };
 
     return (
