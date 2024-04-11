@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import './Storage.css';
 import Home from '../Home/Home';
 import Cookies from 'js-cookie';
+import { Link } from 'react-router-dom';
+
+
 const Storage = ({ id }) => {
   const [storageData, setStorageData] = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
@@ -23,7 +26,7 @@ const Storage = ({ id }) => {
         const extendedToken=response.headers.get('Authorization');
         console.log(extendedToken);
         if(extendedToken){
-            Cookies.set(jwt,extendedToken,{expires:1/48});
+            Cookies.set("jwt",extendedToken,{expires:1/48});
      
         }
         const data = await response.json();
@@ -63,6 +66,8 @@ const Storage = ({ id }) => {
             </tbody>
           </table>
           </div>
+          <Link to={`/storageOrder/${storageData.id}`}><button className='buttons1'>Create new order</button></Link>
+
         </div>
       )}
     </div>

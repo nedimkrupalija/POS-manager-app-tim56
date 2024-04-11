@@ -71,14 +71,17 @@ const Orders = () => {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': token()
+                    
                 }
-            })
+            })  ;
+            const authHeader = response.headers;
+
                const data= await response.json()
                setOrders(data);  
                 const extendedToken=response.headers.get('Authorization');
-               console.log(extendedToken);
+               console.log("extended header: ",extendedToken);
                if(extendedToken){
-                   Cookies.set(jwt,extendedToken,{expires:1/48});
+                   Cookies.set("jwt",extendedToken,{expires:1/48});
             
                }
         } catch (error) {
@@ -97,10 +100,10 @@ const Orders = () => {
             const data = await response.json();
             setItems(data);
             setSearchResults(data);
-            const extendedToken=response.headers.get('Authorization');
+            const extendedToken=response.headers;
             console.log(extendedToken);
             if(extendedToken){
-                Cookies.set(jwt,extendedToken,{expires:1/48});
+                Cookies.set("jwt",extendedToken,{expires:1/48});
          
             }
 
@@ -139,7 +142,7 @@ const Orders = () => {
             const extendedToken=response.headers.get('Authorization');
             console.log(extendedToken);
             if(extendedToken){
-                Cookies.set(jwt,extendedToken,{expires:1/48});
+                Cookies.set("jwt",extendedToken,{expires:1/48});
          
             }
           
@@ -228,7 +231,7 @@ const Orders = () => {
            const extendedToken=response.headers.get('Authorization');
                console.log(extendedToken);
                if(extendedToken){
-                   Cookies.set(jwt,extendedToken,{expires:1/48});
+                   Cookies.set("jwt",extendedToken,{expires:1/48});
             
                }
        } catch (error) {
@@ -256,18 +259,15 @@ const Orders = () => {
         <Home>
             <>
             <div className='list'>
-                <h2 className='users-title'>{tableVisible ? "Orders" : "CREATE NEW ORDERS"}</h2>
-                <div className="buttons-container">
-                    <button disabled={tableVisible} className={tableVisible ? 'buttons' : 'buttons1'} onClick={() => { settableVisible(true); fetchOrders(); }}>LIST OF ORDERS</button>
-                    <button disabled={!tableVisible} className={tableVisible ? 'buttons1' : 'buttons'} onClick={() => { settableVisible(false); getStorages(); fetchItems(); }}>CREATE NEW ORDERS</button>
-                </div>   {errorMessage && (
+                <h2 className='users-title'>{"Orders" }</h2>
+                  {errorMessage && (
     <div className="error-message">
         <img src={error_icon} alt='error' className='error-icon' />
         <span>{errorMessage}</span>
     </div>
 )}
 
-                {tableVisible && <div className='table'>
+              <div className='table'>
                     <table border="1">
                         <thead>
                             <tr>
@@ -307,74 +307,9 @@ const Orders = () => {
                         </tbody>
                     </table>
                 </div>
-                }
+                
 
-            {!tableVisible && 
-<div className='create'>
-    <label>Storage</label>
-<select id="storage" onChange={(e) => {
-    const selectedStorage = storages.find(storage => storage.id === parseInt(e.target.value));
-    setStorage(selectedStorage);
-}}>
-    {storages.map(storage => (
-        <option key={storage.id} value={storage.id}>{storage.id}</option>
-    ))}
-</select>
-    <h3>Items:</h3>
-    <div>
-    <input
-                    type="text"
-                    placeholder="Search by name or ID"
-                    value={searchText}
-                    style={{color:'black'}}
-                    onChange={(e) => setSearchText(e.target.value)}
-                />
-                <button onClick={search}>Search</button>
-                </div>
-    <div className='table'>
-        <table border={1}>
-            <thead>
-                <tr>
-                    <th>Select</th>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Measuring Unit</th>
-                    <th>Purchase Price</th>
-                    <th>Selling Price</th>
-                    <th>Quantity</th>
-                </tr>
-            </thead>
-            <tbody>
-            {searchResults.map((item) => (
-                                <tr key={item.id}>
-                                    <td>
-                                        <div className='create1'>
-                                        <input 
-                                            type="checkbox" 
-                                            onChange={() => toggleItemSelection(item)}
-                                        /></div>
-                                    </td>
-                                    <td>{item.id}</td>
-                                    <td>{item.name}</td>
-                                    <td>{item.measurmentUnit}</td>
-                                    <td>{item.purchasePrice}</td>
-                                    <td>{item.sellingPrice}</td>
-                                    <td>
-                                        <input 
-                                            type="number" 
-                                            defaultValue={1} 
-                                            style={{ width: '100%', boxSizing: 'border-box', backgroundColor:'white', color:'black' }}
-                                            onChange={(e) => handleQuantityChange(item.id, e.target.value)}
-                                        />
-                                    </td>
-                                </tr>
-                            ))}
-</tbody>
-
-        </table>
-        <button className='button2' onClick={handleCreateOrder}>CREATE</button>
-    </div>
-</div>}
+           
 </div>
             </>
             <ModalOrderDetails 
