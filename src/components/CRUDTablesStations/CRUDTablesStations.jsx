@@ -25,7 +25,7 @@ const CRUDTablesStations = ({ id }) => {
       const headers = {
         'Authorization': token()
       };
-      const data = await fetchData('GET', 'http://localhost:3000/location/' + id + '/tables', null, headers);
+      const data = await fetchData('GET', 'https://pos-app-backend-tim56.onrender.com/location/' + id + '/tables', null, headers);
       setStations(data);
     } catch (error) {
       console.error(error);
@@ -38,7 +38,7 @@ const CRUDTablesStations = ({ id }) => {
       const headers = {
         'Authorization': token()
       };
-      await fetchData('POST', 'http://localhost:3000/location/' + id + '/tables', requestData, headers);
+      await fetchData('POST', 'https://pos-app-backend-tim56.onrender.com/location/' + id + '/tables', requestData, headers);
       setInfoMessage('Tables/Stations created');
       setTableInputs([{ id: Date.now(), value: '' }]);
       setErrorMessage('');
