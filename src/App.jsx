@@ -4,7 +4,6 @@ import React, { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
 import {Route, BrowserRouter as Router, Routes} from "react-router-dom";
 
-import CRUDTablesStations from './components/CRUDTablesStations/CRUDTablesStations.jsx';
 import CRUDLocation from './components/CRUDLocation/CRUDLocation.jsx';
 import CRUDItems from './components/CRUDItems/CRUDItems.jsx';
 import Orders from './components/Orders/Orders.jsx';
@@ -40,7 +39,7 @@ function App() {
           <Route path="/users" element={isLoggedIn?  <CRUDUsers /> :<Login/> }/>
           <Route path="/administrators" element={isLoggedIn?  <CRUDAdmins /> :<Login/> }/>
 
-          <Route path="/locations" element={isLoggedIn?  <CRUDLocations /> :<Login/> }/>
+          <Route path="/locations" element={isLoggedIn?  <CRUDLocation /> :<Login/> }/>
           <Route path="/vat" element={isLoggedIn?  <VATgroups /> :<Login/> }/>
           <Route path="/storageOrder/:id" element={isLoggedIn ? <StorageOrder /> : <Login />} />
 
