@@ -134,7 +134,7 @@ const Login = () => {
             });
     };
     if (isLoggedIn) {
-        return <Home />;
+window.location.reload();
     }
     return (
         <div className="container">

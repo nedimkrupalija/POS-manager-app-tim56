@@ -11,7 +11,7 @@ const Header = () => {
         setLoggedIn(false);
     };
     if (!loggedIn) {
-        return <Login />;
+window.location.reload();
     }
   return (
 <div className="button-container">
