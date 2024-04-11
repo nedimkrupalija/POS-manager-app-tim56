@@ -65,7 +65,7 @@ const Orders = () => {
     const fetchOrders = async () => {
         try {           
            const response= await  fetch(
-                'http://localhost:3000/orders/',
+                'https://pos-app-backend-tim56.onrender.com/orders/',
                 {
                 method: 'GET',
                 headers: {
