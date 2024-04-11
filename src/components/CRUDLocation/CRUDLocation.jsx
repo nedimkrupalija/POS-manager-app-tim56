@@ -9,11 +9,15 @@ import error_icon from '../../assets/error.png';
 import pos_icon from '../../assets/pos.png';
 import Home from '../Home/Home';
 import Storage from '../Storage/Storage';
+import ModalListTables from '../CRUDLocation/ModalListTables'
 import Cookies from 'js-cookie';
+import CRUDTablesStations from '../CRUDTablesStations/CRUDTablesStations';
 const CRUDLocations = () => {
     const [storageCheckbox, setStorageCheckbox] = useState(false);
     const [tableVisible, setTableVisible] = useState(true);
     const [locations, setLocations] = useState([]);
+    const [location, setLocation] = useState(null);
+
     const [editingLocation, setEditingLocation] = useState(null);
     const [infoMessage, setInfoMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
@@ -24,6 +28,10 @@ const CRUDLocations = () => {
     const [createPOSShown, setCreatePOSShown] = useState(false);
     const [showStorage, setShowStorage] = useState(false);
     const [storageId,setStorageId]=useState();
+    const [table,setTable]=useState();
+    const [showTable, setShowTable] = useState(false);
+    const [tableId,setTableId]=useState();
+    const [stations, setStations] = useState([]);
 
     useEffect(() => {
         fetchLocations();
@@ -34,6 +42,12 @@ const CRUDLocations = () => {
     setShowStorage(true);
 
   };
+  const handleTableclick=(tableId)=>{
+    setTableId(tableId);
+    setShowTable(true);
+
+  };
+
   const token =()=>{
     return Cookies.get("jwt");
 } 
@@ -87,7 +101,7 @@ const CRUDLocations = () => {
           const extendedToken=response.headers.get('Authorization');
           console.log(extendedToken);
           if(extendedToken){
-              Cookies.set(jwt,extendedToken,{expires:1/48});
+              Cookies.set("jwt",extendedToken,{expires:1/48});
        
           }
           const data = await response.json();
@@ -189,7 +203,7 @@ const CRUDLocations = () => {
                 const extendedToken=response.headers.get('Authorization');
                 console.log(extendedToken);
                 if(extendedToken){
-                    Cookies.set(jwt,extendedToken,{expires:1/48});
+                    Cookies.set("jwt",extendedToken,{expires:1/48});
              
                 }
                 const data = await response.json();
@@ -254,8 +268,28 @@ const CRUDLocations = () => {
     }
 };
 
+const fetchTablesStations = async (location) => {
+    try {
+        //const token=Cookies.get('jwt');
+        const headers = {
+            'Authorization': token()
+        };
+        //ruta: 
+        console.log(location);
+        const data = await fetchData('GET', 'http://localhost:3000/location/'+location.id+'/tables', null, headers);
+        setStations(data);
+    } catch (error) {
+        console.error(error);
+    }
+  };
+const openEditOrderModal = (location) => {
+    fetchTablesStations(location);
+    setLocation(location);
+};
 
-
+const closeEditOrderModal = () => {
+    setLocation(null);
+};
 
     const handleSaveClick = async () => {
         if (editingLocation) {
@@ -293,6 +327,11 @@ const CRUDLocations = () => {
 if(showStorage){
     
     return <Storage id={storageId}/>
+}
+
+if(showTable){
+    
+    return <CRUDTablesStations id={tableId}/>
 }
     return (
         <Home>
@@ -371,7 +410,14 @@ if(showStorage){
                         <img onClick={() => { setEditingLocation(null); setErrorMessage(''); }} src={close_icon} alt="Close" className='close-icon' />
                     ) : (
                         <img onClick={() => confirmDelete(location.id, location.Storage)} src={delete_icon} alt="Delete" className='delete-icon' />
+
                     )}
+                     <button className="buttons1" onClick={() => handleTableclick(location.id)}>
+                                    Add new table
+                                </button>
+                                <button className="buttons1" onClick={() => openEditOrderModal(location) }>
+                                   View tables
+                                </button>
                 </div>
             </td>
         </tr>
@@ -529,7 +575,17 @@ if(showStorage){
         <button className='button2' onClick={createPOS}>CREATE</button>
     </div>
 )}
+
+
+
 </>
+
+<ModalListTables 
+                isOpen={location !== null}
+                onRequestClose={closeEditOrderModal}
+                tables={stations}
+            />
+
 </Home>
 );
         };
