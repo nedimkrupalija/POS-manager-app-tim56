@@ -271,7 +271,6 @@ body {
     align-items: flex-start;
     margin-left: 0%;
 }
-.select-location-button {
-    margin-left: 80%; 
-    margin-top: -20%;
+div .select-location-button {
+    margin-left: 30%; 
 }
