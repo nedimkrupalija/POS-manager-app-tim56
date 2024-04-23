@@ -284,10 +284,17 @@ const fetchTablesStations = async (location) => {
         console.error(error);
     }
   };
+  
 const openEditOrderModal = (location) => {
     fetchTablesStations(location);
     setLocation(location);
 };
+
+const openListOrderModal = (location) => {
+    fetchTablesStations(location);
+    setLocation(location);
+};
+
 
 const closeEditOrderModal = () => {
     setLocation(null);
@@ -420,6 +427,9 @@ if(showTable){
                                 </button>
                                 <button className="buttons1" onClick={() => openEditOrderModal(location) }>
                                    View tables
+                                </button>
+                                <button className="buttons1" onClick={() => openListOrderModal(location) }>
+                                   View orders
                                 </button>
                 </div>
             </td>
