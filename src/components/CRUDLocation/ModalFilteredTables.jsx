@@ -85,6 +85,7 @@ const [filteredTables,setFilteredTables]=useState([]);
             const hasOrderWithoutTable = purchaseOrder.filter(order => order.tableId === null && order.LocationId==location ) ;
 setFilteredPurchasedOrders(hasOrderWithoutTable);
         }
+        
         open(tableId);
     };
     const open=(tableId)=>{
