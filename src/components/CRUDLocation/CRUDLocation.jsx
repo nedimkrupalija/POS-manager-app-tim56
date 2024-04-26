@@ -12,14 +12,15 @@ import Storage from '../Storage/Storage';
 import ModalListTables from '../CRUDLocation/ModalListTables'
 import Cookies from 'js-cookie';
 import { Link } from 'react-router-dom';
+import ModalListOrders from './ModalListOrders';
 
 import CRUDTablesStations from '../CRUDTablesStations/CRUDTablesStations';
+import ModalFilteredTables from './ModalFilteredTables';
 const CRUDLocations = () => {
     const [storageCheckbox, setStorageCheckbox] = useState(false);
     const [tableVisible, setTableVisible] = useState(true);
     const [locations, setLocations] = useState([]);
     const [location, setLocation] = useState(null);
-
     const [editingLocation, setEditingLocation] = useState(null);
     const [infoMessage, setInfoMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
@@ -30,15 +31,20 @@ const CRUDLocations = () => {
     const [createPOSShown, setCreatePOSShown] = useState(false);
     const [showStorage, setShowStorage] = useState(false);
     const [storageId,setStorageId]=useState();
-    const [table,setTable]=useState();
+    const [table,setTable]=useState(null);
     const [showTable, setShowTable] = useState(false);
     const [tableId,setTableId]=useState();
     const [stations, setStations] = useState([]);
+const [filteredTables,setFilteredTables]=useState();
+const [purchaseOrder,setPurchaseOrder]=useState([]);
 
+   
     useEffect(() => {
         fetchLocations();
         fetchPOS();
+      
     }, []);
+    
   const handleStorageclick=(storageId)=>{
     setStorageId(storageId);
     setShowStorage(true);
@@ -49,7 +55,9 @@ const CRUDLocations = () => {
     setShowTable(true);
 
   };
-
+  const closeModal = () => {
+    setTable(null);
+};
   const token =()=>{
     return Cookies.get("jwt");
 } 
@@ -108,9 +116,9 @@ const CRUDLocations = () => {
           }
           const data = await response.json();
           
-          setSelectedLocation(data); // Postavite odabranu lokaciju
+          setSelectedLocation(data); 
           setEditingPOS(null);
-          setPosTableVisible(true); // Postavite da se tablica s POS-ovima prikaže nakon što je kliknuto na pos_icon
+          setPosTableVisible(true); 
       } catch (error) {
           setErrorMessage(error.message);
       }
@@ -123,14 +131,14 @@ const CRUDLocations = () => {
 
     const createLocation = async () => {
         const name = document.getElementById('nameCreate').value;
-        const adress = document.getElementById('addressCreate').value; // Promijenjeno ime polja
+        const adress = document.getElementById('addressCreate').value; 
         const checkbox = document.getElementById('checkboxCreate').checked;
         try {
             if (name === '' || adress === '') {
                 setErrorMessage('All fields must be filled!');
                 return;
             }
-            const requestData = { name, adress }; // Promijenjeno ime polja
+            const requestData = { name, adress }; 
             const headers = {
                 'Authorization': token()
             };
@@ -187,7 +195,8 @@ const CRUDLocations = () => {
   };
 
 
-    const fetchData = async (method, url, requestData = null, headers = {}) => {
+
+    const fetchData =  async (method, url, requestData = null, headers = {}) => {
         try {
             const options = {
                 method: method,
@@ -269,6 +278,21 @@ const CRUDLocations = () => {
         setErrorMessage(error.message);
     }
 };
+const fetchPurchaseOrder=async ()=>{
+    const headers = {
+        Authorization: token()
+    };
+      setPurchaseOrder(await fetchData ('GET', `https://pos-app-backend-tim56.onrender.com/purchase-order/`, null, headers));
+  };
+  const filterTables = async (table) => {
+    await fetchPurchaseOrder();
+    console.log("h",stations);
+    setFilteredTables(stations.filter(order => {
+        console.log("uuu",purchaseOrder.find(table => table.tableId == order.id) !== undefined);
+        return purchaseOrder.find(table => table.tableId == order.id) !== undefined;
+    }));
+
+};
 
 const fetchTablesStations = async (location) => {
     try {
@@ -290,9 +314,10 @@ const openEditOrderModal = (location) => {
     setLocation(location);
 };
 
-const openListOrderModal = (location) => {
-    fetchTablesStations(location);
-    setLocation(location);
+const openListOrderModal = async (location) => {
+   await fetchTablesStations(location);
+    setTable(location);
+  // await filterTables(location);
 };
 
 
@@ -598,8 +623,14 @@ if(showTable){
                 onRequestClose={closeEditOrderModal}
                 tables={stations}
             />
+            <ModalFilteredTables 
+                isOpen={table !== null}
+                onRequestClose={closeModal}
+                tables={stations}
+            />
 
 </Home>
+
 );
         };
 
