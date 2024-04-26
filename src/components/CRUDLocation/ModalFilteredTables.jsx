@@ -4,7 +4,7 @@ import Cookies from 'js-cookie';
 import './ListOrder.css';
 import items_icon from '../../assets/items.png';
 import ModalListOrders from './ModalListOrders';
-const ModalFilteredTables = ({ isOpen, onRequestClose,  tables}) => {
+const ModalFilteredTables = ({ isOpen, onRequestClose,  tables,location}) => {
     const [tableVisible, settableVisible] = useState(true);
     const [orders, setOrders] = useState([]);
     const [items, setItems] = useState([]);
@@ -34,7 +34,6 @@ const [filteredTables,setFilteredTables]=useState([]);
             setPurchaseOrder(fetchedPurchaseOrder);
             filterTables(fetchedPurchaseOrder);
         };
-    
         fetchDataAndUpdateState();
     }, []);
     const closeModal = () => {
@@ -45,28 +44,22 @@ const [filteredTables,setFilteredTables]=useState([]);
     
 
     const filterTables = async () => {
-        console.log("h",purchaseOrder);
         const filteredWithTableId = tables.filter(order => {
             return purchaseOrder.find(table => table.tableId == order.id) !== undefined;
         });
-    
-        const hasOrderWithoutTable = purchaseOrder.some(order => order.tableId === null);
-
-        if (hasOrderWithoutTable) {
+        console.log("lll",Cookies.get("location"))
+        const hasOrderWithoutTable = purchaseOrder.filter(order => order.tableId === null && order.LocationId==location && order.LocationId!=null) ;
+        console.log("p5",hasOrderWithoutTable)
+        if (hasOrderWithoutTable.lenght!=0) {
             const ordersWithoutTable = [{
                 id: null,
                 name: "Orders without tables"
             }];
-    
             const updatedFilteredTables = [...filteredWithTableId, ...ordersWithoutTable];
             setFilteredTables(updatedFilteredTables);
-    
-            console.log("ok", updatedFilteredTables);
-        } else {
+            } else {
             setFilteredTables(filteredWithTableId);
-            console.log("ok", filteredWithTableId);
         }
-    console.log("ok",filteredTables);
     };
     useEffect(() => {
         const fetchDataAndUpdateState = async () => {
@@ -75,38 +68,28 @@ const [filteredTables,setFilteredTables]=useState([]);
             };
             const fetchedPurchaseOrder = await fetchData('GET', `https://pos-app-backend-tim56.onrender.com/purchase-order/`, null, headers);
             setPurchaseOrder(fetchedPurchaseOrder);
-            console.log("ovo je prob");
             filterTables(fetchedPurchaseOrder);
         };
-    
         fetchDataAndUpdateState();
     }, [filteredTables]);
 
 
     useEffect(() => {
-        console.log("ggg",filteredPurchasedOrders[0])
-        console.log("gg",filteredPurchasedOrders[0]!=undefined)
-    }, [filteredPurchasedOrders]);
+     console.log("lll",location)   }, 
+     [filteredPurchasedOrders]);
     const filterPurchaseOrders = async (tableId) => {
         setFilteredPurchasedOrders(purchaseOrder.filter(order => order.tableId == tableId));
+        console.log("iddd",tableId);
+        if(tableId==null)
+        {
+            const hasOrderWithoutTable = purchaseOrder.filter(order => order.tableId === null && order.LocationId==location ) ;
+setFilteredPurchasedOrders(hasOrderWithoutTable);
+        }
         open(tableId);
     };
     const open=(tableId)=>{
-        filterPurchaseOrders(tableId);
-        console.log("g",filteredPurchasedOrders);
-    }
+        filterPurchaseOrders(tableId);    }
 
-    const fetchPurchaseOrder = async () => {
-        const headers = {
-            Authorization: token()
-        };
-        try {
-            const fetchedPurchaseOrder = await fetchData('GET', `https://pos-app-backend-tim56.onrender.com/purchase-order/`, null, headers);
-            setPurchaseOrder(fetchedPurchaseOrder);
-        } catch (error) {
-            console.error('Error fetching purchase order:', error);
-        }
-    };
     
     const fetchData = async (method, url, requestData = null, headers = {}) => {
         try {

@@ -124,7 +124,6 @@ const Login = () => {
                     
                     setPinInputVisible(false);
                     setMessage('');
-               
                     Cookies.set('jwt', token, { expires: 1/48, path: '/' });
                     setIsLoggedIn(true);
                 }

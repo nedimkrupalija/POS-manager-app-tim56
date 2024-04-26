@@ -310,11 +310,14 @@ const fetchTablesStations = async (location) => {
   };
   
 const openEditOrderModal = (location) => {
+    Cookies.set("location",location);
     fetchTablesStations(location);
     setLocation(location);
 };
 
 const openListOrderModal = async (location) => {
+    Cookies.set("location",location.id);
+    console.log("lllllll",Cookies.get("location"))
    await fetchTablesStations(location);
     setTable(location);
   // await filterTables(location);
@@ -627,6 +630,7 @@ if(showTable){
                 isOpen={table !== null}
                 onRequestClose={closeModal}
                 tables={stations}
+                location={Cookies.get("location")}
             />
 
 </Home>

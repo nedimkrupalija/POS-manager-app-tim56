@@ -152,6 +152,8 @@ const ModalListTables = ({ isOpen, onRequestClose,  tables}) => {
                                     <th>VAT</th>
                                     <th>Grand total</th>
                                     <th>Table ID</th>
+                                    <th>Location ID</th>
+                                    <th>Status</th>
                                     <th>Items</th>
                                 </tr>
                             </thead>
@@ -163,6 +165,8 @@ const ModalListTables = ({ isOpen, onRequestClose,  tables}) => {
                                         <td>{order.vat}</td>
                                         <td>{order.grandTotal}</td>
                                         <td>{order.tableId || 'Not assigned'}</td>
+                                        <td>{order.LocationId || 'No location'}</td>
+                                        <td>{order.status}</td>
                                         <td>
                                             <img src={items_icon} alt="Items" className='items_icon' onClick={() => openModal(order)} />
                                         </td>
