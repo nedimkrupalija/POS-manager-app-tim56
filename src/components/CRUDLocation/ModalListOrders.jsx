@@ -108,8 +108,18 @@ const ModalListTables = ({ isOpen, onRequestClose,  tables}) => {
         }
     };
 
-    const openModal = (order) => {
-        setSelectedOrder(order);
+    const openModal = async (order) => {
+        const locationId = Cookies.get('location');
+        const userId = Cookies.get('userid');
+        if (locationId && userId) {
+            const headers = {
+                Authorization: token()
+            };
+            const items = await fetchData('GET', `https://pos-app-backend-tim56.onrender.com/purchase-order/${order.id}`, null, headers)
+            setSelectedOrder(items.items);
+        }
+
+        
         setModalVisible(true);
     }
 
@@ -147,22 +157,23 @@ const ModalListTables = ({ isOpen, onRequestClose,  tables}) => {
                                     <th>Totals</th>
                                     <th>VAT</th>
                                     <th>Grand total</th>
-                                    <th>Table ID</th>
-                                    <th>Location ID</th>
-                                    <th>Status</th>
+                                    <th>Table</th>
+                                    <th>Location</th>
+                                 
                                     <th>Items</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {tables.map(order => (
+                                {tables.filter(order => order.status=="pending").map(order => (
                                     <tr key={order.id}>
                                         <td>{order.id}</td>
                                         <td>{order.totals}</td>
                                         <td>{order.vat}</td>
+                                     
                                         <td>{order.grandTotal}</td>
-                                        <td>{order.tableId || 'Not assigned'}</td>
-                                        <td>{order.LocationId || 'No location'}</td>
-                                        <td>{order.status}</td>
+                                        <td>{order.TableId && order.Table.name|| 'Not assigned'}</td>
+                                        <td>{order.LocationId && order.Location.name || 'No location'}</td>
+                                        
                                         <td>
                                             <img src={items_icon} alt="Items" className='items_icon' onClick={() => openModal(order)} />
                                         </td>
@@ -191,6 +202,7 @@ const ModalListTables = ({ isOpen, onRequestClose,  tables}) => {
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            
                                             {selectedOrder.items.map(item => (
                                                 <tr key={item.id}>
                                                     <td>{item.id}</td>
@@ -199,8 +211,95 @@ const ModalListTables = ({ isOpen, onRequestClose,  tables}) => {
                                                     <td>{item.measurmentUnit}</td>
                                                     <td>{item.purchasePrice}</td>
                                                     <td>{item.sellingPrice}</td>
-                                                    <td>{item.VAT.id}</td>
-                                                    <td>{item.quantity}</td>
+                                                    <td>{item.VATId}</td>
+                                                    {console.log("item",item.PurchaseItem.quantity)}
+                                                    <td>{item.PurchaseItem.quantity}</td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                </div>)}
+                <button onClick={onRequestClose} className='close-button'>Close</button>
+                </>
+
+                
+                <h2>Invoices</h2>
+                <>
+                {errorMessage && (
+                    <div className="error-message">
+                        <img src={error_icon} alt='error' className='error-icon' />
+                        <span>{errorMessage}</span>
+                    </div>
+                )}
+                        { (
+                <div className='list-orders'>
+                    <div className='table1'>
+                        <table border="1">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Totals</th>
+                                    <th>VAT</th>
+                                    <th>Grand total</th>
+                                    <th>Table</th>
+                                    <th>Location</th>
+                                  
+                                    <th>Items</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {tables.filter(order => order.status=="finished").map(order => (
+                                    <tr key={order.id}>
+                                        <td>{order.id}</td>
+                                        <td>{order.totals}</td>
+                                        <td>{order.vat}</td>
+                                     
+                                        <td>{order.grandTotal}</td>
+                                        <td>{order.TableId && order.Table.name|| 'Not assigned'}</td>
+                                        <td>{order.LocationId && order.Location.name || 'No location'}</td>
+                                       
+                                        <td>
+                                            <img src={items_icon} alt="Items" className='items_icon' onClick={() => openModal(order)} />
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                    {modalVisible && selectedOrder && (
+                        <div className="modal-purchase-order">
+                            <div className="modal-content-purchase-order">
+                                <img src={close_modal_icon} onClick={() => setModalVisible(false)} alt="Close" className="close-modal-icon" />
+                                <h2>ITEMS FOR INVOICE #{selectedOrder.id}</h2>
+                                <div className='table2'>
+                                    <table border="1">
+                                        <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Name</th>
+                                                <th>BAR-code</th>
+                                                <th>Measurement</th>
+                                                <th>Purchase price</th>
+                                                <th>Selling price</th>
+                                                <th>VAT Id</th>
+                                                <th>Quantity</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {selectedOrder.items.map(item => (
+                                                <tr key={item.id}>
+                                                    <td>{item.id}</td>
+                                                    <td>{item.name}</td>
+                                                    <td>{item.barCode}</td>
+                                                    <td>{item.measurmentUnit}</td>
+                                                    <td>{item.purchasePrice}</td>
+                                                    <td>{item.sellingPrice}</td>
+                                                    <td>{item.VATId}</td>
+                                                    <td>{item.PurchaseItem.quantity}</td>
                                                 </tr>
                                             ))}
                                         </tbody>
