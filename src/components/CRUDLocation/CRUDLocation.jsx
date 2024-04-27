@@ -315,7 +315,6 @@ const fetchTablesStations = async (location) => {
   };
   
 const openEditOrderModal = (location) => {
-    Cookies.set("location",location);
     fetchTablesStations(location);
     setLocation(location);
 };
@@ -329,7 +328,9 @@ const openListOrderModal = async (location) => {
 
 
 const closeEditOrderModal = () => {
+    Cookies.remove("location")
     setLocation(null);
+    
 };
 
     const handleSaveClick = async () => {
