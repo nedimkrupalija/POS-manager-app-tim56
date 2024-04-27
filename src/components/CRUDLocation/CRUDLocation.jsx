@@ -337,13 +337,13 @@ const closeEditOrderModal = () => {
         if (editingLocation) {
             const id = editingLocation.id;
             const name = document.getElementById('nameEdit').value;
-            const adress = document.getElementById('addressEdit').value; // Promijenjeno ime polja
+            const adress = document.getElementById('addressEdit').value;
             const checkbox = document.getElementById('checkboxEdit').checked;   
             if (name === '' || adress === '') {
                 setErrorMessage('All fields must be filled!');
                 return;
             }
-            const requestData = { name, adress }; // Promijenjeno ime polja
+            const requestData = { name, adress }; 
             const headers = {
                 'Authorization': token()
             };
