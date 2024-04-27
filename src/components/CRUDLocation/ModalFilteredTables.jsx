@@ -26,6 +26,7 @@ const [filteredTables,setFilteredTables]=useState([]);
         return Cookies.get("jwt");
     }
     useEffect(() => {
+        setFilteredPurchasedOrders([[]])
         const fetchDataAndUpdateState = async () => {
             const headers = {
                 Authorization: token()
@@ -47,9 +48,7 @@ const [filteredTables,setFilteredTables]=useState([]);
         const filteredWithTableId = tables.filter(order => {
             return purchaseOrder.find(table => table.tableId == order.id) !== undefined;
         });
-        console.log("lll",Cookies.get("location"))
-        const hasOrderWithoutTable = purchaseOrder.filter(order => order.tableId === null && order.LocationId==location && order.LocationId!=null) ;
-        console.log("p5",hasOrderWithoutTable)
+        const hasOrderWithoutTable = purchaseOrder.filter(order => order.tableId === null && order.LocationId==Cookies.get("location") && order.LocationId!=null) ;
         if (hasOrderWithoutTable.lenght!=0) {
             const ordersWithoutTable = [{
                 id: null,
@@ -77,9 +76,8 @@ const [filteredTables,setFilteredTables]=useState([]);
         setFilteredPurchasedOrders(purchaseOrder.filter(order => order.tableId == tableId));
         if(tableId==null)
         {
-            const hasOrderWithoutTable = purchaseOrder.filter(order => order.tableId === null && order.LocationId==location && order.LocationId!=null ) ;
-            console.log("ovdje ");
-            console.log(hasOrderWithoutTable);
+            const hasOrderWithoutTable = purchaseOrder.filter(order => order.tableId === null && order.LocationId==Cookies.get("location") && order.LocationId!=null ) ;
+
 setFilteredPurchasedOrders(hasOrderWithoutTable);
         }
 
