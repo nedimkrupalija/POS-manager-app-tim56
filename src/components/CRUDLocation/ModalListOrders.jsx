@@ -133,7 +133,7 @@ const ModalListTables = ({ isOpen, onRequestClose,  tables}) => {
             (
                 tables &&(
              <div className='list'>
-        <h2 className='users-title'>"Orders"</h2>
+        <h2 className='users-title'>Orders</h2>
             <>
                 {errorMessage && (
                     <div className="error-message">

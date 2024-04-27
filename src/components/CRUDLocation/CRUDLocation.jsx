@@ -40,6 +40,8 @@ const [purchaseOrder,setPurchaseOrder]=useState([]);
 
    
     useEffect(() => {
+if(Cookies.get("locationId"))
+Cookies.remove("locationId");
         fetchLocations();
         fetchPOS();
       
