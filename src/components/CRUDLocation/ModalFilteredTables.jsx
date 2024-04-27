@@ -73,23 +73,21 @@ const [filteredTables,setFilteredTables]=useState([]);
         fetchDataAndUpdateState();
     }, [filteredTables]);
 
-
-    useEffect(() => {
-     console.log("lll",location)   }, 
-     [filteredPurchasedOrders]);
     const filterPurchaseOrders = async (tableId) => {
         setFilteredPurchasedOrders(purchaseOrder.filter(order => order.tableId == tableId));
-        console.log("iddd",tableId);
         if(tableId==null)
         {
-            const hasOrderWithoutTable = purchaseOrder.filter(order => order.tableId === null && order.LocationId==location ) ;
+            const hasOrderWithoutTable = purchaseOrder.filter(order => order.tableId === null && order.LocationId==location && order.LocationId!=null ) ;
+            console.log("ovdje ");
+            console.log(hasOrderWithoutTable);
 setFilteredPurchasedOrders(hasOrderWithoutTable);
         }
-        
+
         open(tableId);
     };
     const open=(tableId)=>{
-        filterPurchaseOrders(tableId);    }
+        filterPurchaseOrders(tableId);   
+     }
 
     
     const fetchData = async (method, url, requestData = null, headers = {}) => {
@@ -132,7 +130,7 @@ setFilteredPurchasedOrders(hasOrderWithoutTable);
              (
                 tables &&(
              <div className='list'>
-        <h2 className='users-title'>"Orders"</h2>
+        <h2 className='users-title'>Orders</h2>
             <>
                 {errorMessage && (
                     <div className="error-message">
