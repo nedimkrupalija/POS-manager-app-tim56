@@ -79,7 +79,9 @@ body {
 .location-id-input:focus {
     border-color: #007bff;
 }
-
+.view-orders-container {
+    margin-right: 10px; 
+}
 .fields {
     display: block;
     margin-bottom: 5px;

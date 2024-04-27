@@ -454,15 +454,24 @@ if(showTable){
                         <img onClick={() => confirmDelete(location.id, location.Storage)} src={delete_icon} alt="Delete" className='delete-icon' />
 
                     )}
+                                                    <div className='view-orders-container'>
                      <button className="buttons1" onClick={() => handleTableclick(location.id)}>
                                     Add new table
                                 </button>
+                                </div>
+                                <div className='view-orders-container'>
+
                                 <button className="buttons1" onClick={() => openEditOrderModal(location) }>
                                    View tables
                                 </button>
-                                <button className="buttons1" onClick={() => openListOrderModal(location) }>
+                                </div>
+
+                                <div className='view-orders-container'>
+                                     <button className="buttons1" onClick={() => openListOrderModal(location) }>
                                    View orders
                                 </button>
+                                </div>
+                               
                 </div>
             </td>
         </tr>
