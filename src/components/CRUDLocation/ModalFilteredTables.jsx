@@ -47,9 +47,7 @@ const [filteredTables,setFilteredTables]=useState([]);
         const filteredWithTableId = tables.filter(order => {
             return purchaseOrder.find(table => table.tableId == order.id) !== undefined;
         });
-        console.log("lll",Cookies.get("location"))
         const hasOrderWithoutTable = purchaseOrder.filter(order => order.tableId === null && order.LocationId==location && order.LocationId!=null) ;
-        console.log("p5",hasOrderWithoutTable)
         if (hasOrderWithoutTable.lenght!=0) {
             const ordersWithoutTable = [{
                 id: null,
@@ -78,8 +76,7 @@ const [filteredTables,setFilteredTables]=useState([]);
         if(tableId==null)
         {
             const hasOrderWithoutTable = purchaseOrder.filter(order => order.tableId === null && order.LocationId==location && order.LocationId!=null ) ;
-            console.log("ovdje ");
-            console.log(hasOrderWithoutTable);
+
 setFilteredPurchasedOrders(hasOrderWithoutTable);
         }
 

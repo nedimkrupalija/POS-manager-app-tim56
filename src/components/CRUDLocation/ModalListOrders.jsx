@@ -58,10 +58,8 @@ const ModalListTables = ({ isOpen, onRequestClose,  tables}) => {
     };
 
     const fetchOrders = async () => {
-        console.log("Uslo");
         const locationId = Cookies.get('location');
         const userId = Cookies.get('userid');
-        console.log("lokacija",locationId)
         if (locationId && userId) {
             const headers = {
                 Authorization: token()
@@ -70,9 +68,7 @@ const ModalListTables = ({ isOpen, onRequestClose,  tables}) => {
                 .then(response1 => {
                     fetchData('GET','https://pos-app-backend-tim56.onrender.com/location/'+Cookies.get('location')+'/tables',null,headers).then(response=>{
                        
-                    console.log(Cookies.get('userid'));
-                    console.log("response",response);
-                    const orders = response1.filter(order => {
+                     const orders = response1.filter(order => {
                         return response.some(table => table.id === order.tableId) || order.tableId ===null ;
                     });
                     

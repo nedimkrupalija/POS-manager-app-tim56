@@ -40,8 +40,8 @@ const [purchaseOrder,setPurchaseOrder]=useState([]);
 
    
     useEffect(() => {
-if(Cookies.get("locationId"))
-Cookies.remove("locationId");
+if(Cookies.get("location"))
+Cookies.remove("location");
         fetchLocations();
         fetchPOS();
       
@@ -72,8 +72,10 @@ Cookies.remove("locationId");
             }
           });
           const extendedToken=response.headers.get('Authorization');
-          console.log(response);
-          const data = await response.json();
+          if(extendedToken){
+              Cookies.set("jwt",extendedToken,{expires:1/48});
+       
+          }          const data = await response.json();
           setPosList(data);
       } catch (error) {
           setErrorMessage(error.message);
@@ -91,7 +93,10 @@ Cookies.remove("locationId");
                 }
             });
             const extendedToken=response.headers.get('Authorization');
-            console.log(response);
+            if(extendedToken){
+                Cookies.set("jwt",extendedToken,{expires:1/48});
+         
+            }           
             const data = await response.json();
            
             setLocations(data);
@@ -111,7 +116,6 @@ Cookies.remove("locationId");
             }
           });
           const extendedToken=response.headers.get('Authorization');
-          console.log(extendedToken);
           if(extendedToken){
               Cookies.set("jwt",extendedToken,{expires:1/48});
        
@@ -214,7 +218,7 @@ Cookies.remove("locationId");
             
             if(response.body){
                 const extendedToken=response.headers.get('Authorization');
-                console.log(extendedToken);
+
                 if(extendedToken){
                     Cookies.set("jwt",extendedToken,{expires:1/48});
              
@@ -288,9 +292,9 @@ const fetchPurchaseOrder=async ()=>{
   };
   const filterTables = async (table) => {
     await fetchPurchaseOrder();
-    console.log("h",stations);
+
     setFilteredTables(stations.filter(order => {
-        console.log("uuu",purchaseOrder.find(table => table.tableId == order.id) !== undefined);
+
         return purchaseOrder.find(table => table.tableId == order.id) !== undefined;
     }));
 
@@ -303,7 +307,6 @@ const fetchTablesStations = async (location) => {
             'Authorization': token()
         };
         //ruta: 
-        console.log(location);
         const data = await fetchData('GET', 'https://pos-app-backend-tim56.onrender.com/location/'+location.id+'/tables', null, headers);
         setStations(data);
     } catch (error) {
@@ -319,7 +322,6 @@ const openEditOrderModal = (location) => {
 
 const openListOrderModal = async (location) => {
     Cookies.set("location",location.id);
-    console.log("lllllll",Cookies.get("location"))
    await fetchTablesStations(location);
     setTable(location);
   // await filterTables(location);
