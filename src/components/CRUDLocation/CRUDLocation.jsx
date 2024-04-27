@@ -473,7 +473,7 @@ if(showTable){
                             
                                 <div className='view-orders-container'>
                                      <button className="buttons1" onClick={() => openListOrderModal(location) }>
-                                   View orders
+                                   Orders/invoices
                                 </button>
                                 </div>
                                

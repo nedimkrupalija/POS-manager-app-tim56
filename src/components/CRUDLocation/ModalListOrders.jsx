@@ -226,8 +226,9 @@ const ModalListTables = ({ isOpen, onRequestClose,  tables}) => {
                 <button onClick={onRequestClose} className='close-button'>Close</button>
                 </>
 
-                <>
+                
                 <h2>Invoices</h2>
+                <>
                 {errorMessage && (
                     <div className="error-message">
                         <img src={error_icon} alt='error' className='error-icon' />
@@ -273,7 +274,7 @@ const ModalListTables = ({ isOpen, onRequestClose,  tables}) => {
                         <div className="modal-purchase-order">
                             <div className="modal-content-purchase-order">
                                 <img src={close_modal_icon} onClick={() => setModalVisible(false)} alt="Close" className="close-modal-icon" />
-                                <h2>ITEMS FOR ORDER #{selectedOrder.id}</h2>
+                                <h2>ITEMS FOR INVOICE #{selectedOrder.id}</h2>
                                 <div className='table2'>
                                     <table border="1">
                                         <thead>

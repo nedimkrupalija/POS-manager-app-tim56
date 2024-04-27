@@ -120,7 +120,7 @@ const ModalFilteredTables = ({ isOpen, onRequestClose, tables, location }) => {
                                             <button className='button2' onClick={() => {
                                                 filterPurchaseOrders(station.id);
                                                 setClosed(false);
-                                            }}>View Orders</button>
+                                            }}>Orders/invoices</button>
                                         </td>
                                     </tr>
                                 ))}
