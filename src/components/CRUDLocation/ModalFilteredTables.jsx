@@ -38,9 +38,11 @@ const [filteredTables,setFilteredTables]=useState([]);
         fetchDataAndUpdateState();
     }, []);
     const closeModal = () => {
-        setClosed(true);
-        setFilteredTables([]);
+           setFilteredTables([]);
         setFilteredPurchasedOrders([[]]);
+        Cookies.remove("location")
+        setClosed(true);
+     
     };
     
 
@@ -76,16 +78,14 @@ const [filteredTables,setFilteredTables]=useState([]);
         setFilteredPurchasedOrders(purchaseOrder.filter(order => order.tableId == tableId));
         if(tableId==null)
         {
-            const hasOrderWithoutTable = purchaseOrder.filter(order => order.tableId === null && order.LocationId==Cookies.get("location") && order.LocationId!=null ) ;
+            const hasOrderWithoutTable = purchaseOrder.filter(order => 
+                order.tableId === null && order.LocationId==Cookies.get("location") ) ;
 
 setFilteredPurchasedOrders(hasOrderWithoutTable);
         }
 
-        open(tableId);
     };
-    const open=(tableId)=>{
-        filterPurchaseOrders(tableId);   
-     }
+
 
     
     const fetchData = async (method, url, requestData = null, headers = {}) => {
@@ -141,6 +141,7 @@ setFilteredPurchasedOrders(hasOrderWithoutTable);
                         <thead>
                             <tr>
                                 <th>TableId</th>
+                                <th>Table name</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -168,7 +169,7 @@ setFilteredPurchasedOrders(hasOrderWithoutTable);
 
     
     ))}
-{filteredPurchasedOrders[0]!=undefined && !closed&& filteredPurchasedOrders[0].length!=0 && (
+{!closed&& filteredPurchasedOrders[0]!=undefined && (
     <ModalListOrders
         isOpen={true} 
         onRequestClose={closeModal}
