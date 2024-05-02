@@ -288,7 +288,9 @@ const fetchPurchaseOrder=async ()=>{
     const headers = {
         Authorization: token()
     };
-      setPurchaseOrder(await fetchData ('GET', `https://pos-app-backend-tim56.onrender.com/purchase-order/`, null, headers));
+    const resp = await fetchData ('GET', `https://pos-app-backend-tim56.onrender.com/purchase-order/`, null, headers)
+    console.log("bn",resp )
+      setPurchaseOrder(resp);
   };
   const filterTables = async (table) => {
     await fetchPurchaseOrder();
@@ -307,7 +309,9 @@ const fetchTablesStations = async (location) => {
             'Authorization': token()
         };
         //ruta: 
+        
         const data = await fetchData('GET', 'https://pos-app-backend-tim56.onrender.com/location/'+location.id+'/tables', null, headers);
+        console.log("a", data)
         setStations(data);
     } catch (error) {
         console.error(error);
@@ -323,7 +327,7 @@ const openListOrderModal = async (location) => {
     Cookies.set("location",location.id);
    await fetchTablesStations(location);
     setTable(location);
-  // await filterTables(location);
+   //  await filterTables(location);
 };
 
 
@@ -461,15 +465,15 @@ if(showTable){
                                 </button>
                                 </div>
                                 <div className='view-orders-container'>
-
+                                
                                 <button className="buttons1" onClick={() => openEditOrderModal(location) }>
                                    View tables
                                 </button>
                                 </div>
-
+                            
                                 <div className='view-orders-container'>
                                      <button className="buttons1" onClick={() => openListOrderModal(location) }>
-                                   View orders
+                                   Orders/invoices
                                 </button>
                                 </div>
                                
