@@ -24,8 +24,9 @@ const ModalFilteredTables = ({ isOpen, onRequestClose, tables, location }) => {
 
     const filterTables = async () => {
        console.log("cc", tables)
+       console.log("purchaseOrder", purchaseOrder)
         const filteredWithTableId = tables.filter(order => {
-            return purchaseOrder.find(table => table.tableId == order.id) !== undefined;
+            return purchaseOrder.find(table => table.TableId == order.id) !== undefined;
         });
         const hasOrderWithoutTable = purchaseOrder.filter(order => order.TableId === null && order.LocationId == Cookies.get("location"));
         if (hasOrderWithoutTable.length !== 0) {
@@ -47,7 +48,7 @@ const ModalFilteredTables = ({ isOpen, onRequestClose, tables, location }) => {
                 Authorization: token()
             };
             const fetchedPurchaseOrder = await fetchData('GET', `https://pos-app-backend-tim56.onrender.com/purchase-order/`, null, headers);
-            console.log("fetchedPurchaseOrder", fetchedPurchaseOrder)
+           
             setPurchaseOrder(fetchedPurchaseOrder);
             filterTables();
         };
@@ -59,9 +60,9 @@ const ModalFilteredTables = ({ isOpen, onRequestClose, tables, location }) => {
     }, [purchaseOrder, tables]); // Dependencies added
 
     const filterPurchaseOrders = async (tableId) => {
-        console.log("purchaseOrder", purchaseOrder)
+       
         setFilteredPurchasedOrders(purchaseOrder.filter(order => order.TableId == tableId));
-        console.log("filteredPurchasedOrders", filteredPurchasedOrders)
+       
         if (tableId == null) {
             const hasOrderWithoutTable = purchaseOrder.filter(order =>
                 order.TableId === null && order.LocationId == Cookies.get("location"));
