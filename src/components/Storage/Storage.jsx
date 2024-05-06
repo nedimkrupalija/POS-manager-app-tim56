@@ -4,7 +4,7 @@ import Home from '../Home/Home';
 import Cookies from 'js-cookie';
 import { Link } from 'react-router-dom';
 
-
+const apiUrl = import.meta.env.VITE_REACT_API_URL;
 const Storage = () => {
   const [storageData, setStorageData] = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
@@ -17,7 +17,7 @@ const Storage = () => {
     const id = pathname.split('/').pop();
     const fetchStorageData = async () => {
       try {
-        const response = await fetch(`https://pos-app-backend-tim56.onrender.com/storage/${id}`, {
+        const response = await fetch(`${apiUrl}/storage/${id}`, {
           method: 'GET',
           headers: {
             'Authorization': token()

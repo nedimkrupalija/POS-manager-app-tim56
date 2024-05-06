@@ -6,6 +6,8 @@ import delete_icon from '../../assets/delete.png';
 import Cookies from 'js-cookie';
 import error_icon from '../../assets/error.png';
 import info_icon from '../../assets/info.png';
+
+const apiUrl = import.meta.env.VITE_REACT_API_URL;
 const ModalEditOrder = ({ isOpen, onRequestClose, order, updateOrder, fetchOrders }) => {
     const [storages, setStorages] = useState([]);
     const [isAddingItems, setIsAddingItems] = useState(false);
@@ -22,7 +24,7 @@ const ModalEditOrder = ({ isOpen, onRequestClose, order, updateOrder, fetchOrder
         try {
            
             const response = await fetch(
-                'https://pos-app-backend-tim56.onrender.com/storage/',
+                `${apiUrl}/storage/`,
                 {
                     method: 'GET',
                     headers: {
@@ -77,7 +79,7 @@ const ModalEditOrder = ({ isOpen, onRequestClose, order, updateOrder, fetchOrder
             }));
             
             const response= await fetch(
-                'https://pos-app-backend-tim56.onrender.com/orders/'+order.id,
+                `${apiUrl}/orders/`+order.id,
                 {
                     method: 'PUT',
                     headers: {

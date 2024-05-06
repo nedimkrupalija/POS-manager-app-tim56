@@ -9,8 +9,10 @@ import error_icon from '../../assets/error.png'
 import Home from '../Home/Home';
 import './VATgroups.css'
 
+const apiUrl = import.meta.env.VITE_REACT_API_URL;
+
 const VATgroups = () => {
-    const ROUTE = 'https://pos-app-backend-tim56.onrender.com/'
+    //const ROUTE = 'https://pos-app-backend-tim56.onrender.com/'
 
     const [tableVisible, settableVisible] = useState(true);
     const [infoMessage, setInfoMessage] = useState('');
@@ -31,7 +33,7 @@ const VATgroups = () => {
             const headers = {
                 'Authorization': token()
             };
-            const data = await fetchData('GET', `${ROUTE}vat`, null, headers);
+            const data = await fetchData('GET', `${apiUrl}/vat`, null, headers);
             setVATgroups(data);
         } catch (error) {
             setErrorMessage(error.message)
@@ -78,7 +80,7 @@ const VATgroups = () => {
             const headers = {
                 'Authorization': token()
             };
-            await fetchData('DELETE', `${ROUTE}vat/${id}`, null, headers);
+            await fetchData('DELETE', `${apiUrl}/vat/${id}`, null, headers);
             setErrorMessage('')
             fetchGroups();
         } catch (error) {
@@ -119,7 +121,7 @@ const VATgroups = () => {
                         'Authorization': `${Cookies.get('jwt')}`,
                     };
 
-                    await fetchData('PUT', `${ROUTE}vat/${id}`, requestData, headers);
+                    await fetchData('PUT', `${apiUrl}/vat/${id}`, requestData, headers);
                     setErrorMessage('')
                     fetchGroups();
                     setEditingGroup(null);
@@ -139,7 +141,7 @@ const VATgroups = () => {
                 const headers = {
                     'Authorization': token()
                 };
-                await fetchData('POST', `${ROUTE}vat`, requestData, headers);
+                await fetchData('POST', `${apiUrl}/vat`, requestData, headers);
                 setInfoMessage('User created')
                 document.getElementById('nameCreate').value = ''
                 document.getElementById('percentCreate').value = ''

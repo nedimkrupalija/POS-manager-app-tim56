@@ -5,6 +5,8 @@ import Cookies from 'js-cookie';
 import { useLocation } from 'react-router-dom';
 import info_icon from '../../assets/info.png';
 
+const apiUrl = import.meta.env.VITE_REACT_API_URL;
+
 const StorageOrder = () => {
     const [tableVisible, settableVisible] = useState(true);
     const [errorMessage, setErrorMessage] = useState('');
@@ -44,7 +46,7 @@ const StorageOrder = () => {
     };
     const fetchStorageData = async () => {
         try {
-          const response = await fetch(`https://pos-app-backend-tim56.onrender.com/storage/${pathname.split('/').pop()}`, {
+          const response = await fetch(`${apiUrl}/storage/${pathname.split('/').pop()}`, {
             method: 'GET',
             headers: {
               'Authorization': token()
@@ -67,7 +69,7 @@ return data;
   
     const fetchItems = async () => {
         try {
-            const response = await fetch('https://pos-app-backend-tim56.onrender.com/item/', {
+            const response = await fetch(`${apiUrl}/item/`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -106,7 +108,7 @@ return data;
                 }
             });
             const response = await fetch(
-                'https://pos-app-backend-tim56.onrender.com/orders/',
+                `${apiUrl}/orders/`,
                 {
                     method: 'POST',
                     headers: {

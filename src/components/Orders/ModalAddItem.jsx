@@ -3,6 +3,7 @@ import Modal from 'react-modal';
 import './Orders.css';
 import Cookies from 'js-cookie';
 
+const apiUrl = import.meta.env.VITE_REACT_API_URL;
 const ModalAddItem = ({ isOpen, onRequestClose, setOrderItems,order }) => {
     const [searchText, setSearchText] = useState('');
     const [searchResults, setSearchResults] = useState([]);
@@ -65,7 +66,7 @@ const ModalAddItem = ({ isOpen, onRequestClose, setOrderItems,order }) => {
 
     const fetchItems = async () => {
         try {
-            const response = await fetch('https://pos-app-backend-tim56.onrender.com/item/', {
+            const response = await fetch(`${apiUrl}/item/`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',

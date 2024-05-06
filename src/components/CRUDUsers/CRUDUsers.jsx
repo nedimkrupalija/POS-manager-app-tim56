@@ -8,6 +8,8 @@ import close_icon from '../../assets/close.png'
 import info_icon from '../../assets/info.png'
 import error_icon from '../../assets/error.png'
 import Home from '../Home/Home';
+
+const apiUrl = import.meta.env.VITE_REACT_API_URL;
 const CRUDUsers = () => {
     const [tableVisible, settableVisible] = useState(true);
     const [users, setUsers] = useState([]);
@@ -26,7 +28,7 @@ const CRUDUsers = () => {
             const headers = {
                 'Authorization': token()
             };
-            const data = await fetchData('GET', 'https://pos-app-backend-tim56.onrender.com/admin/users', null, headers);
+            const data = await fetchData('GET', `${apiUrl}/admin/users`, null, headers);
             setUsers(data);
         } catch (error) {
             setErrorMessage(error.message)
@@ -57,7 +59,7 @@ const CRUDUsers = () => {
                 const headers = {
                     'Authorization': token()
                 };
-                await fetchData('POST', 'https://pos-app-backend-tim56.onrender.com/admin/users', requestData, headers);
+                await fetchData('POST', `${apiUrl}/admin/users`, requestData, headers);
                 setInfoMessage('User created')
                 document.getElementById('usernameCreate').value = ''
                 document.getElementById('passwordCreate').value = ''
@@ -81,7 +83,7 @@ const CRUDUsers = () => {
             const headers = {
                 'Authorization': token()
             };
-            await fetchData('DELETE', `https://pos-app-backend-tim56.onrender.com/admin/users/${id}`, null, headers);
+            await fetchData('DELETE', `${apiUrl}/admin/users/${id}`, null, headers);
             setErrorMessage('')
             fetchUsers();
         } catch (error) {
@@ -132,7 +134,7 @@ const CRUDUsers = () => {
                         'Authorization': `${Cookies.get('jwt')}`,
                     };
 
-                    await fetchData('PUT', `https://pos-app-backend-tim56.onrender.com/admin/users/${id}`, requestData, headers);
+                    await fetchData('PUT', `${apiUrl}/admin/users/${id}`, requestData, headers);
                     setErrorMessage('')
                     fetchUsers();
                     setEditingUser(null);

@@ -6,6 +6,7 @@ import items_icon from '../../assets/items.png';
 import ModalListOrders from './ModalListOrders';
 import { FaEraser } from 'react-icons/fa';
 
+const apiUrl = import.meta.env.VITE_REACT_API_URL;
 const ModalFilteredTables = ({ isOpen, onRequestClose, tables, location }) => {
     const [tableVisible, settableVisible] = useState(true);
     const [purchaseOrder, setPurchaseOrder] = useState([]);
@@ -47,7 +48,7 @@ const ModalFilteredTables = ({ isOpen, onRequestClose, tables, location }) => {
             const headers = {
                 Authorization: token()
             };
-            const fetchedPurchaseOrder = await fetchData('GET', `https://pos-app-backend-tim56.onrender.com/purchase-order/`, null, headers);
+            const fetchedPurchaseOrder = await fetchData('GET', `${apiUrl}/purchase-order/`, null, headers);
            
             setPurchaseOrder(fetchedPurchaseOrder);
             filterTables();

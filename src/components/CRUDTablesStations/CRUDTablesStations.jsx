@@ -6,6 +6,7 @@ import error_icon from '../../assets/error.png'; // Dodana import
 import Cookies from 'js-cookie';
 import Home from '../Home/Home';
 
+const apiUrl = import.meta.env.VITE_REACT_API_URL;
 const CRUDTablesStations = ({ id }) => {
   const [stations, setStations] = useState([]);
   const [infoMessage, setInfoMessage] = useState('');
@@ -25,7 +26,7 @@ const CRUDTablesStations = ({ id }) => {
       const headers = {
         'Authorization': token()
       };
-      const data = await fetchData('GET', 'https://pos-app-backend-tim56.onrender.com/location/' + id + '/tables', null, headers);
+      const data = await fetchData('GET', `${apiUrl}/location/` + id + '/tables', null, headers);
       setStations(data);
     } catch (error) {
       console.error(error);
@@ -38,7 +39,7 @@ const CRUDTablesStations = ({ id }) => {
       const headers = {
         'Authorization': token()
       };
-      await fetchData('POST', 'https://pos-app-backend-tim56.onrender.com/location/' + id + '/tables', requestData, headers);
+      await fetchData('POST', `${apiUrl}/location/` + id + '/tables', requestData, headers);
       setInfoMessage('Tables/Stations created');
       setTableInputs([{ id: Date.now(), value: '' }]);
       setErrorMessage('');

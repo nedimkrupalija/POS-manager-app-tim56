@@ -4,7 +4,7 @@ import Cookies from 'js-cookie';
 import items_icon from '../../assets/items.png';
 import close_modal_icon from '../../assets/close-modal.png'
 
-
+const apiUrl = import.meta.env.VITE_REACT_API_URL;
 const ModalListTables = ({ isOpen, onRequestClose,  tables}) => {
     const [tableVisible, settableVisible] = useState(true);
     const [orders, setOrders] = useState([]);
@@ -38,7 +38,7 @@ const ModalListTables = ({ isOpen, onRequestClose,  tables}) => {
                 const headers = {
                     Authorization: token()
                 };
-                const storages = await fetchData('GET', `https://pos-app-backend-tim56.onrender.com/storage`, null, headers);
+                const storages = await fetchData('GET', `${apiUrl}/storage`, null, headers);
                 const matchingStorage = storages.find(storage => storage.LocationId === parseInt(locationId));
                 const endOfToday = new Date();
                 endOfToday.setHours(23, 59, 59, 999); 
@@ -64,9 +64,9 @@ const ModalListTables = ({ isOpen, onRequestClose,  tables}) => {
             const headers = {
                 Authorization: token()
             };
-            fetchData('GET', `https://pos-app-backend-tim56.onrender.com/purchase-order`, null, headers)
+            fetchData('GET', `${apiUrl}/purchase-order`, null, headers)
                 .then(response1 => {
-                    fetchData('GET','https://pos-app-backend-tim56.onrender.com/location/'+Cookies.get('location')+'/tables',null,headers).then(response=>{
+                    fetchData('GET',`${apiUrl}/location/`+Cookies.get('location')+'/tables',null,headers).then(response=>{
                        
                      const orders = response1.filter(order => {
                         return response.some(table => table.id === order.tableId) || order.tableId ===null ;
@@ -115,7 +115,7 @@ const ModalListTables = ({ isOpen, onRequestClose,  tables}) => {
             const headers = {
                 Authorization: token()
             };
-            const items = await fetchData('GET', `https://pos-app-backend-tim56.onrender.com/purchase-order/${order.id}`, null, headers)
+            const items = await fetchData('GET', `${apiUrl}/purchase-order/${order.id}`, null, headers)
             
            
             setSelectedOrder(items);

@@ -2,6 +2,8 @@ import React from 'react';
 import Modal from 'react-modal';
 import './Orders.css';
 
+const apiUrl = import.meta.env.VITE_REACT_API_URL;
+
 const ModalOrderDetails = ({ isOpen, onRequestClose, order, cancelOrder }) => {
     function formatDate(inputDate) {
         const date = new Date(inputDate);

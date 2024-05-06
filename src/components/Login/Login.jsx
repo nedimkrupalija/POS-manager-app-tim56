@@ -5,8 +5,10 @@ import person_icon from '../../assets/person.png';
 import pass_icon from '../../assets/password.png';
 import error_icon from '../../assets/error.png';
 import Home from '../Home/Home';
-
 import info_icon from '../../assets/info.png'
+const apiUrl = import.meta.env.VITE_REACT_API_URL;
+const redirectUrl = import.meta.env.VITE_REACT_REDIRECT;
+
 
 const Login = () => {
     const [usernameOrPhone, setUsernameOrPhone] = useState('');
@@ -19,7 +21,7 @@ const Login = () => {
     const [pin, setPin] = useState('');
     const [token, setToken] = useState('');
 
-    const URL_LOGIN = 'https://pos-app-backend-tim56.onrender.com/auth/login';
+    const URL_LOGIN = `${apiUrl}/auth/login`;
     const URL_SEND_PIN = 'https://j3m2qv.api.infobip.com/2fa/2/pin';
     const URL_VERIFY_PIN = `https://j3m2qv.api.infobip.com/2fa/2/pin/${pinId}/verify`;
 
@@ -101,7 +103,7 @@ const Login = () => {
     };
     const handleManagerApp = () => {
         Cookies.remove('jwt');
-        window.location.href = "https://pos-client-app-tim56.vercel.app/";
+        window.location.href = `${redirectUrl}`;
     }
     const verifyPin = () => {
         const pinRequestBody = {

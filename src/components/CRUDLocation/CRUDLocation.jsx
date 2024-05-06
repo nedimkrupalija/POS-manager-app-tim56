@@ -16,6 +16,7 @@ import ModalListOrders from './ModalListOrders';
 
 import CRUDTablesStations from '../CRUDTablesStations/CRUDTablesStations';
 import ModalFilteredTables from './ModalFilteredTables';
+const apiUrl = import.meta.env.VITE_REACT_API_URL;
 const CRUDLocations = () => {
     const [storageCheckbox, setStorageCheckbox] = useState(false);
     const [tableVisible, setTableVisible] = useState(true);
@@ -65,7 +66,7 @@ Cookies.remove("location");
 } 
     const fetchPOS= async () => {
       try {
-          const response = await fetch('https://pos-app-backend-tim56.onrender.com/pos', {
+          const response = await fetch(`${apiUrl}/pos`, {
               method: 'GET',
               headers: {
                 'Authorization': token()
@@ -86,7 +87,7 @@ Cookies.remove("location");
 
     const fetchLocations = async () => {
         try {
-            const response = await fetch('https://pos-app-backend-tim56.onrender.com/location', {
+            const response = await fetch(`${apiUrl}/location`, {
                 method: 'GET',
                 headers: {
                     'Authorization': token()
@@ -109,7 +110,7 @@ Cookies.remove("location");
 
     const handlePOSclick = async (locationId) => {
       try {
-          const response = await fetch(`https://pos-app-backend-tim56.onrender.com/location/${locationId}`, {
+          const response = await fetch(`${apiUrl}/location/${locationId}`, {
               method: 'GET',
               headers: {
                 'Authorization': token()
@@ -149,9 +150,9 @@ Cookies.remove("location");
                 'Authorization': token()
             };
             
-            const data = await fetchData('POST', 'https://pos-app-backend-tim56.onrender.com/location', requestData, headers);
+            const data = await fetchData('POST', `${apiUrl}/location`, requestData, headers);
             if(checkbox){
-                await fetchData('POST', 'https://pos-app-backend-tim56.onrender.com/storage', {status : "Active", LocationId: data.id}, headers);
+                await fetchData('POST', `${apiUrl}/storage`, {status : "Active", LocationId: data.id}, headers);
             }
            
             setInfoMessage('Location created');
@@ -176,9 +177,9 @@ Cookies.remove("location");
         };
         if(storage)
         {
-            await fetchData('DELETE', `https://pos-app-backend-tim56.onrender.com/storage/${storage.id}`, null, headers);
+            await fetchData('DELETE', `${apiUrl}/storage/${storage.id}`, null, headers);
         }
-        await fetchData('DELETE', `https://pos-app-backend-tim56.onrender.com/location/${id}`, null, headers);
+        await fetchData('DELETE', `${apiUrl}/location/${id}`, null, headers);
         setErrorMessage('');
         fetchLocations();
     };
@@ -187,7 +188,7 @@ Cookies.remove("location");
     const headers = {
         'Authorization': token()
     };
-    await fetchData ('DELETE', `https://pos-app-backend-tim56.onrender.com/pos/${id}`, null, headers);
+    await fetchData ('DELETE', `${apiUrl}/pos/${id}`, null, headers);
     setErrorMessage('');
     fetchLocations();
     fetchPOS();
@@ -250,7 +251,7 @@ Cookies.remove("location");
           const headers = {
             'Authorization': token()
         };
-              await fetchData('PUT', `https://pos-app-backend-tim56.onrender.com/pos/${id}`, requestData, headers);
+              await fetchData('PUT', `${apiUrl}/pos/${id}`, requestData, headers);
               setErrorMessage('');
               fetchPOS();
               setEditingPOS(null);
@@ -273,7 +274,7 @@ Cookies.remove("location");
         const headers = {
             'Authorization': token()
         };
-        await fetchData('POST', 'https://pos-app-backend-tim56.onrender.com/pos', requestData, headers);
+        await fetchData('POST', `${apiUrl}/pos`, requestData, headers);
         setInfoMessage('POS created');
         fetchPOS();
         document.getElementById('nameCreate').value = '';
@@ -288,7 +289,7 @@ const fetchPurchaseOrder=async ()=>{
     const headers = {
         Authorization: token()
     };
-    const resp = await fetchData ('GET', `https://pos-app-backend-tim56.onrender.com/purchase-order/`, null, headers)
+    const resp = await fetchData ('GET', `${apiUrl}/purchase-order/`, null, headers)
     console.log("bn",resp )
       setPurchaseOrder(resp);
   };
@@ -310,7 +311,7 @@ const fetchTablesStations = async (location) => {
         };
         //ruta: 
         
-        const data = await fetchData('GET', 'https://pos-app-backend-tim56.onrender.com/location/'+location.id+'/tables', null, headers);
+        const data = await fetchData('GET', `${apiUrl}/location/`+location.id+'/tables', null, headers);
         console.log("a", data)
         setStations(data);
     } catch (error) {
@@ -352,19 +353,19 @@ const closeEditOrderModal = () => {
                 'Authorization': token()
             };
             if(!editingLocation.Storage && checkbox){
-                await fetchData('POST', 'https://pos-app-backend-tim56.onrender.com/storage', {status : "Active", LocationId: id}, headers);
+                await fetchData('POST', `${apiUrl}/storage`, {status : "Active", LocationId: id}, headers);
             }
             else if(editingLocation.Storage && !checkbox){
                
                 try {
-                    await fetchData('DELETE', `https://pos-app-backend-tim56.onrender.com/storage/${editingLocation.Storage.id}`, null, headers)
+                    await fetchData('DELETE', `${apiUrl}/storage/${editingLocation.Storage.id}`, null, headers)
                 } catch (error) {
                     console.log(error)
                 }
                 
             }
 
-            await fetchData('PUT', `https://pos-app-backend-tim56.onrender.com/location/${id}`, requestData, headers);
+            await fetchData('PUT', `${apiUrl}/location/${id}`, requestData, headers);
             setErrorMessage('');
             fetchLocations();
             setEditingLocation(null);

@@ -10,9 +10,9 @@ import info_icon from '../../assets/info.png'
 import error_icon from '../../assets/error.png'
 import choose_icon from '../../assets/choose.png'
 import Home from '../Home/Home';
-
+const apiUrl = import.meta.env.VITE_REACT_API_URL;
 const CRUDItems = () => {
-    const ROUTE = 'https://pos-app-backend-tim56.onrender.com/'
+    //const ROUTE = 'https://pos-app-backend-tim56.onrender.com/'
     
     const [tableVisible, settableVisible] = useState(true);
     const [items, setItems] = useState([]);
@@ -39,7 +39,7 @@ const CRUDItems = () => {
             const headers = {
                 'Authorization': token()
             };
-            const data = await fetchData('GET', `${ROUTE}item`, null, headers);
+            const data = await fetchData('GET', `${apiUrl}/item`, null, headers);
             setItems(data);
         } catch (error) {
             setErrorMessage(error.message)
@@ -51,7 +51,7 @@ const CRUDItems = () => {
             const headers = {
                 'Authorization': token()
             };
-            const data = await fetchData('GET', `${ROUTE}vat`, null, headers);
+            const data = await fetchData('GET', `${apiUrl}/vat`, null, headers);
             setVATgroups(data);
         } catch (error) {
             setErrorMessage(error.message)
@@ -63,7 +63,7 @@ const CRUDItems = () => {
             const headers = {
                 'Authorization': token()
             };
-            const data = await fetchData('GET', `${ROUTE}location`, null, headers);
+            const data = await fetchData('GET', `${apiUrl}/location`, null, headers);
             setLocations(data);
         } catch (error) {
             setErrorMessage(error.message)
@@ -93,7 +93,7 @@ const CRUDItems = () => {
                 const headers = {
                     'Authorization': token()
                 };
-                await fetchData('POST', `${ROUTE}item`, requestData, headers);
+                await fetchData('POST', `${apiUrl}/item`, requestData, headers);
                 setInfoMessage('Item created')
                 document.getElementById('nameCreate').value = ''
                 document.getElementById('barcodeCreate').value = ''
@@ -122,7 +122,7 @@ const CRUDItems = () => {
             const headers = {
                 'Authorization': token()
             };
-            await fetchData('DELETE', `${ROUTE}item/${id}`, null, headers);
+            await fetchData('DELETE', `${apiUrl}/item/${id}`, null, headers);
             setErrorMessage('')
             fetchItems();
         } catch (error) {
@@ -177,7 +177,7 @@ const CRUDItems = () => {
                         'Authorization': `${Cookies.get('jwt')}`,
                     };
 
-                    await fetchData('PUT', `${ROUTE}item/${id}`, requestData, headers);
+                    await fetchData('PUT', `${apiUrl}/item/${id}`, requestData, headers);
                     setErrorMessage('')
                     fetchItems();
                     fetchVatGroups()

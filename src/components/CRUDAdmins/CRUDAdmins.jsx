@@ -9,6 +9,7 @@ import Cookies from 'js-cookie';
 import { jwtDecode } from "jwt-decode";
 import error_icon from '../../assets/error.png'
 import Home from '../Home/Home';
+const apiUrl = import.meta.env.VITE_REACT_API_URL;
 const CRUDAdmins = () => {
 
   const [admins, setAdmins] = useState([]);
@@ -37,7 +38,7 @@ else setErrorMessage("You are not authorized. Only superadministrators have acce
         const headers = {
             'Authorization': token()
         };
-        const data = await fetchData('GET', 'https://pos-app-backend-tim56.onrender.com/admin/administrators', null, headers);
+        const data = await fetchData('GET', `${apiUrl}/admin/administrators`, null, headers);
         setAdmins(data);
     } catch (error) {
         console.error(error);
@@ -65,7 +66,7 @@ else setErrorMessage("You are not authorized. Only superadministrators have acce
         const headers = {
             'Authorization': token()
         };
-        await fetchData('POST', 'https://pos-app-backend-tim56.onrender.com/admin/administrators', requestData, headers);
+        await fetchData('POST', `${apiUrl}/admin/administrators`, requestData, headers);
         setInfoMessage('User created')
                 document.getElementById('usernameCreate').value = ''
                 document.getElementById('passwordCreate').value = ''
@@ -88,7 +89,7 @@ const deleteAdmin = async (id) => {
         const headers = {
             'Authorization': token()
         };
-        await fetchData('DELETE', `https://pos-app-backend-tim56.onrender.com/admin/administrators/${id}`, null, headers);
+        await fetchData('DELETE', `${apiUrl}/admin/administrators/${id}`, null, headers);
         fetchAdmins();
     } catch (error) {
         console.error(error);
@@ -143,7 +144,7 @@ const handleSaveClick = async () => {
           const headers = {
               'Authorization': token(),
           };
-          await fetchData('PUT', `https://pos-app-backend-tim56.onrender.com/admin/administrators/${id}`, requestData, headers);
+          await fetchData('PUT', `${apiUrl}/admin/administrators/${id}`, requestData, headers);
           fetchAdmins();
           setEditingAdmin(null);
       }

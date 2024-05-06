@@ -10,6 +10,8 @@ import ModalOrderDetails from './ModalOrderDetails';
 import ModalEditOrder from './ModalEditOrder';
 import Cookies from 'js-cookie';
 
+const apiUrl = import.meta.env.VITE_REACT_API_URL;
+
 const Orders = () => {
     const [tableVisible, settableVisible] = useState(true);
     const [errorMessage, setErrorMessage] = useState('');
@@ -38,7 +40,7 @@ const Orders = () => {
         try {
            
              fetch(
-                'https://pos-app-backend-tim56.onrender.com/storage/',
+                `${apiUrl}/storage/`,
                 {
                 method: 'GET',
                 headers: {
@@ -65,7 +67,7 @@ const Orders = () => {
     const fetchOrders = async () => {
         try {           
            const response= await  fetch(
-                'https://pos-app-backend-tim56.onrender.com/orders/',
+                `${apiUrl}/orders/`,
                 {
                 method: 'GET',
                 headers: {
@@ -90,7 +92,7 @@ const Orders = () => {
     };
     const fetchItems = async () => {
         try {
-            const response = await fetch('https://pos-app-backend-tim56.onrender.com/item/', {
+            const response = await fetch(`${apiUrl}/item/`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -124,7 +126,7 @@ const Orders = () => {
             console.log(storages);
             console.log(storage);
          const response=await   fetch(
-               'https://pos-app-backend-tim56.onrender.com/orders/',
+               `${apiUrl}/orders/`,
                {
                method: 'POST',
                headers: {
@@ -157,7 +159,7 @@ const Orders = () => {
             }
             try {
                 fetch(
-                    'https://pos-app-backend-tim56.onrender.com/orders/finish/'+id,
+                    `${apiUrl}/orders/finish/`+id,
                     {
                         method: 'POST',
                         headers: {
@@ -218,7 +220,7 @@ const Orders = () => {
     const handleDeleteOrder = async (itemId) => {
         try{           
             const response = await fetch(
-               'https://pos-app-backend-tim56.onrender.com/orders/'+itemId,
+                `${apiUrl}/orders/`+itemId,
                {
                method: 'DELETE',
                headers: {
