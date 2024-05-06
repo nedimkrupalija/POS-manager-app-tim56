@@ -29,7 +29,7 @@ const useScript = (url, tableUrl) => {
       document.body.removeChild(script);
       statisticsDiv.removeChild(tableau);
     };
-  }, [url]);
+  }, [url, tableUrl]);
 };
 
 export default useScript;
