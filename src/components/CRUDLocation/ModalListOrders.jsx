@@ -111,16 +111,19 @@ const ModalListTables = ({ isOpen, onRequestClose,  tables}) => {
     const openModal = async (order) => {
         const locationId = Cookies.get('location');
         const userId = Cookies.get('userid');
-        if (locationId && userId) {
+        if (locationId) {
             const headers = {
                 Authorization: token()
             };
             const items = await fetchData('GET', `https://pos-app-backend-tim56.onrender.com/purchase-order/${order.id}`, null, headers)
-            setSelectedOrder(items.items);
+            
+           
+            setSelectedOrder(items);
+            setModalVisible(true);
         }
-
+       
         
-        setModalVisible(true);
+       
     }
 
 
@@ -190,6 +193,7 @@ const ModalListTables = ({ isOpen, onRequestClose,  tables}) => {
                                 <div className='table2'>
                                     <table border="1">
                                         <thead>
+                                           
                                             <tr>
                                                 <th>ID</th>
                                                 <th>Name</th>
@@ -212,7 +216,7 @@ const ModalListTables = ({ isOpen, onRequestClose,  tables}) => {
                                                     <td>{item.purchasePrice}</td>
                                                     <td>{item.sellingPrice}</td>
                                                     <td>{item.VATId}</td>
-                                                    {console.log("item",item.PurchaseItem.quantity)}
+                                                  
                                                     <td>{item.PurchaseItem.quantity}</td>
                                                 </tr>
                                             ))}
