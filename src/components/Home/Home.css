@@ -1,11 +1,11 @@
 body {
   background-color: white;
   display: flex;
-    justify-content: center; 
-    align-items: center; 
-    height: 100vh; 
-    margin: 0; 
-    width: 100%;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  width: 100%;
 }
 
 .icon {
@@ -18,7 +18,8 @@ body {
   line-height: 1px;
   font-size: 26px;
 }
-.icon, .icon_header {
+.icon,
+.icon_header {
   margin-right: 5px;
 }
 
@@ -34,12 +35,18 @@ body {
   display: grid;
   grid-template-columns: 260px 1fr 1fr 1fr;
   grid-template-areas:
-    'sidebar main main main'
-    'sidebar main main main';
+    "sidebar main main main"
+    "sidebar main main main";
   height: 105vh;
 }
 
-.content{
+.content {
   width: 75.4%;
   margin-left: 17%;
+  height: 100%;
+}
+
+.wrapper {
+  width: 100%;
+  height: 100%;
 }
