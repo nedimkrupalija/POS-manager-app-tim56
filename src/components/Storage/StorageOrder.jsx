@@ -97,9 +97,11 @@ return data;
 
     const handleCreateOrder = async () => {
         try {
+            console.log("quantity ",quantity);
             const quantityList = selectedItems.map(selectedItem => {
                 const existingItem = quantity.find(item => item.ItemId === selectedItem.id);
                 if (existingItem) {
+                    console.log("uslo");
                     return existingItem;
                 } else {
                     return { ItemId: selectedItem.id, quantity: 1 };
@@ -134,11 +136,15 @@ return data;
 
     const handleQuantityChange = (itemId, newQuantity) => {
         const existingIndex = quantity.findIndex(item => item.id === itemId);
+        console.log(existingIndex);
         if (existingIndex !== -1) {
             const updatedQuantityList = [...quantity];
+
             updatedQuantityList[existingIndex].quantity = parseInt(newQuantity);
+            console.log(updatedQuantityList);
+
             setQuantity(updatedQuantityList);
-        } else {
+        } else if(newQuantity!='') {
             setQuantity(prevList => [...prevList, { "ItemId": itemId, "quantity": newQuantity }]);
         }
     };
