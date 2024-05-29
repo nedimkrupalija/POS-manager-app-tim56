@@ -56,7 +56,12 @@ body {
  {
     border-color: #007bff;
 }
-
+.createFields {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-left: 0%;
+}
 .fields {
     display: block;
     margin-bottom: 5px;
@@ -85,24 +90,23 @@ body {
     border-radius: 50px;
     font-size: 15px;
     font-weight: 700;
-    margin-left: 105%;
-    margin-top: -15%;
+    margin-left: 265px;
+    margin-top: -45px;
+    white-space: nowrap;
     border: none;
 }
 
 .buttonNovi2{
-    margin: 10px;
     color: #fff;
     background: #72b5dc;
     border-radius: 50px;
     font-size: 15px;
     font-weight: 700;
-    margin-left: 28%;
-    margin-top: -3.5%;
+    margin-left: 180px;
+    white-space: nowrap;
+    margin-top: -48px;
+    padding: 8px 12px;
     border: none;
-    display: inline-block;
-    width: 170px;
-        white-space: nowrap;
     }
 
 .actions-container {
