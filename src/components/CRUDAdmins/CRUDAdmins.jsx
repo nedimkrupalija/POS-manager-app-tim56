@@ -130,16 +130,15 @@ const fetchData = async (method, url, requestData = null, headers = {}) => {
 
 //                                  UPDATE
 
-const handleSaveClick = async () => {
+const handleSaveClick = async (password) => {
   try {
       if (editingAdmin) {
           const id = editingAdmin.id;
           const username = document.getElementById('usernameEdit').value;
-          const password = document.getElementById('passwordEdit').value;
           const phoneNumber = document.getElementById('phoneEdit').value;
           const role = document.getElementById('roleEdit').value;
 
-          const requestData = { username, password, phoneNumber, role };
+          const requestData = { username, password,phoneNumber, role };
           const headers = {
               'Authorization': token(),
           };
@@ -179,7 +178,6 @@ return (
                                   <th>ID</th>
                                   <th>Username</th>
                                   <th>Phone Number</th>
-                                  <th>Password</th>
                                   <th>Role</th>
                                   <th>Actions</th>
                               </tr>
@@ -202,13 +200,7 @@ return (
                                               admin.phoneNumber
                                           )}
                                       </td>
-                                      <td className="editable-cell">
-                                          {editingAdmin === admin ? (
-                                              <input id="passwordEdit" type="text" defaultValue={admin.password} className="editable-input" />
-                                          ) : (
-                                              admin.password
-                                          )}
-                                      </td>
+                                   
                                       <td className="editable-cell">
                                           {editingAdmin === admin ? (
                                               <select id="roleEdit" defaultValue={admin.role} className="editable-input">
@@ -223,7 +215,7 @@ return (
                                           <div className='actions-containter'>
                                               {
                                                   editingAdmin === admin
-                                                      ? <img onClick={() => handleSaveClick()} src={confirm_icon} alt="Confirm" className='confirm-icon' />
+                                                      ? <img onClick={() => handleSaveClick(admin.password)} src={confirm_icon} alt="Confirm" className='confirm-icon' />
                                                       : <img onClick={() => setEditingAdmin(admin)} src={edit_icon} alt="Edit" className='edit-icon' />
                                               }
                                               {
