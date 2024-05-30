@@ -140,19 +140,18 @@ const CRUDUsers = () => {
         }
     };
 
-    const handleSaveClick = async () => {
+    const handleSaveClick = async (password) => {
         try {
             if (editingUser) {
                 const id = editingUser.id;
                 const username = document.getElementById('usernameEdit').value;
-                const password = document.getElementById('passwordEdit').value;
                 const phoneNumber = document.getElementById('phoneEdit').value;
                 const hasLocation = document.getElementById('locationEdit').value !== "not assigned";
                 const locationValue = document.getElementById('locationEdit').value
                 const LocationId = hasLocation ? locationValue : null;
                 const role = document.getElementById('roleEdit').value;
-                if (isDataValid(username, password, phoneNumber, LocationId)) {
-                    const requestData = { username, password, phoneNumber, role, LocationId };
+                if (isDataValid(username, phoneNumber, LocationId)) {
+                    const requestData = { username,password, phoneNumber, role, LocationId };
                     const headers = {
                         'Authorization': `${Cookies.get('jwt')}`,
                     };
@@ -192,7 +191,6 @@ const CRUDUsers = () => {
                                             <th>ID</th>
                                             <th>Username</th>
                                             <th>Phone Number</th>
-                                            <th>Password</th>
                                             <th>Role</th>
                                             <th>Location ID</th>
                                             <th>Actions</th>
@@ -216,13 +214,7 @@ const CRUDUsers = () => {
                                                         user.phoneNumber
                                                     )}
                                                 </td>
-                                                <td className="editable-cell">
-                                                    {editingUser === user ? (
-                                                        <input id="passwordEdit" type="password" defaultValue={user.password} className="editable-input" />
-                                                    ) : (
-                                                        user.password
-                                                    )}
-                                                </td>
+                                            
                                                 <td className="editable-cell">
                                                     {editingUser === user ? (
                                                         <select id="roleEdit" defaultValue={user.role} className="editable-input">
@@ -248,7 +240,7 @@ const CRUDUsers = () => {
                                                     <div className='actions-containter'>
                                                         {
                                                             editingUser === user
-                                                                ? <img onClick={() => handleSaveClick()} src={confirm_icon} alt="Confirm" className='confirm-icon' />
+                                                                ? <img onClick={() => handleSaveClick(user.password)} src={confirm_icon} alt="Confirm" className='confirm-icon' />
                                                                 : <img onClick={() => { setEditingUser(user); setLocationId(user.LocationId) }} src={edit_icon} alt="Edit" className='edit-icon' />
                                                         }
                                                         {
