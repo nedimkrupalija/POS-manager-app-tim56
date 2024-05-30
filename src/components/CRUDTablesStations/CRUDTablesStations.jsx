@@ -123,7 +123,12 @@ const CRUDTablesStations = ({ id }) => {
                     <button className='buttonNovi2' onClick={addTableInput}>Add more  </button> 
      </div>
             ))}
-            <button className='button2' onClick={createTablesStations}>CREATE</button>
+
+            <div className='horizontal-layout'>
+              <button className='buttonNovi2' onClick={addTableInput}>Add more</button>
+              <button className='buttonNovi2' onClick={createTablesStations}>CREATE</button>
+            </div>
+
           </div>
         </div>
       </>

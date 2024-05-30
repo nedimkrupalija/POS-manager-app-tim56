@@ -114,8 +114,8 @@ body {
 .close-icon,
 .choose-icon,
 .icon {
-    width: 20px;
-    height: 20px;
+    width: 30px;
+    height: 30px;
     margin: 0 10px 0 10px;
     cursor: pointer;
 }
@@ -249,4 +249,9 @@ body {
 }
 .select-loc-title {
     margin-left: 27px;
+}
+
+.vertical-layout {
+    display: flex;
+    flex-direction: column;
 }
