@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './CRUDTablesStations.css';
 import close_icon from '../../assets/close.png';
 import info_icon from '../../assets/info.png';
-import error_icon from '../../assets/error.png'; // Dodana import
+import error_icon from '../../assets/error.png'; 
 import Cookies from 'js-cookie';
 import Home from '../Home/Home';
 
@@ -120,12 +120,15 @@ const CRUDTablesStations = ({ id }) => {
                 <label htmlFor={`number${input.id}`} className='fields'>Table name: </label>
                 <input type="text" id={`number${input.id}`} className="number-input" placeholder="Table name" onChange={e => handleInputChange(input.id, e.target.value)} value={input.value} />
                 <button className='buttonNovi' onClick={() => removeTableInput(input.id)}>Remove</button>
-              </div>
+                    <button className='buttonNovi2' onClick={addTableInput}>Add more  </button> 
+     </div>
             ))}
+
             <div className='horizontal-layout'>
               <button className='buttonNovi2' onClick={addTableInput}>Add more</button>
               <button className='buttonNovi2' onClick={createTablesStations}>CREATE</button>
             </div>
+
           </div>
         </div>
       </>
