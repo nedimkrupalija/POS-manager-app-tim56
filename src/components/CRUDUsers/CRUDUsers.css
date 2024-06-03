@@ -44,6 +44,7 @@ body {
 .createFields .password-input,
 .createFields .phone-input {
     width: 100px;
+    width: 100px;
     padding: 8px;
     border: 1px solid #ccc;
     background-color: white;
@@ -199,6 +200,67 @@ body {
     width: 20%;
     margin-left: 0%;
 }
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Promena: Poravnavamo vertikalno */
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+}
+
+.modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    max-height: 600px;
+    overflow-y: auto;
+    width: 80%; /* Promena: Postavljamo širinu sadržaja modala */
+    max-width: 600px; /* Promena: Postavljamo maksimalnu širinu sadržaja modala */
+}
+
+
+.close-modal-icon {
+    position: absolute;
+    top: 20px;
+    right: 20px; /* Promena: Postavljamo dugme u gornji desni ugao sadržaja modala */
+    z-index: 99999;
+    background: none;
+    border: none;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+}
+.select-loc-title {
+    margin-left: 27px;
+}
+.choose-icon {
+    width: 20px;
+    height: 20px;
+    margin: 0 10px 0 10px;
+    cursor: pointer;
+}
+.location-container {
+    display: flex;
+    align-items: center; 
+  }
+  
+  .location-id-input {
+    margin-right: 10px; 
+  }
+  .location-container .find-loc-button {
+    color: #fff;
+    background: #72b5dc;
+    border-radius: 50px;
+    font-size: 15px;
+    font-weight: 700;
+}
+
 .modal {
     position: fixed;
     top: 0;

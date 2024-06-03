@@ -1,7 +1,7 @@
+
 import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
 import './Orders.css';
-import Cookies from 'js-cookie';
 
 const apiUrl = import.meta.env.VITE_REACT_API_URL;
 const ModalAddItem = ({ isOpen, onRequestClose, setOrderItems,order }) => {
@@ -9,9 +9,8 @@ const ModalAddItem = ({ isOpen, onRequestClose, setOrderItems,order }) => {
     const [searchResults, setSearchResults] = useState([]);
     const [selectedItems, setSelectedItems] = useState([]);
     const [items, setItems] = useState([]);
-    const token =()=>{
-    return    Cookies.get("jwt");
-    } 
+    const token = Cookies.get('jwt');
+
     const handleQuantityChange = (id, q) => {
         const updatedItems = items.map(item => {
             if (item.id === id) {
@@ -28,7 +27,8 @@ const ModalAddItem = ({ isOpen, onRequestClose, setOrderItems,order }) => {
             });
             setSelectedItems(update);
         }
-        setItems(updatedItems);
+        setSelectedItems(updatedItems);
+
 
     };
     
@@ -70,15 +70,9 @@ const ModalAddItem = ({ isOpen, onRequestClose, setOrderItems,order }) => {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': token()
+                    'Authorization': token
                 }
             });
-            const extendedToken=response.headers.get('Authorization');
-            console.log(extendedToken);
-            if(extendedToken){
-                Cookies.set("jwt",extendedToken,{expires:1/48});
-         
-            }
             const data = await response.json();
             const filteredItems = data.filter(item => !order.items.some(orderItem => orderItem.id === item.id));
             const updatedItems = filteredItems.map(item => ({

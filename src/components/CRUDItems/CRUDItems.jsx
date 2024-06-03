@@ -71,7 +71,7 @@ const CRUDItems = () => {
     };
 
     const isDataValid = (name, barCode, measurmentUnit, purchasePrice, sellingPrice) => {
-        if (name == '' || barCode == '' || measurmentUnit == '' || purchasePrice == '' || sellingPrice == '') {
+        if (name == ''  || measurmentUnit == '' || purchasePrice == '' || sellingPrice == '') {
             setErrorMessage('All fields must be filled!')
             setInfoMessage('')
             return false;

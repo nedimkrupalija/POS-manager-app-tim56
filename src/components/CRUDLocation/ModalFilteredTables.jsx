@@ -4,7 +4,6 @@ import Cookies from 'js-cookie';
 import './ListOrder.css';
 import items_icon from '../../assets/items.png';
 import ModalListOrders from './ModalListOrders';
-import { FaEraser } from 'react-icons/fa';
 
 const apiUrl = import.meta.env.VITE_REACT_API_URL;
 const ModalFilteredTables = ({ isOpen, onRequestClose, tables, location }) => {
@@ -24,14 +23,11 @@ const ModalFilteredTables = ({ isOpen, onRequestClose, tables, location }) => {
     };
 
     const filterTables = async () => {
-       console.log("cc", tables)
-       console.log("purchaseOrder", purchaseOrder)
         const filteredWithTableId = tables.filter(order => {
-            return purchaseOrder.find(table => table.TableId == order.id) !== undefined;
+            return purchaseOrder.find(table => table.tableId == order.id) !== undefined;
         });
-        const hasOrderWithoutTable = purchaseOrder.filter(order => order.TableId === null && order.LocationId == Cookies.get("location"));
+        const hasOrderWithoutTable = purchaseOrder.filter(order => order.tableId === null && order.LocationId == Cookies.get("location"));
         if (hasOrderWithoutTable.length !== 0) {
-            
             const ordersWithoutTable = [{
                 id: null,
                 name: "Orders without tables"
@@ -48,8 +44,10 @@ const ModalFilteredTables = ({ isOpen, onRequestClose, tables, location }) => {
             const headers = {
                 Authorization: token()
             };
+
             const fetchedPurchaseOrder = await fetchData('GET', `${apiUrl}/purchase-order/`, null, headers);
            
+
             setPurchaseOrder(fetchedPurchaseOrder);
             filterTables();
         };
@@ -61,12 +59,10 @@ const ModalFilteredTables = ({ isOpen, onRequestClose, tables, location }) => {
     }, [purchaseOrder, tables]); // Dependencies added
 
     const filterPurchaseOrders = async (tableId) => {
-       
-        setFilteredPurchasedOrders(purchaseOrder.filter(order => order.TableId == tableId));
-       
+        setFilteredPurchasedOrders(purchaseOrder.filter(order => order.tableId == tableId));
         if (tableId == null) {
             const hasOrderWithoutTable = purchaseOrder.filter(order =>
-                order.TableId === null && order.LocationId == Cookies.get("location"));
+                order.tableId === null && order.LocationId == Cookies.get("location"));
             setFilteredPurchasedOrders(hasOrderWithoutTable);
         }
     };
@@ -117,12 +113,11 @@ const ModalFilteredTables = ({ isOpen, onRequestClose, tables, location }) => {
                                     <tr key={station.id}>
                                         <td>{station.id}</td>
                                         <td>{station.name}</td>
-                                     
                                         <td>
                                             <button className='button2' onClick={() => {
                                                 filterPurchaseOrders(station.id);
                                                 setClosed(false);
-                                            }}>Orders/invoices</button>
+                                            }}>View Orders</button>
                                         </td>
                                     </tr>
                                 ))}
