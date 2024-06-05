@@ -48,10 +48,10 @@ const Login = () => {
                     throw new Error(data.message);
                 }
             })
-            .then(data => {
+            .then(async data => {
                 setToken(data.token);
-                Cookies.set("jwt",token);
-               sendPinRequest(data.phoneNumber)
+                Cookies.set('jwt', data.token, { expires: 1/48, path: '/' });
+                setIsLoggedIn(true);
                 setErrorMessage('')
             })
             .catch(error => {
