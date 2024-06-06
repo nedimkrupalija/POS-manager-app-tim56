@@ -137,7 +137,8 @@ return data;
     };
 
     const handleQuantityChange = (itemId, newQuantity) => {
-        const existingIndex = quantity.findIndex(item => item.id === itemId);
+        console.log("ABC ", quantity)
+        const existingIndex = quantity.findIndex(item => item.ItemId === itemId);
         console.log(existingIndex);
         if (existingIndex !== -1) {
             const updatedQuantityList = [...quantity];

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'; 
+import React, { useState, useEffect } from 'react';
 import './Orders.css';
 import Home from '../Home/Home';
 import edit_icon from '../../assets/edit.png';
@@ -16,7 +16,7 @@ const Orders = () => {
     const [tableVisible, settableVisible] = useState(true);
     const [errorMessage, setErrorMessage] = useState('');
     const [orders, setOrders] = useState([]);
-        const [selectedOrder, setSelectedOrder] = useState(null);
+    const [selectedOrder, setSelectedOrder] = useState(null);
     const [editingOrder, setEditingOrder] = useState(null);
     const [storages, setStorages] = useState([]);
     const [searchText, setSearchText] = useState('');
@@ -26,9 +26,9 @@ const Orders = () => {
     const [storage, setStorage] = useState([]);
     const [quantity, setQuantity] = useState([]);
 
-    const token =()=>{
+    const token = () => {
         return Cookies.get("jwt");
-    } 
+    }
     const search = () => {
         const filteredResults = items.filter(item =>
             item.name.toLowerCase().includes(searchText.toLowerCase()) ||
@@ -38,54 +38,54 @@ const Orders = () => {
     };
     const getStorages = async () => {
         try {
-           
-             fetch(
+
+            fetch(
                 `${apiUrl}/storage/`,
                 {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': token()
-                }
-            }).then(response => response.json()) 
-            .then(data => {
-                setStorages(data); 
-                setStorage(data[0]);
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': token()
+                    }
+                }).then(response => response.json())
+                .then(data => {
+                    setStorages(data);
+                    setStorage(data[0]);
 
-            }).catch(error=>{
-                setErrorMessage(error.message);
+                }).catch(error => {
+                    setErrorMessage(error.message);
 
-             })
+                })
         } catch (error) {
             setErrorMessage(error.message);
         }
     };
-   useEffect(() => {
+    useEffect(() => {
         fetchOrders();
     }, []);
 
     const fetchOrders = async () => {
-        try {           
-           const response= await  fetch(
+        try {
+            const response = await fetch(
                 `${apiUrl}/orders/`,
                 {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': token()
-                    
-                }
-            })  ;
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': token()
+
+                    }
+                });
             const authHeader = response.headers;
 
-               const data= await response.json()
-               setOrders(data);  
-                const extendedToken=response.headers.get('Authorization');
-               console.log("extended header: ",extendedToken);
-               if(extendedToken){
-                   Cookies.set("jwt",extendedToken,{expires:1/48});
-            
-               }
+            const data = await response.json()
+            setOrders(data);
+            const extendedToken = response.headers.get('Authorization');
+            console.log("extended header: ", extendedToken);
+            if (extendedToken) {
+                Cookies.set("jwt", extendedToken, { expires: 1 / 48 });
+
+            }
         } catch (error) {
             setErrorMessage(error.message);
         }
@@ -98,15 +98,15 @@ const Orders = () => {
                     'Content-Type': 'application/json',
                     'Authorization': token()
                 }
-            });   
+            });
             const data = await response.json();
             setItems(data);
             setSearchResults(data);
-            const extendedToken=response.headers;
+            const extendedToken = response.headers;
             console.log(extendedToken);
-            if(extendedToken){
-                Cookies.set("jwt",extendedToken,{expires:1/48});
-         
+            if (extendedToken) {
+                Cookies.set("jwt", extendedToken, { expires: 1 / 48 });
+
             }
 
         } catch (error) {
@@ -114,7 +114,7 @@ const Orders = () => {
         }
     };
     const handleCreateOrder = async () => {
-        try{
+        try {
             const quantityList = selectedItems.map(selectedItem => {
                 const existingItem = quantity.find(item => item.ItemId === selectedItem.id);
                 if (existingItem) {
@@ -125,32 +125,33 @@ const Orders = () => {
             });
             console.log(storages);
             console.log(storage);
-         const response=await   fetch(
-               `${apiUrl}/orders/`,
-               {
-               method: 'POST',
-               headers: {
-                   'Content-Type': 'application/json',
-                   'Authorization': token()
-               },
-               body: JSON.stringify({
-                'storageId':storage.id,
-                'items':   quantityList,
-                'status':'placed'
-           })})
-             fetchOrders(); 
+            const response = await fetch(
+                `${apiUrl}/orders/`,
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': token()
+                    },
+                    body: JSON.stringify({
+                        'storageId': storage.id,
+                        'items': quantityList,
+                        'status': 'placed'
+                    })
+                })
+            fetchOrders();
             settableVisible(true);
 
-            const extendedToken=response.headers.get('Authorization');
+            const extendedToken = response.headers.get('Authorization');
             console.log(extendedToken);
-            if(extendedToken){
-                Cookies.set("jwt",extendedToken,{expires:1/48});
-         
+            if (extendedToken) {
+                Cookies.set("jwt", extendedToken, { expires: 1 / 48 });
+
             }
-          
-       } catch (error) {
-           setErrorMessage(error.message);
-       }
+
+        } catch (error) {
+            setErrorMessage(error.message);
+        }
     };
     const handleStatusChange = (id) => {
         setOrders(prevOrders => prevOrders.map(order => {
@@ -159,7 +160,7 @@ const Orders = () => {
             }
             try {
                 fetch(
-                    `${apiUrl}/orders/finish/`+id,
+                    `${apiUrl}/orders/finish/` + id,
                     {
                         method: 'POST',
                         headers: {
@@ -176,7 +177,7 @@ const Orders = () => {
             return order;
         }));
     };
-    
+
 
 
     const openEditOrderModal = (order) => {
@@ -218,27 +219,27 @@ const Orders = () => {
 
     };
     const handleDeleteOrder = async (itemId) => {
-        try{           
+        try {
             const response = await fetch(
-                `${apiUrl}/orders/`+itemId,
-               {
-               method: 'DELETE',
-               headers: {
-                   'Content-Type': 'application/json',
-                   'Authorization': token()
-               }
-           })
-           fetchOrders();
+                `${apiUrl}/orders/` + itemId,
+                {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': token()
+                    }
+                })
+            fetchOrders();
 
-           const extendedToken=response.headers.get('Authorization');
-               console.log(extendedToken);
-               if(extendedToken){
-                   Cookies.set("jwt",extendedToken,{expires:1/48});
-            
-               }
-       } catch (error) {
-           setErrorMessage(error.message);
-       }
+            const extendedToken = response.headers.get('Authorization');
+            console.log(extendedToken);
+            if (extendedToken) {
+                Cookies.set("jwt", extendedToken, { expires: 1 / 48 });
+
+            }
+        } catch (error) {
+            setErrorMessage(error.message);
+        }
     };
 
     const openOrderDetails = (order) => {
@@ -260,72 +261,72 @@ const Orders = () => {
     return (
         <Home>
             <>
-            <div className='list'>
-                <h2 className='users-title'>{"Orders" }</h2>
-                  {errorMessage && (
-    <div className="error-message">
-        <img src={error_icon} alt='error' className='error-icon' />
-        <span>{errorMessage}</span>
-    </div>
-)}
+                <div className='list'>
+                    <h2 className='users-title'>{"Orders"}</h2>
+                    {errorMessage && (
+                        <div className="error-message">
+                            <img src={error_icon} alt='error' className='error-icon' />
+                            <span>{errorMessage}</span>
+                        </div>
+                    )}
 
-              <div className='table'>
-                    <table border="1">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Date</th>
-                                <th>Status</th>
-                                <th>Actions</th>
-                                <th>Details</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        {orders.map(order => (
-                            <tr key={order.id}>
-                                <td>{order.id}</td>
-                                <td>{formatDate(order.date)}</td>                               
-                                <td>
-                                <button onClick={() => handleStatusChange(order.id)} className={order.status=='placed'? 'Placed':'Processed'}>
-                                        {
- order.status === 'placed' ? 
- <img src={placed_icon} alt="Placed" className='edit-icon' /> :
- <img src={processed_icon} alt="Processed" className='edit-icon' />
-}
-{order.status}                                        
-                                    </button>
-                                </td>
-                                <td>
-                                <div className='actions-containter'>
-                {order.status === 'placed' && ( 
-                    <img src={edit_icon} alt="Edit" className='edit-icon' onClick={() => openEditOrderModal(order)}/> 
-                )}
-                <img src={delete_icon} alt="Delete" className='delete-icon' onClick={() => handleDeleteOrder(order.id)}/> 
-            </div>
-                                    </td>
-                                    <td><button className='details' onClick={()=>openOrderDetails(order)}>View details</button></td>
-                            </tr>
-                        ))}
-                        </tbody>
-                    </table>
+                    <div className='table'>
+                        <table border="1">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                    <th>Details</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {orders.map(order => (
+                                    <tr key={order.id}>
+                                        <td>{order.id}</td>
+                                        <td>{formatDate(order.date)}</td>
+                                        <td>
+                                            <button onClick={() => handleStatusChange(order.id)} className={order.status == 'placed' ? 'Placed' : 'Processed'}>
+                                                {
+                                                    order.status === 'placed' ?
+                                                        <img src={placed_icon} alt="Placed" className='edit-icon' /> :
+                                                        <img src={processed_icon} alt="Processed" className='edit-icon' />
+                                                }
+                                                {order.status}
+                                            </button>
+                                        </td>
+                                        <td>
+                                            <div className='actions-containter'>
+                                                {order.status === 'placed' && (
+                                                    <img src={edit_icon} alt="Edit" className='edit-icon' onClick={() => openEditOrderModal(order)} />
+                                                )}
+                                                <img src={delete_icon} alt="Delete" className='delete-icon' onClick={() => handleDeleteOrder(order.id)} />
+                                            </div>
+                                        </td>
+                                        <td><button className='details' onClick={() => openOrderDetails(order)}>View details</button></td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+
+
+
                 </div>
-                
-
-           
-</div>
             </>
-            <ModalOrderDetails 
+            <ModalOrderDetails
                 isOpen={selectedOrder !== null}
                 onRequestClose={closeOrderDetails}
                 order={selectedOrder}
                 cancelOrder={handleDeleteOrder}
             />
-            <ModalEditOrder 
+            <ModalEditOrder
                 isOpen={editingOrder !== null}
                 onRequestClose={closeEditOrderModal}
                 order={editingOrder}
                 updateOrder={updateOrder}
-                fetchOrders={fetchOrders} 
+                fetchOrders={fetchOrders}
 
             />
         </Home>
