@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
 import './Orders.css';
+import Cookies from 'js-cookie';
 
 const ModalAddItem = ({ isOpen, onRequestClose, setOrderItems,order }) => {
     const [searchText, setSearchText] = useState('');
